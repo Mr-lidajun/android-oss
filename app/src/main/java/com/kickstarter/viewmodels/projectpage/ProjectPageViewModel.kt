@@ -527,6 +527,8 @@ interface ProjectPageViewModel {
             currentProjectData
                 .distinctUntilChanged()
                 .compose(bindToLifecycle())
+                .filter { ObjectUtils.isNotNull(it) }
+                .map { requireNotNull(it) }
                 .subscribe {
                     this.projectData.onNext(it)
                     val showEnvironmentalTab = it.project().envCommitments()?.isNotEmpty() ?: false
@@ -692,6 +694,8 @@ interface ProjectPageViewModel {
                 .distinctUntilChanged()
                 .delay(150, TimeUnit.MILLISECONDS, environment.scheduler()) // add delay to wait
                 // until fragment subscribed to viewmodel
+                .filter { ObjectUtils.isNotNull(it) }
+                .map { requireNotNull(it) }
                 .subscribe {
                     this.projectData.onNext(it.first)
                 }
