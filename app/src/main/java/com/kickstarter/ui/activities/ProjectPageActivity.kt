@@ -58,6 +58,7 @@ import com.kickstarter.ui.fragments.RewardsFragment
 import com.kickstarter.viewmodels.projectpage.ProjectPageViewModel
 import com.stripe.android.view.CardInputWidget
 import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 
 @RequiresActivityViewModel(ProjectPageViewModel.ViewModel::class)
 class ProjectPageActivity :
@@ -85,7 +86,7 @@ class ProjectPageActivity :
         super.onCreate(savedInstanceState)
         binding = ActivityProjectPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        this.ksString = environment().ksString()
+        this.ksString = requireNotNull(environment().ksString())
 
         // Do not configure the pager at other lifecycle events apart from OnCreate
         if (savedInstanceState == null) {
@@ -118,11 +119,12 @@ class ProjectPageActivity :
 
         this.viewModel.outputs.projectData()
             .compose(bindToLifecycle())
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 // - Every time the ProjectData gets updated
                 // - the fragments on the viewPager are updated as well
-                (binding.projectPager.adapter as ProjectPagerAdapter).updatedWithProjectData(it)
+                (binding.projectPager.adapter as? ProjectPagerAdapter)?.updatedWithProjectData(it)
             }
 
         this.viewModel.outputs.updateTabs()
@@ -797,7 +799,7 @@ class ProjectPageActivity :
         try {
             // - Every time the ProjectData gets updated
             // - the fragments on the viewPager are updated as well
-            (binding.projectPager.adapter as ProjectPagerAdapter).updatedWithProjectData(projectData)
+            (binding.projectPager.adapter as? ProjectPagerAdapter)?.updatedWithProjectData(projectData)
 
             val rewardsFragment = rewardsFragment()
             val backingFragment = backingFragment()

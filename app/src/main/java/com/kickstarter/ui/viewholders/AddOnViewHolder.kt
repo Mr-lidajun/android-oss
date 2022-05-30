@@ -8,16 +8,18 @@ import com.kickstarter.databinding.ItemAddOnBinding
 import com.kickstarter.libs.rx.transformers.Transformers.observeForUI
 import com.kickstarter.libs.utils.RewardViewUtils
 import com.kickstarter.libs.utils.ViewUtils
+import com.kickstarter.libs.utils.extensions.setGone
 import com.kickstarter.models.Reward
 import com.kickstarter.ui.adapters.RewardItemsAdapter
 import com.kickstarter.ui.data.ProjectData
 import com.kickstarter.viewmodels.AddOnViewHolderViewModel
+import rx.android.schedulers.AndroidSchedulers
 
 class AddOnViewHolder(private val binding: ItemAddOnBinding) : KSViewHolder(binding.root) {
 
     private var viewModel = AddOnViewHolderViewModel.ViewModel(environment())
     private val currencyConversionString = context().getString(R.string.About_reward_amount)
-    private val ksString = environment().ksString()
+    private val ksString = requireNotNull(environment().ksString())
 
     init {
         val rewardItemAdapter = setUpItemAdapter()
@@ -89,6 +91,20 @@ class AddOnViewHolder(private val binding: ItemAddOnBinding) : KSViewHolder(bind
             .compose(bindToLifecycle())
             .compose(observeForUI())
             .subscribe { binding.titleContainer.addOnTitleTextView.text = RewardViewUtils.styleTitleForAddOns(context(), it.first, it.second) }
+
+        this.viewModel.outputs.localPickUpIsGone()
+            .compose(bindToLifecycle())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                binding.rewardItemLocalPickupContainer.localPickupGroup.setGone(it)
+            }
+
+        this.viewModel.outputs.localPickUpName()
+            .compose(bindToLifecycle())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                binding.rewardItemLocalPickupContainer.localPickupLocation.text = it
+            }
     }
 
     override fun bindData(data: Any?) {

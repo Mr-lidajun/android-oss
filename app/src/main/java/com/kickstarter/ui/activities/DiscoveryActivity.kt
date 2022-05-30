@@ -31,6 +31,7 @@ import com.kickstarter.ui.fragments.DiscoveryFragment
 import com.kickstarter.ui.fragments.DiscoveryFragment.Companion.newInstance
 import com.kickstarter.viewmodels.DiscoveryViewModel
 import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 import kotlin.collections.ArrayList
 
 @RequiresActivityViewModel(DiscoveryViewModel.ViewModel::class)
@@ -38,7 +39,7 @@ class DiscoveryActivity : BaseActivity<DiscoveryViewModel.ViewModel>() {
     private lateinit var drawerAdapter: DiscoveryDrawerAdapter
     private lateinit var drawerLayoutManager: LinearLayoutManager
     private lateinit var pagerAdapter: DiscoveryPagerAdapter
-    private lateinit var internalTools: InternalToolsType
+    private var internalTools: InternalToolsType? = null
     private lateinit var binding: DiscoveryLayoutBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -121,7 +122,7 @@ class DiscoveryActivity : BaseActivity<DiscoveryViewModel.ViewModel>() {
         viewModel.outputs.showInternalTools()
             .compose(bindToLifecycle())
             .compose(Transformers.observeForUI())
-            .subscribe { internalTools.maybeStartInternalToolsActivity(this) }
+            .subscribe { internalTools?.maybeStartInternalToolsActivity(this) }
 
         viewModel.outputs.showLoginTout()
             .compose(bindToLifecycle())
@@ -146,6 +147,8 @@ class DiscoveryActivity : BaseActivity<DiscoveryViewModel.ViewModel>() {
         viewModel.outputs.navigationDrawerData()
             .compose(bindToLifecycle())
             .compose(Transformers.observeForUI())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe { drawerAdapter.takeData(it) }
 
         viewModel.outputs.drawerIsOpen()

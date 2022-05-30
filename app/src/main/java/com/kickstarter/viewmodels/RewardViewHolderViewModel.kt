@@ -5,9 +5,8 @@ import android.util.Pair
 import androidx.annotation.NonNull
 import com.kickstarter.R
 import com.kickstarter.libs.ActivityViewModel
-import com.kickstarter.libs.CurrentUserType
 import com.kickstarter.libs.Environment
-import com.kickstarter.libs.KSCurrency
+import com.kickstarter.libs.models.OptimizelyFeature
 import com.kickstarter.libs.rx.transformers.Transformers.combineLatestPair
 import com.kickstarter.libs.rx.transformers.Transformers.takeWhen
 import com.kickstarter.libs.utils.DateTimeUtils
@@ -127,11 +126,18 @@ interface RewardViewHolderViewModel {
 
         /** Emits a boolean that determines if the selected reward Tag should be shown **/
         fun selectedRewardTagIsGone(): Observable<Boolean>
+
+        /** Emits a boolean that determines if the local PickUp section should be hidden **/
+        fun localPickUpIsGone(): Observable<Boolean>
+
+        /** Emits the String with the Local Pickup Displayable name **/
+        fun localPickUpName(): Observable<String>
     }
 
-    class ViewModel(@NonNull environment: Environment) : ActivityViewModel<RewardViewHolder>(environment), Inputs, Outputs {
-        private val currentUser: CurrentUserType = environment.currentUser()
-        private val ksCurrency: KSCurrency = environment.ksCurrency()
+    class ViewModel(@NonNull environment: Environment) :
+        ActivityViewModel<RewardViewHolder>(environment), Inputs, Outputs {
+        private val currentUser = requireNotNull(environment.currentUser())
+        private val ksCurrency = requireNotNull(environment.ksCurrency())
         private val optimizely = environment.optimizely()
 
         private val projectDataAndReward = PublishSubject.create<Pair<ProjectData, Reward>>()
@@ -166,6 +172,8 @@ interface RewardViewHolderViewModel {
         private val addOnsAvailable = BehaviorSubject.create<Boolean>()
         private val isMinimumPledgeAmountGone = BehaviorSubject.create<Boolean>()
         private val selectedRewardTagIsGone = PublishSubject.create<Boolean>()
+        private val localPickUpIsGone = BehaviorSubject.create<Boolean>()
+        private val localPickUpName = BehaviorSubject.create<String>()
 
         val inputs: Inputs = this
         val outputs: Outputs = this
@@ -185,7 +193,13 @@ interface RewardViewHolderViewModel {
                 .distinctUntilChanged()
 
             projectAndReward
-                .map { RewardViewUtils.styleCurrency(it.second.minimum(), it.first, this.ksCurrency) }
+                .map {
+                    RewardViewUtils.styleCurrency(
+                        it.second.minimum(),
+                        it.first,
+                        this.ksCurrency
+                    )
+                }
                 .compose(bindToLifecycle())
                 .subscribe(this.minimumAmountTitle)
 
@@ -215,7 +229,15 @@ interface RewardViewHolderViewModel {
                 .subscribe(this.conversionIsGone)
 
             projectAndReward
-                .map { this.ksCurrency.format(it.second.convertedMinimum(), it.first, true, RoundingMode.HALF_UP, true) }
+                .map {
+                    this.ksCurrency.format(
+                        it.second.convertedMinimum(),
+                        it.first,
+                        true,
+                        RoundingMode.HALF_UP,
+                        true
+                    )
+                }
                 .compose(bindToLifecycle())
                 .subscribe(this.conversion)
 
@@ -347,6 +369,26 @@ interface RewardViewHolderViewModel {
                 .compose(bindToLifecycle())
                 .subscribe(this.shippingSummary)
 
+            reward
+                .filter { !RewardUtils.isShippable(it) }
+                .map {
+                    RewardUtils.isLocalPickup(it) && optimizely?.isFeatureEnabled(
+                        OptimizelyFeature.Key.ANDROID_LOCAL_PICKUP
+                    ) == true
+                }
+                .compose(bindToLifecycle())
+                .subscribe {
+                    this.localPickUpIsGone.onNext(!it)
+                }
+
+            reward
+                .filter { !RewardUtils.isShippable(it) }
+                .filter { RewardUtils.isLocalPickup(it) }
+                .map { it.localReceiptLocation()?.displayableName() }
+                .filter { ObjectUtils.isNotNull(it) }
+                .compose(bindToLifecycle())
+                .subscribe(this.localPickUpName)
+
             projectAndReward
                 .map { it.first.isLive && RewardUtils.isShippable(it.second) }
                 .map { it.negate() }
@@ -354,7 +396,12 @@ interface RewardViewHolderViewModel {
                 .compose(bindToLifecycle())
                 .subscribe(this.shippingSummaryIsGone)
 
-            Observable.combineLatest(this.endDateSectionIsGone, this.remainingIsGone, this.shippingSummaryIsGone, this.addOnsAvailable) { endDateGone, remainingGone, shippingGone, addOnsAvailable -> endDateGone && remainingGone && shippingGone && !addOnsAvailable }
+            Observable.combineLatest(
+                this.endDateSectionIsGone,
+                this.remainingIsGone,
+                this.shippingSummaryIsGone,
+                this.addOnsAvailable
+            ) { endDateGone, remainingGone, shippingGone, addOnsAvailable -> endDateGone && remainingGone && shippingGone && !addOnsAvailable }
                 .distinctUntilChanged()
                 .compose(bindToLifecycle())
                 .subscribe(this.limitContainerIsGone)
@@ -427,7 +474,11 @@ interface RewardViewHolderViewModel {
             return reward.toBuilder().minimum(updatedMinimum).build()
         }
 
-        private fun buttonIsGone(project: Project, reward: Reward, userCreatedProject: Boolean): Boolean {
+        private fun buttonIsGone(
+            project: Project,
+            reward: Reward,
+            userCreatedProject: Boolean
+        ): Boolean {
             return when {
                 userCreatedProject -> true
                 project.backing()?.isBacked(reward) ?: false || project.isLive -> false
@@ -543,9 +594,14 @@ interface RewardViewHolderViewModel {
         override fun hasAddOnsAvailable(): Observable<Boolean> = this.addOnsAvailable
 
         @NonNull
-        override fun isMinimumPledgeAmountGone(): Observable<Boolean> = this.isMinimumPledgeAmountGone
+        override fun isMinimumPledgeAmountGone(): Observable<Boolean> =
+            this.isMinimumPledgeAmountGone
 
         @NonNull
         override fun selectedRewardTagIsGone(): Observable<Boolean> = this.selectedRewardTagIsGone
+
+        override fun localPickUpIsGone(): Observable<Boolean> = this.localPickUpIsGone
+
+        override fun localPickUpName(): Observable<String> = this.localPickUpName
     }
 }

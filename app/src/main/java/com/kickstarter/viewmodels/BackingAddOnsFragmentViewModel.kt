@@ -4,12 +4,12 @@ import android.util.Pair
 import androidx.annotation.NonNull
 import com.kickstarter.libs.Environment
 import com.kickstarter.libs.FragmentViewModel
-import com.kickstarter.libs.KSString
 import com.kickstarter.libs.rx.transformers.Transformers.combineLatestPair
 import com.kickstarter.libs.rx.transformers.Transformers.takeWhen
 import com.kickstarter.libs.utils.ObjectUtils
 import com.kickstarter.libs.utils.RewardUtils
 import com.kickstarter.libs.utils.RewardUtils.isDigital
+import com.kickstarter.libs.utils.RewardUtils.isLocalPickup
 import com.kickstarter.libs.utils.RewardUtils.isShippable
 import com.kickstarter.mock.factories.ShippingRuleFactory
 import com.kickstarter.models.Backing
@@ -96,10 +96,9 @@ class BackingAddOnsFragmentViewModel {
         private val showErrorDialog = BehaviorSubject.create<Boolean>()
         private val continueButtonPressed = BehaviorSubject.create<Void>()
         private val isEnabledCTAButton = BehaviorSubject.create<Boolean>()
-        private val apolloClient = this.environment.apolloClient()
-        private val apiClient = environment.apiClient()
-        private val currentConfig = environment.currentConfig()
-        val ksString: KSString = this.environment.ksString()
+        private val apolloClient = requireNotNull(this.environment.apolloClient())
+        private val currentConfig = requireNotNull(environment.currentConfig())
+        private val ksString = requireNotNull(this.environment.ksString())
 
         // - Current addOns selection
         private val totalSelectedAddOns = BehaviorSubject.create(0)
@@ -178,7 +177,7 @@ class BackingAddOnsFragmentViewModel {
 
             // - In case of digital Reward to follow the same flow as the rest of use cases use and empty shippingRule
             reward
-                .filter { isDigital(it) || !isShippable(it) }
+                .filter { isDigital(it) || !isShippable(it) || isLocalPickup(it) }
                 .distinctUntilChanged()
                 .compose(bindToLifecycle())
                 .subscribe {
@@ -211,7 +210,7 @@ class BackingAddOnsFragmentViewModel {
             val defaultShippingRule = shippingRules
                 .filter { it.isNotEmpty() }
                 .compose<Pair<List<ShippingRule>, Reward>>(combineLatestPair(reward))
-                .filter { !isDigital(it.second) && isShippable(it.second) }
+                .filter { !isDigital(it.second) && isShippable(it.second) && !isLocalPickup(it.second) }
                 .switchMap { defaultShippingRule(it.first) }
 
             val shippingRule = getSelectedShippingRule(defaultShippingRule, isSameReward, backingShippingRule, reward)
@@ -226,9 +225,9 @@ class BackingAddOnsFragmentViewModel {
                 }
 
             Observable
-                .combineLatest(this.retryButtonPressed.startWith(false), projectAndReward) { _, projectAndReward ->
-                    return@combineLatest this.apiClient
-                        .fetchShippingRules(projectAndReward.first, projectAndReward.second)
+                .combineLatest(this.retryButtonPressed.startWith(false), reward) { _, rw ->
+                    return@combineLatest this.apolloClient
+                        .getShippingRules(rw)
                         .doOnError {
                             this.showErrorDialog.onNext(true)
                             this.shippingSelectorIsGone.onNext(true)
@@ -357,7 +356,7 @@ class BackingAddOnsFragmentViewModel {
          */
         private fun chooseShippingRule(defaultShipping: ShippingRule, backingShippingRule: ShippingRule, sameReward: Boolean, rw: Reward): ShippingRule =
             when {
-                isDigital(rw) || !isShippable(rw) -> ShippingRuleFactory.emptyShippingRule()
+                isDigital(rw) || !isShippable(rw) || isLocalPickup(rw) -> ShippingRuleFactory.emptyShippingRule()
                 sameReward -> backingShippingRule
                 else -> defaultShipping
             }
@@ -413,7 +412,7 @@ class BackingAddOnsFragmentViewModel {
          */
         private fun updatePledgeData(finalList: List<Reward>, rw: Reward, pledgeData: PledgeData, shippingRule: ShippingRule) =
             if (finalList.isNotEmpty()) {
-                if (isShippable(rw) && !isDigital(rw)) {
+                if (isShippable(rw) && !isDigital(rw) && !isLocalPickup(rw)) {
                     pledgeData.toBuilder()
                         .addOns(finalList)
                         .shippingRule(shippingRule)
@@ -550,14 +549,18 @@ class BackingAddOnsFragmentViewModel {
         private fun filterByLocation(addOns: List<Reward>, pData: ProjectData, rule: ShippingRule, rw: Reward): Triple<ProjectData, List<Reward>, ShippingRule> {
             val filteredAddOns = when (rw.shippingPreference()) {
                 Reward.ShippingPreference.UNRESTRICTED.name,
-                Reward.ShippingPreference.UNRESTRICTED.toString().toLowerCase(Locale.getDefault()) -> {
+                Reward.ShippingPreference.UNRESTRICTED.name.lowercase(Locale.getDefault()) -> {
                     addOns.filter {
                         it.shippingPreferenceType() == Reward.ShippingPreference.UNRESTRICTED || containsLocation(rule, it) || isDigital(it)
                     }
                 }
                 Reward.ShippingPreference.RESTRICTED.name,
-                Reward.ShippingPreference.RESTRICTED.toString().toLowerCase(Locale.getDefault()) -> {
+                Reward.ShippingPreference.RESTRICTED.name.lowercase(Locale.getDefault()) -> {
                     addOns.filter { containsLocation(rule, it) || isDigital(it) }
+                }
+                Reward.ShippingPreference.LOCAL.name,
+                Reward.ShippingPreference.LOCAL.name.lowercase(Locale.getDefault()) -> {
+                    addOns.filter { it.localReceiptLocation() == rw.localReceiptLocation() || isDigital(it) }
                 }
                 else -> {
                     if (isDigital(rw))

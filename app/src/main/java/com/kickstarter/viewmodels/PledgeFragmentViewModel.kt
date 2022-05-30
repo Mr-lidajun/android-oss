@@ -1,6 +1,5 @@
 package com.kickstarter.viewmodels
 
-import android.content.SharedPreferences
 import android.text.SpannableString
 import android.util.Pair
 import androidx.annotation.NonNull
@@ -11,6 +10,7 @@ import com.kickstarter.libs.FragmentViewModel
 import com.kickstarter.libs.NumberOptions
 import com.kickstarter.libs.models.Country
 import com.kickstarter.libs.models.OptimizelyExperiment
+import com.kickstarter.libs.models.OptimizelyFeature
 import com.kickstarter.libs.rx.transformers.Transformers.combineLatestPair
 import com.kickstarter.libs.rx.transformers.Transformers.errors
 import com.kickstarter.libs.rx.transformers.Transformers.ignoreValues
@@ -37,7 +37,6 @@ import com.kickstarter.models.Project
 import com.kickstarter.models.Reward
 import com.kickstarter.models.ShippingRule
 import com.kickstarter.models.StoredCard
-import com.kickstarter.services.apiresponses.ShippingRulesEnvelope
 import com.kickstarter.services.mutations.CreateBackingData
 import com.kickstarter.services.mutations.UpdateBackingData
 import com.kickstarter.ui.ArgumentsKey
@@ -54,7 +53,6 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import type.CreditCardPaymentType
 import java.math.RoundingMode
-import java.net.CookieManager
 import kotlin.math.max
 
 interface PledgeFragmentViewModel {
@@ -324,6 +322,12 @@ interface PledgeFragmentViewModel {
         fun changeCheckoutRiskMessageBottomSheetStatus(): Observable<Boolean>
 
         fun changePledgeSectionAccountabilityFragmentVisiablity(): Observable<Boolean>
+
+        /** Emits a boolean that determines if the local PickUp section should be hidden **/
+        fun localPickUpIsGone(): Observable<Boolean>
+
+        /** Emits the String with the Local Pickup Displayable name **/
+        fun localPickUpName(): Observable<String>
     }
 
     class ViewModel(@NonNull val environment: Environment) : FragmentViewModel<PledgeFragment>(environment), Inputs, Outputs {
@@ -418,14 +422,13 @@ interface PledgeFragmentViewModel {
         private val isNoReward = BehaviorSubject.create<Boolean>()
         private val projectTitle = BehaviorSubject.create<String>()
 
-        private val apiClient = environment.apiClient()
-        private val apolloClient = environment.apolloClient()
+        private val apolloClient = requireNotNull(environment.apolloClient())
         private val optimizely = environment.optimizely()
-        private val cookieManager: CookieManager = environment.cookieManager()
-        private val currentConfig = environment.currentConfig()
-        private val currentUser = environment.currentUser()
-        private val ksCurrency = environment.ksCurrency()
-        private val sharedPreferences: SharedPreferences = environment.sharedPreferences()
+        private val cookieManager = requireNotNull(environment.cookieManager())
+        private val currentConfig = requireNotNull(environment.currentConfig())
+        private val currentUser = requireNotNull(environment.currentUser())
+        private val ksCurrency = requireNotNull(environment.ksCurrency())
+        private val sharedPreferences = requireNotNull(environment.sharedPreferences())
         private val minPledgeByCountry = BehaviorSubject.create<Double>()
         private val shippingRuleUpdated = BehaviorSubject.create<Boolean>(false)
         private val selectedReward = BehaviorSubject.create<Reward>()
@@ -443,6 +446,9 @@ interface PledgeFragmentViewModel {
         private val stepperAmount = 1
 
         private var riskConfirmationFlag = BehaviorSubject.create(false)
+
+        private val localPickUpIsGone = BehaviorSubject.create<Boolean>()
+        private val localPickUpName = BehaviorSubject.create<String>()
 
         val inputs: Inputs = this
         val outputs: Outputs = this
@@ -468,10 +474,11 @@ interface PledgeFragmentViewModel {
                 .map { it.project() }
 
             // Shipping rules section
-            val shippingRules = project
-                .compose<Pair<Project, Reward>>(combineLatestPair(this.selectedReward))
-                .filter { RewardUtils.isShippable(it.second) }
-                .switchMap<ShippingRulesEnvelope> { this.apiClient.fetchShippingRules(it.first, it.second).compose(neverError()) }
+            val shippingRules = this.selectedReward
+                .filter { RewardUtils.isShippable(it) }
+                .switchMap {
+                    this.apolloClient.getShippingRules(it).compose(neverError())
+                }
                 .map { it.shippingRules() }
                 .distinctUntilChanged()
                 .share()
@@ -623,6 +630,26 @@ interface PledgeFragmentViewModel {
                 .distinctUntilChanged()
                 .compose(bindToLifecycle())
                 .subscribe(this.rewardTitle)
+
+            this.selectedReward
+                .filter { !RewardUtils.isShippable(it) }
+                .map {
+                    RewardUtils.isLocalPickup(it) && optimizely?.isFeatureEnabled(
+                        OptimizelyFeature.Key.ANDROID_LOCAL_PICKUP
+                    ) == true
+                }
+                .compose(bindToLifecycle())
+                .subscribe {
+                    this.localPickUpIsGone.onNext(!it)
+                }
+
+            this.selectedReward
+                .filter { !RewardUtils.isShippable(it) }
+                .filter { RewardUtils.isLocalPickup(it) }
+                .map { it.localReceiptLocation()?.displayableName() }
+                .filter { ObjectUtils.isNotNull(it) }
+                .compose(bindToLifecycle())
+                .subscribe(this.localPickUpName)
 
             this.selectedReward
                 .map { it.estimatedDeliveryOn() }
@@ -859,7 +886,7 @@ interface PledgeFragmentViewModel {
                 .distinctUntilChanged()
 
             val isDigitalRw = this.selectedReward
-                .filter { RewardUtils.isDigital(it) }
+                .filter { RewardUtils.isDigital(it) || RewardUtils.isLocalPickup(it) }
                 .distinctUntilChanged()
 
             // - Calculate total for Reward || Rewards + AddOns with Shipping location
@@ -875,13 +902,13 @@ interface PledgeFragmentViewModel {
                 .compose<Pair<Reward, String>>(combineLatestPair(this.pledgeInput.startWith("")))
                 .map { if (it.second.isNotEmpty()) NumberUtils.parse(it.second) else it.first.minimum() }
 
-            // - Calculate total for DigitalRewards || DigitalReward + DigitalAddOns
-            val totalDigital = Observable.combineLatest(isDigitalRw, pledgeAmountHeader, this.bonusAmount, pledgeReason) { _, pledgeAmount, bonusAmount, pReason ->
+            // - Calculate total for DigitalRewards || DigitalReward + DigitalAddOns || LocalPickup
+            val totalNoShipping = Observable.combineLatest(isDigitalRw, pledgeAmountHeader, this.bonusAmount, pledgeReason) { _, pledgeAmount, bonusAmount, pReason ->
                 return@combineLatest getAmountDigital(pledgeAmount, NumberUtils.parse(bonusAmount), pReason)
             }
                 .distinctUntilChanged()
 
-            val total = Observable.merge(totalWShipping, totalNR, totalDigital)
+            val total = Observable.merge(totalWShipping, totalNR, totalNoShipping)
 
             total
                 .compose<Pair<Double, Project>>(combineLatestPair(project))
@@ -1173,7 +1200,7 @@ interface PledgeFragmentViewModel {
 
             this.pledgeButtonClicked
                 .compose(combineLatestPair(experimentData))
-                .filter { this.optimizely.variant(OptimizelyExperiment.Key.NATIVE_RISK_MESSAGING, it.second) != OptimizelyExperiment.Variant.CONTROL }
+                .filter { this.optimizely?.variant(OptimizelyExperiment.Key.NATIVE_RISK_MESSAGING, it.second) != OptimizelyExperiment.Variant.CONTROL }
                 .withLatestFrom(riskConfirmationFlag) { _, flag -> flag }
                 .filter { !it }
                 .compose(combineLatestPair(pledgeReason))
@@ -1186,7 +1213,7 @@ interface PledgeFragmentViewModel {
                 }
 
             experimentData
-                .map { this.optimizely.variant(OptimizelyExperiment.Key.NATIVE_RISK_MESSAGING, it) != OptimizelyExperiment.Variant.CONTROL }
+                .map { this.optimizely?.variant(OptimizelyExperiment.Key.NATIVE_RISK_MESSAGING, it) != OptimizelyExperiment.Variant.CONTROL }
                 .compose(combineLatestPair(pledgeReason))
                 .filter { it.second == PledgeReason.PLEDGE }
                 .compose(bindToLifecycle())
@@ -1196,7 +1223,7 @@ interface PledgeFragmentViewModel {
 
             this.pledgeButtonClicked
                 .compose(combineLatestPair(experimentData))
-                .filter { this.optimizely.variant(OptimizelyExperiment.Key.NATIVE_RISK_MESSAGING, it.second) == OptimizelyExperiment.Variant.CONTROL }
+                .filter { this.optimizely?.variant(OptimizelyExperiment.Key.NATIVE_RISK_MESSAGING, it.second) == OptimizelyExperiment.Variant.CONTROL }
                 .withLatestFrom(riskConfirmationFlag) { _, flag -> flag }
                 .filter { !it }
                 .compose(combineLatestPair(pledgeReason))
@@ -1954,5 +1981,13 @@ interface PledgeFragmentViewModel {
         @NonNull
         override fun changePledgeSectionAccountabilityFragmentVisiablity(): Observable<Boolean> =
             this.changePledgeSectionAccountabilityFragmentVisiablity
+
+        @NonNull
+        override fun localPickUpIsGone(): Observable<Boolean> =
+            localPickUpIsGone
+
+        @Override
+        override fun localPickUpName(): Observable<String> =
+            localPickUpName
     }
 }
