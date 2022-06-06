@@ -61,7 +61,10 @@ import com.kickstarter.ui.itemdecorations.RewardCardItemDecoration
 import com.kickstarter.viewmodels.PledgeFragmentViewModel
 import com.stripe.android.ApiResultCallback
 import com.stripe.android.SetupIntentResult
+import com.stripe.android.paymentsheet.PaymentSheet
+import com.stripe.android.paymentsheet.PaymentSheetResult
 import rx.android.schedulers.AndroidSchedulers
+import timber.log.Timber
 
 @RequiresFragmentViewModel(PledgeFragmentViewModel.ViewModel::class)
 class PledgeFragment :
@@ -92,6 +95,8 @@ class PledgeFragment :
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val paymentSheet = PaymentSheet(this, ::onPaymentSheetResult)
 
         setUpCardsAdapter()
         setUpShippingAdapter()
@@ -644,6 +649,37 @@ class PledgeFragment :
             .subscribe {
                 binding?.pledgeSectionAccountability?.root?.isGone = it
             }
+
+        this.viewModel.outputs.presentPaymentSheet()
+            .compose(observeForUI())
+            .compose(bindToLifecycle())
+            .subscribe {
+                presentPaymentSheet(it, paymentSheet)
+            }
+    }
+
+    fun presentPaymentSheet(clientSecret: String, paymentSheet: PaymentSheet) {
+        paymentSheet.presentWithSetupIntent(
+            setupIntentClientSecret= clientSecret,
+            PaymentSheet.Configuration(
+                merchantDisplayName = "Kickstarter",
+                allowsDelayedPaymentMethods = true
+            )
+        )
+    }
+
+    fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult) {
+        when (paymentSheetResult) {
+            is PaymentSheetResult.Canceled -> {
+                Timber.d("${this.javaClass.canonicalName} :onPaymentSheetResult -> PaymentSheetResult.Canceled")
+            }
+            is PaymentSheetResult.Failed -> {
+                Timber.d("${this.javaClass.canonicalName} :onPaymentSheetResult -> PaymentSheetResult.Failed with error ${paymentSheetResult.error}")
+            }
+            is PaymentSheetResult.Completed -> {
+                Timber.d("${this.javaClass.canonicalName} :onPaymentSheetResult -> PaymentSheetResult.Completed")
+            }
+        }
     }
 
     private fun showRiskMessageDialog() {

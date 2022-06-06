@@ -29,9 +29,12 @@ import rx.Observable
 import type.CurrencyCode
 
 interface ApolloClientType {
+
     fun cancelBacking(backing: Backing, note: String): Observable<Any>
 
     fun createBacking(createBackingData: CreateBackingData): Observable<Checkout>
+
+    fun createSetupIntent(): Observable<String>
 
     fun getBacking(backingId: String): Observable<Backing>
 

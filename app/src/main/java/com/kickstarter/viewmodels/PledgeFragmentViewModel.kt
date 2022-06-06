@@ -48,6 +48,8 @@ import com.kickstarter.ui.data.PledgeReason
 import com.kickstarter.ui.data.ProjectData
 import com.kickstarter.ui.fragments.PledgeFragment
 import com.stripe.android.StripeIntentResult
+import com.stripe.android.paymentsheet.PaymentSheet
+import com.stripe.android.paymentsheet.PaymentSheetResult
 import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -328,6 +330,8 @@ interface PledgeFragmentViewModel {
 
         /** Emits the String with the Local Pickup Displayable name **/
         fun localPickUpName(): Observable<String>
+
+        fun presentPaymentSheet(): Observable<String>
     }
 
     class ViewModel(@NonNull val environment: Environment) : FragmentViewModel<PledgeFragment>(environment), Inputs, Outputs {
@@ -449,6 +453,8 @@ interface PledgeFragmentViewModel {
 
         private val localPickUpIsGone = BehaviorSubject.create<Boolean>()
         private val localPickUpName = BehaviorSubject.create<String>()
+
+        private val presentPaymentSheet = BehaviorSubject.create<String>()
 
         val inputs: Inputs = this
         val outputs: Outputs = this
@@ -1199,6 +1205,22 @@ interface PledgeFragmentViewModel {
             val experimentData = Observable.combineLatest(this.currentUser.observable(), projectData) { u, p -> ExperimentData(u, p.refTagFromIntent(), p.refTagFromCookie()) }
 
             this.pledgeButtonClicked
+                .switchMap {
+                    this.apolloClient.createSetupIntent()
+                    .doOnSubscribe {
+                        this.pledgeProgressIsGone.onNext(false)
+                        this.pledgeButtonIsEnabled.onNext(false)
+                    }
+                    .materialize()
+            }
+                .share()
+                .filter { it.hasValue() }
+                .map {
+                    it.value
+                }
+                .subscribe(this.presentPaymentSheet)
+            /*
+            this.pledgeButtonClicked
                 .compose(combineLatestPair(experimentData))
                 .filter { this.optimizely?.variant(OptimizelyExperiment.Key.NATIVE_RISK_MESSAGING, it.second) != OptimizelyExperiment.Variant.CONTROL }
                 .withLatestFrom(riskConfirmationFlag) { _, flag -> flag }
@@ -1210,7 +1232,8 @@ interface PledgeFragmentViewModel {
                     this.changeCheckoutRiskMessageBottomSheetStatus.onNext(true)
                     // To disable reopen on change orianataion landscape
                     this.changeCheckoutRiskMessageBottomSheetStatus.onNext(false)
-                }
+                }*/
+
 
             experimentData
                 .map { this.optimizely?.variant(OptimizelyExperiment.Key.NATIVE_RISK_MESSAGING, it) != OptimizelyExperiment.Variant.CONTROL }
@@ -1989,5 +2012,8 @@ interface PledgeFragmentViewModel {
         @Override
         override fun localPickUpName(): Observable<String> =
             localPickUpName
+
+        override fun presentPaymentSheet(): Observable<String> =
+            this.presentPaymentSheet
     }
 }
