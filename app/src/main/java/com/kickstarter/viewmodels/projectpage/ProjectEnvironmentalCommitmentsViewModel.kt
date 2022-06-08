@@ -41,6 +41,7 @@ class ProjectEnvironmentalCommitmentsViewModel(private val environment: Environm
     private val openVisitOurEnvironmentalResourcesCenter = BehaviorSubject.create<String>()
 
     init {
+        Timber.d("${this.javaClass} initialized")
         val project = projectDataInput
             .map { it.project() }
             .filter { ObjectUtils.isNotNull(it) }
