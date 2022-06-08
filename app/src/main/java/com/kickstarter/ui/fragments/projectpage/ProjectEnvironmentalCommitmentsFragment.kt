@@ -5,11 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.kickstarter.KSApplication
 import com.kickstarter.R
 import com.kickstarter.databinding.FragmentProjectEnvironmentalCommitmentsBinding
-import com.kickstarter.libs.BaseFragment
 import com.kickstarter.libs.Configure
-import com.kickstarter.libs.qualifiers.RequiresFragmentViewModel
 import com.kickstarter.libs.utils.ApplicationUtils
 import com.kickstarter.ui.ArgumentsKey
 import com.kickstarter.ui.adapters.EnvironmentalCommitmentsAdapter
@@ -22,9 +23,8 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
-@RequiresFragmentViewModel(ProjectEnvironmentalCommitmentsViewModel.ViewModel::class)
 class ProjectEnvironmentalCommitmentsFragment :
-    BaseFragment<ProjectEnvironmentalCommitmentsViewModel.ViewModel>(),
+    Fragment(),
     Configure {
 
     private var binding: FragmentProjectEnvironmentalCommitmentsBinding? = null
@@ -33,7 +33,29 @@ class ProjectEnvironmentalCommitmentsFragment :
 
     private val compositeDisposable = CompositeDisposable()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    private lateinit var viewModel: ProjectEnvironmentalCommitmentsViewModel
+    private lateinit var viewModelFactory: ProjectEnvironmentalCommitmentsViewModel.Factory
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val application = context?.applicationContext as KSApplication
+        val environment = application.component().environment()
+        viewModelFactory = ProjectEnvironmentalCommitmentsViewModel.Factory(environment)
+
+        viewModel = ViewModelProvider(
+            this,
+            viewModelFactory
+        ).get(
+            ProjectEnvironmentalCommitmentsViewModel::class.java
+        )
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = FragmentProjectEnvironmentalCommitmentsBinding.inflate(inflater, container, false)
         return binding?.root
@@ -45,21 +67,25 @@ class ProjectEnvironmentalCommitmentsFragment :
         setupRecyclerView()
         setupVisitOurEnvironmentalResourcesCenter()
 
-        compositeDisposable.add(this.viewModel.outputs.projectEnvironmentalCommitment()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                environmentalCommitmentsAdapter.takeData(it)
-            })
-
-        compositeDisposable.add(this.viewModel.outputs.openVisitOurEnvironmentalResourcesCenter()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                context?.let { context ->
-                    ApplicationUtils.openUrlExternally(context, it)
+        compositeDisposable.add(
+            this.viewModel.outputs.projectEnvironmentalCommitment()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    environmentalCommitmentsAdapter.takeData(it)
                 }
-            })
+        )
+
+        compositeDisposable.add(
+            this.viewModel.outputs.openVisitOurEnvironmentalResourcesCenter()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    context?.let { context ->
+                        ApplicationUtils.openUrlExternally(context, it)
+                    }
+                }
+        )
     }
 
     private fun setupRecyclerView() {
