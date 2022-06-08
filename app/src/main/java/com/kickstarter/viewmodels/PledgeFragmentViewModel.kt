@@ -464,6 +464,24 @@ interface PledgeFragmentViewModel {
             val userIsLoggedIn = this.currentUser.isLoggedIn
                 .distinctUntilChanged()
 
+            // - Create stripe setupIntent on first load if user logged in
+            val setUpIntent = userIsLoggedIn
+                .switchMap {
+                    this.apolloClient.createSetupIntent()
+                        .doOnSubscribe {
+                            this.pledgeProgressIsGone.onNext(false)
+                            this.pledgeButtonIsEnabled.onNext(false)
+                        }
+                        .doOnCompleted {
+                            this.pledgeProgressIsGone.onNext(true)
+                            this.pledgeButtonIsEnabled.onNext(true)
+                        }
+                        .materialize()
+                }
+                .share()
+                .filter { it.hasValue() }
+                .map { it.value }
+
             val pledgeData = arguments()
                 .map { it.getParcelable(ArgumentsKey.PLEDGE_PLEDGE_DATA) as PledgeData? }
                 .ofType(PledgeData::class.java)
@@ -1174,10 +1192,12 @@ interface PledgeFragmentViewModel {
                 .compose(bindToLifecycle())
                 .subscribe { this.showSelectedCard.onNext(Pair(it, CardState.SELECTED)) }
 
-            project
-                .compose<Project>(takeWhen(this.newCardButtonClicked))
+            // - Present PaymentSheet if user logged in, and add card button pressed
+           this.newCardButtonClicked
+                .compose(combineLatestPair(setUpIntent))
+                .map { it.second }
                 .compose(bindToLifecycle())
-                .subscribe(this.showNewCardFragment)
+                .subscribe(this.presentPaymentSheet)
 
             this.continueButtonClicked
                 .compose(bindToLifecycle())
@@ -1205,22 +1225,6 @@ interface PledgeFragmentViewModel {
             val experimentData = Observable.combineLatest(this.currentUser.observable(), projectData) { u, p -> ExperimentData(u, p.refTagFromIntent(), p.refTagFromCookie()) }
 
             this.pledgeButtonClicked
-                .switchMap {
-                    this.apolloClient.createSetupIntent()
-                    .doOnSubscribe {
-                        this.pledgeProgressIsGone.onNext(false)
-                        this.pledgeButtonIsEnabled.onNext(false)
-                    }
-                    .materialize()
-            }
-                .share()
-                .filter { it.hasValue() }
-                .map {
-                    it.value
-                }
-                .subscribe(this.presentPaymentSheet)
-            /*
-            this.pledgeButtonClicked
                 .compose(combineLatestPair(experimentData))
                 .filter { this.optimizely?.variant(OptimizelyExperiment.Key.NATIVE_RISK_MESSAGING, it.second) != OptimizelyExperiment.Variant.CONTROL }
                 .withLatestFrom(riskConfirmationFlag) { _, flag -> flag }
@@ -1232,8 +1236,7 @@ interface PledgeFragmentViewModel {
                     this.changeCheckoutRiskMessageBottomSheetStatus.onNext(true)
                     // To disable reopen on change orianataion landscape
                     this.changeCheckoutRiskMessageBottomSheetStatus.onNext(false)
-                }*/
-
+                }
 
             experimentData
                 .map { this.optimizely?.variant(OptimizelyExperiment.Key.NATIVE_RISK_MESSAGING, it) != OptimizelyExperiment.Variant.CONTROL }
