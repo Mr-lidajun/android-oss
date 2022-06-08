@@ -73,6 +73,7 @@ class ProjectEnvironmentalCommitmentsFragment :
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     environmentalCommitmentsAdapter.takeData(it)
+                    Timber.d(" ${this.javaClass} :Subscription Fragment.onViewCreated in thread: ${Thread.currentThread()}")
                 }
         )
 
@@ -84,6 +85,7 @@ class ProjectEnvironmentalCommitmentsFragment :
                     context?.let { context ->
                         ApplicationUtils.openUrlExternally(context, it)
                     }
+                    Timber.d(" ${this.javaClass} :Subscription Fragment.onViewCreated in thread: ${Thread.currentThread()}")
                 }
         )
     }

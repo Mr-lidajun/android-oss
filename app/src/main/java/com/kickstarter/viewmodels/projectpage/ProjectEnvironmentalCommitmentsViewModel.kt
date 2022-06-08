@@ -54,6 +54,7 @@ class ProjectEnvironmentalCommitmentsViewModel(private val environment: Environm
                 .filter { ObjectUtils.isNotNull(it) }
                 .map { requireNotNull(it) }
                 .subscribe {
+                    Timber.d("${this.javaClass} : Subscription ViewModel.init in thread: ${Thread.currentThread()}")
                     this.projectEnvironmentalCommitment.onNext(it)
                 }
         )
@@ -68,6 +69,7 @@ class ProjectEnvironmentalCommitmentsViewModel(private val environment: Environm
                                 ENVIROMENT
                             )
                     )
+                    Timber.d("${this.javaClass} : Subscription ViewModel.init in thread: ${Thread.currentThread()}")
                 }
         )
     }
