@@ -10,15 +10,17 @@ import com.kickstarter.databinding.FragmentProjectEnvironmentalCommitmentsBindin
 import com.kickstarter.libs.BaseFragment
 import com.kickstarter.libs.Configure
 import com.kickstarter.libs.qualifiers.RequiresFragmentViewModel
-import com.kickstarter.libs.rx.transformers.Transformers
 import com.kickstarter.libs.utils.ApplicationUtils
-import com.kickstarter.libs.utils.extensions.parseHtmlTag
 import com.kickstarter.ui.ArgumentsKey
 import com.kickstarter.ui.adapters.EnvironmentalCommitmentsAdapter
 import com.kickstarter.ui.data.ProjectData
 import com.kickstarter.ui.extensions.makeLinks
 import com.kickstarter.ui.extensions.parseHtmlTag
 import com.kickstarter.viewmodels.projectpage.ProjectEnvironmentalCommitmentsViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 
 @RequiresFragmentViewModel(ProjectEnvironmentalCommitmentsViewModel.ViewModel::class)
 class ProjectEnvironmentalCommitmentsFragment :
@@ -28,6 +30,8 @@ class ProjectEnvironmentalCommitmentsFragment :
     private var binding: FragmentProjectEnvironmentalCommitmentsBinding? = null
 
     private var environmentalCommitmentsAdapter = EnvironmentalCommitmentsAdapter()
+
+    private val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -41,21 +45,21 @@ class ProjectEnvironmentalCommitmentsFragment :
         setupRecyclerView()
         setupVisitOurEnvironmentalResourcesCenter()
 
-        this.viewModel.outputs.projectEnvironmentalCommitment()
-            .compose(bindToLifecycle())
-            .compose(Transformers.observeForUI())
+        compositeDisposable.add(this.viewModel.outputs.projectEnvironmentalCommitment()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 environmentalCommitmentsAdapter.takeData(it)
-            }
+            })
 
-        this.viewModel.outputs.openVisitOurEnvironmentalResourcesCenter()
-            .compose(bindToLifecycle())
-            .compose(Transformers.observeForUI())
+        compositeDisposable.add(this.viewModel.outputs.openVisitOurEnvironmentalResourcesCenter()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 context?.let { context ->
                     ApplicationUtils.openUrlExternally(context, it)
                 }
-            }
+            })
     }
 
     private fun setupRecyclerView() {
@@ -82,6 +86,12 @@ class ProjectEnvironmentalCommitmentsFragment :
             linkColor = R.color.kds_create_700,
             isUnderlineText = true
         )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Timber.d(" ${this.javaClass} Cleaning up, the FragmentView has been detached with this amount of subscriptions: ${compositeDisposable.size()}")
+        compositeDisposable.clear()
     }
 
     override fun configureWith(projectData: ProjectData) {
