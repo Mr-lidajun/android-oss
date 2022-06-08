@@ -57,9 +57,8 @@ import com.kickstarter.services.transformers.encodeRelayId
 import com.kickstarter.services.transformers.projectTransformer
 import com.kickstarter.services.transformers.rewardTransformer
 import com.kickstarter.services.transformers.shippingRulesListTransformer
-import rx.Observable
-import rx.schedulers.Schedulers
-import rx.subjects.PublishSubject
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 import type.BackingState
 import type.CurrencyCode
 import type.PaymentTypes
@@ -82,13 +81,13 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
 
                     override fun onResponse(response: Response<CancelBackingMutation.Data>) {
                         if (response.hasErrors()) {
-                            ps.onNext(response.errors?.first()?.message)
+                            ps.onError(java.lang.Exception(response.errors?.first()?.message))
                         } else {
                             val state = response.data?.cancelBacking()?.backing()?.status()
                             val success = state == BackingState.CANCELED
                             ps.onNext(success)
                         }
-                        ps.onCompleted()
+                        ps.onComplete()
                     }
                 })
             return@defer ps
@@ -140,7 +139,7 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                                 .backing(backing)
                                 .build()
                         )
-                        ps.onCompleted()
+                        ps.onComplete()
                     }
                 })
             return@defer ps
@@ -172,13 +171,13 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                                 .filter { ObjectUtils.isNotNull(it) }
                                 .subscribe {
                                     ps.onNext(it)
-                                    ps.onCompleted()
+                                    ps.onComplete()
                                 }
                         }
                     }
                 })
             return@defer ps
-        }.subscribeOn(Schedulers.io())
+        }.subscribeOn(io.reactivex.schedulers.Schedulers.io())
     }
 
     override fun clearUnseenActivity(): Observable<Int> {
@@ -255,13 +254,13 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                                 .filter { ObjectUtils.isNotNull(it) }
                                 .subscribe {
                                     ps.onNext(it)
-                                    ps.onCompleted()
+                                    ps.onComplete()
                                 }
                         }
                     }
                 })
             return@defer ps
-        }.subscribeOn(Schedulers.io())
+        }.subscribeOn(io.reactivex.schedulers.Schedulers.io())
     }
 
     override fun getProjectUpdateComments(
@@ -318,13 +317,13 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                                 .filter { ObjectUtils.isNotNull(it) }
                                 .subscribe {
                                     ps.onNext(it)
-                                    ps.onCompleted()
+                                    ps.onComplete()
                                 }
                         }
                     }
                 })
             return@defer ps
-        }.subscribeOn(Schedulers.io())
+        }.subscribeOn(io.reactivex.schedulers.Schedulers.io())
     }
 
     override fun getRepliesForComment(
@@ -350,13 +349,13 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                         Observable.just(createCommentEnvelop(responseData))
                             .subscribe {
                                 ps.onNext(it)
-                                ps.onCompleted()
+                                ps.onComplete()
                             }
                     }
                 }
             })
             return@defer ps
-        }.subscribeOn(Schedulers.io())
+        }.subscribeOn(io.reactivex.schedulers.Schedulers.io())
     }
 
     override fun getProject(project: Project): Observable<Project> {
@@ -377,21 +376,17 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
 
                 override fun onResponse(response: Response<FetchProjectQuery.Data>) {
                     response.data?.let { responseData ->
-                        Observable.just(
-                            projectTransformer(
-                                responseData.project()?.fragments()?.fullProject()
-                            )
+                        val project = projectTransformer(
+                            responseData.project()?.fragments()?.fullProject()
                         )
-                            .subscribeOn(Schedulers.io())
-                            .subscribe {
-                                ps.onNext(it)
-                                ps.onCompleted()
-                            }
+
+                        ps.onNext(project)
+                        ps.onComplete()
                     }
                 }
             })
             return@defer ps
-        }.subscribeOn(Schedulers.io())
+        }.subscribeOn(io.reactivex.schedulers.Schedulers.io())
     }
 
     override fun fetchCategories(): Observable<List<Category>> {
@@ -417,20 +412,17 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                             .apply {
                                 addAll(subCategories)
                             }
-                        Observable.just(rootCategories)
-                            .subscribeOn(Schedulers.io())
-                            .subscribe {
-                                ps.onNext(it)
-                                ps.onCompleted()
-                            }
+
+                        ps.onNext(rootCategories)
+                        ps.onComplete()
                     }
                 }
             })
             return@defer ps
-        }.subscribeOn(Schedulers.io())
+        }.subscribeOn(io.reactivex.schedulers.Schedulers.io())
     }
 
-    override fun fetchCategory(categoryParam: String): Observable<Category?> {
+    override fun fetchCategory(categoryParam: String): Observable<Category> {
         return Observable.defer {
             val ps = PublishSubject.create<Category>()
             this.service.query(
@@ -444,19 +436,16 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
 
                 override fun onResponse(response: Response<FetchCategoryQuery.Data>) {
                     response.data?.let { responseData ->
-                        val category = categoryTransformer(responseData.category()?.fragments()?.category())
+                        val category =
+                            categoryTransformer(responseData.category()?.fragments()?.category())
 
-                        Observable.just(category)
-                            .subscribeOn(Schedulers.io())
-                            .subscribe {
-                                ps.onNext(it)
-                                ps.onCompleted()
-                            }
+                        ps.onNext(category)
+                        ps.onComplete()
                     }
                 }
             })
             return@defer ps
-        }.subscribeOn(Schedulers.io())
+        }.subscribeOn(io.reactivex.schedulers.Schedulers.io())
     }
 
     override fun getProjects(
@@ -485,17 +474,14 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                             .projects(projects)
                             .pageInfoEnvelope(pageInfoEnvelope)
                             .build()
-                        Observable.just(discoverEnvelope)
-                            .subscribeOn(Schedulers.io())
-                            .subscribe {
-                                ps.onNext(it)
-                                ps.onCompleted()
-                            }
+
+                        ps.onNext(discoverEnvelope)
+                        ps.onComplete()
                     }
                 }
             })
             return@defer ps
-        }.subscribeOn(Schedulers.io())
+        }.subscribeOn(io.reactivex.schedulers.Schedulers.io())
     }
 
     private fun buildFetchProjectsQuery(
@@ -522,7 +508,7 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
         return Observable.defer {
             val ps = PublishSubject.create<DiscoverEnvelope>()
             return@defer ps
-        }.subscribeOn(Schedulers.io())
+        }.subscribeOn(io.reactivex.schedulers.Schedulers.io())
     }
 
     override fun getComment(commentableId: String): Observable<Comment> {
@@ -542,13 +528,13 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                         Observable.just(mapGetCommentQueryResponseToComment(responseData))
                             .subscribe {
                                 ps.onNext(it)
-                                ps.onCompleted()
+                                ps.onComplete()
                             }
                     }
                 }
             })
             return@defer ps
-        }.subscribeOn(Schedulers.io())
+        }.subscribeOn(io.reactivex.schedulers.Schedulers.io())
     }
 
     override fun createComment(comment: PostCommentData): Observable<Comment> {
@@ -580,7 +566,7 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                                 response.data?.createComment()?.comment()?.fragments()?.comment()
                             )
                         )
-                        ps.onCompleted()
+                        ps.onComplete()
                     }
                 })
             return@defer ps
@@ -608,8 +594,11 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                         if (response.hasErrors()) {
                             ps.onError(java.lang.Exception(response.errors?.first()?.message))
                         }
-                        ps.onNext(response.data)
-                        ps.onCompleted()
+
+                        response?.data?.let {
+                            ps.onNext(it)
+                        } ?: ps.onError(Exception())
+                        ps.onComplete()
                     }
                 })
             return@defer ps
@@ -641,7 +630,7 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                                     .launchedProjectsCount(it.launchedProjects()?.totalCount() ?: 1)
                                     .build()
                             )
-                            ps.onCompleted()
+                            ps.onComplete()
                         }
                     }
                 })
@@ -666,8 +655,11 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                         if (response.hasErrors()) {
                             ps.onError(Exception(response.errors?.first()?.message))
                         }
-                        ps.onNext(response.data)
-                        ps.onCompleted()
+
+                        response?.data?.let {
+                            ps.onNext(it)
+                        } ?: ps.onError(Exception())
+                        ps.onComplete()
                     }
                 })
             return@defer ps
@@ -706,8 +698,8 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                                 }
                                 .subscribe {
                                     ps.onNext(it)
-                                    ps.onCompleted()
-                                }
+                                    ps.onComplete()
+                                }.dispose()
                         }
                     }
                 })
@@ -740,13 +732,13 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                                 }
                                 .subscribe {
                                     ps.onNext(it)
-                                    ps.onCompleted()
+                                    ps.onComplete()
                                 }
                         }
                     }
                 })
             return@defer ps
-        }.subscribeOn(Schedulers.io())
+        }.subscribeOn(io.reactivex.schedulers.Schedulers.io())
     }
 
     override fun getShippingRules(reward: Reward): Observable<ShippingRulesEnvelope> {
@@ -773,12 +765,12 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                                     } ?: emptyList()
 
                             ps.onNext(shippingRulesListTransformer(rulesExpanded))
-                            ps.onCompleted()
+                            ps.onComplete()
                         }
                     }
                 })
             return@defer ps
-        }.subscribeOn(Schedulers.io())
+        }.subscribeOn(io.reactivex.schedulers.Schedulers.io())
     }
 
     override fun getProjectAddOns(slug: String, locationId: Location): Observable<List<Reward>> {
@@ -809,7 +801,7 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                                 }
                                 .subscribe {
                                     ps.onNext(it)
-                                    ps.onCompleted()
+                                    ps.onComplete()
                                 }
                         }
                     }
@@ -842,7 +834,7 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                                 response.data?.watchProject()?.project()?.fragments()?.fullProject()
                             )
                         )
-                        ps.onCompleted()
+                        ps.onComplete()
                     }
                 })
             return@defer ps
@@ -873,7 +865,7 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                                 response.data?.watchProject()?.project()?.fragments()?.fullProject()
                             )
                         )
-                        ps.onCompleted()
+                        ps.onComplete()
                     }
                 })
             return@defer ps
@@ -921,8 +913,8 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                                 }
                                 .subscribe {
                                     ps.onNext(it)
-                                    ps.onCompleted()
-                                }
+                                    ps.onComplete()
+                                }.dispose()
                         }
                     }
                 })
@@ -960,7 +952,7 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                                 .type(it.type())
                                 .build()
                             ps.onNext(storedCard)
-                            ps.onCompleted()
+                            ps.onComplete()
                         }
                     }
                 })
@@ -1015,8 +1007,10 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                         if (response.hasErrors()) {
                             ps.onError(Exception(response.errors?.first()?.message))
                         }
-                        ps.onNext(response.data)
-                        ps.onCompleted()
+                        response?.data?.let {
+                            ps.onNext(it)
+                        } ?: ps.onError(Exception())
+                        ps.onComplete()
                     }
                 })
             return@defer ps
@@ -1063,7 +1057,7 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                                 .backing(backing)
                                 .build()
                         )
-                        ps.onCompleted()
+                        ps.onComplete()
                     }
                 })
             return@defer ps
@@ -1087,8 +1081,10 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                         if (response.hasErrors()) {
                             ps.onError(Exception(response.errors?.first()?.message))
                         }
-                        ps.onNext(response.data)
-                        ps.onCompleted()
+                        response?.data?.let {
+                            ps.onNext(it)
+                        } ?: ps.onError(Exception())
+                        ps.onComplete()
                     }
                 })
             return@defer ps
@@ -1116,8 +1112,11 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                         if (response.hasErrors()) {
                             ps.onError(Exception(response.errors?.first()?.message))
                         }
-                        ps.onNext(response.data)
-                        ps.onCompleted()
+
+                        response?.data?.let {
+                            ps.onNext(it)
+                        } ?: ps.onError(Exception())
+                        ps.onComplete()
                     }
                 })
             return@defer ps
@@ -1147,8 +1146,10 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                         if (response.hasErrors()) {
                             ps.onError(Exception(response.errors?.first()?.message))
                         }
-                        ps.onNext(response.data)
-                        ps.onCompleted()
+                        response.data?.let {
+                            ps.onNext(it)
+                        } ?: ps.onError(Exception())
+                        ps.onComplete()
                     }
                 })
             return@defer ps
@@ -1165,8 +1166,10 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                     }
 
                     override fun onResponse(response: Response<UserPrivacyQuery.Data>) {
-                        ps.onNext(response.data)
-                        ps.onCompleted()
+                        response?.data?.let {
+                            ps.onNext(it)
+                        } ?: ps.onError(Exception())
+                        ps.onComplete()
                     }
                 })
             return@defer ps
@@ -1211,7 +1214,7 @@ private fun <T : Any?> handleResponse(it: T, ps: PublishSubject<T>) {
         }
         else -> {
             ps.onNext(it)
-            ps.onCompleted()
+            ps.onComplete()
         }
     }
 }

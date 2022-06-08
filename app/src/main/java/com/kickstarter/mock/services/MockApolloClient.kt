@@ -40,7 +40,8 @@ import com.kickstarter.services.mutations.CreateBackingData
 import com.kickstarter.services.mutations.PostCommentData
 import com.kickstarter.services.mutations.SavePaymentMethodData
 import com.kickstarter.services.mutations.UpdateBackingData
-import rx.Observable
+import io.reactivex.Observable
+
 import type.CurrencyCode
 import java.util.Collections
 
@@ -103,7 +104,7 @@ open class MockApolloClient : ApolloClientType {
         return Observable.just(CategoryFactory.rootCategories())
     }
 
-    override fun fetchCategory(param: String): Observable<Category?> {
+    override fun fetchCategory(param: String): Observable<Category> {
         return Observable.just(CategoryFactory.musicCategory())
     }
 

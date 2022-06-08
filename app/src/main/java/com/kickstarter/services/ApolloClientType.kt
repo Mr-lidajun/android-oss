@@ -25,7 +25,7 @@ import com.kickstarter.services.mutations.CreateBackingData
 import com.kickstarter.services.mutations.PostCommentData
 import com.kickstarter.services.mutations.SavePaymentMethodData
 import com.kickstarter.services.mutations.UpdateBackingData
-import rx.Observable
+import io.reactivex.Observable
 import type.CurrencyCode
 
 interface ApolloClientType {
@@ -41,7 +41,7 @@ interface ApolloClientType {
 
     fun fetchCategories(): Observable<List<Category>>
 
-    fun fetchCategory(param: String): Observable<Category?>
+    fun fetchCategory(param: String): Observable<Category>
 
     fun getProject(slug: String): Observable<Project>
 
