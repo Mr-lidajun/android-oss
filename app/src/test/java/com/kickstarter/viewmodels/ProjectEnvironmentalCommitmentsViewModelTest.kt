@@ -7,21 +7,26 @@ import com.kickstarter.mock.factories.ProjectEnvironmentalCommitmentFactory
 import com.kickstarter.mock.factories.ProjectFactory
 import com.kickstarter.models.EnvironmentalCommitment
 import com.kickstarter.viewmodels.projectpage.ProjectEnvironmentalCommitmentsViewModel
+import io.reactivex.subscribers.TestSubscriber
 import org.junit.Test
-import rx.observers.TestSubscriber
 
 class ProjectEnvironmentalCommitmentsViewModelTest : KSRobolectricTestCase() {
 
-    private lateinit var vm: ProjectEnvironmentalCommitmentsViewModel.ViewModel
+    private lateinit var vm: ProjectEnvironmentalCommitmentsViewModel
 
     private val projectEnvironmentalCommitment = TestSubscriber.create<List<EnvironmentalCommitment>>()
     private val openVisitOurEnvironmentalResourcesCenter = TestSubscriber.create<String>()
 
     private fun setUpEnvironment(environment: Environment) {
-        this.vm = ProjectEnvironmentalCommitmentsViewModel.ViewModel(environment)
+        this.vm = ProjectEnvironmentalCommitmentsViewModel(environment)
 
-        this.vm.outputs.projectEnvironmentalCommitment().subscribe(this.projectEnvironmentalCommitment)
-        this.vm.outputs.openVisitOurEnvironmentalResourcesCenter().subscribe(this.openVisitOurEnvironmentalResourcesCenter)
+        this.vm.outputs.projectEnvironmentalCommitment().subscribe {
+            projectEnvironmentalCommitment.onNext(it)
+        }.dispose()
+
+        this.vm.outputs.openVisitOurEnvironmentalResourcesCenter().subscribe {
+            openVisitOurEnvironmentalResourcesCenter.onNext(it)
+        }.dispose()
     }
 
     @Test
