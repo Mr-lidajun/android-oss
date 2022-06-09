@@ -7,7 +7,9 @@ import com.kickstarter.mock.factories.ProjectEnvironmentalCommitmentFactory
 import com.kickstarter.mock.factories.ProjectFactory
 import com.kickstarter.models.EnvironmentalCommitment
 import com.kickstarter.viewmodels.projectpage.ProjectEnvironmentalCommitmentsViewModel
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subscribers.TestSubscriber
+import org.junit.After
 import org.junit.Test
 
 class ProjectEnvironmentalCommitmentsViewModelTest : KSRobolectricTestCase() {
@@ -16,17 +18,25 @@ class ProjectEnvironmentalCommitmentsViewModelTest : KSRobolectricTestCase() {
 
     private val projectEnvironmentalCommitment = TestSubscriber.create<List<EnvironmentalCommitment>>()
     private val openVisitOurEnvironmentalResourcesCenter = TestSubscriber.create<String>()
+    private val compositeDisposable = CompositeDisposable()
 
     private fun setUpEnvironment(environment: Environment) {
         this.vm = ProjectEnvironmentalCommitmentsViewModel(environment)
 
-        this.vm.outputs.projectEnvironmentalCommitment().subscribe {
+        compositeDisposable.add(this.vm.outputs.projectEnvironmentalCommitment().subscribe {
             projectEnvironmentalCommitment.onNext(it)
-        }.dispose()
+        })
 
-        this.vm.outputs.openVisitOurEnvironmentalResourcesCenter().subscribe {
-            openVisitOurEnvironmentalResourcesCenter.onNext(it)
-        }.dispose()
+        compositeDisposable.add(
+            this.vm.outputs.openVisitOurEnvironmentalResourcesCenter().subscribe {
+                openVisitOurEnvironmentalResourcesCenter.onNext(it)
+            },
+        )
+    }
+
+    @After
+    fun cleanUp() {
+        compositeDisposable.clear()
     }
 
     @Test

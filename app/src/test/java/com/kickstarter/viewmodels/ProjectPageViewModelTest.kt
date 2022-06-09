@@ -35,8 +35,8 @@ import com.kickstarter.ui.data.PledgeFlowContext
 import com.kickstarter.ui.data.PledgeReason
 import com.kickstarter.ui.data.ProjectData
 import com.kickstarter.viewmodels.projectpage.ProjectPageViewModel
-import io.reactivex.subscribers.TestSubscriber
 import org.junit.Test
+import rx.observers.TestSubscriber
 import rx.Observable
 import rx.schedulers.TestScheduler
 import java.math.RoundingMode
