@@ -36,8 +36,8 @@ import com.kickstarter.ui.data.PledgeReason
 import com.kickstarter.ui.data.ProjectData
 import com.kickstarter.viewmodels.projectpage.ProjectPageViewModel
 import org.junit.Test
-import rx.observers.TestSubscriber
 import rx.Observable
+import rx.observers.TestSubscriber
 import rx.schedulers.TestScheduler
 import java.math.RoundingMode
 import java.util.concurrent.TimeUnit

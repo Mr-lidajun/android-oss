@@ -23,9 +23,11 @@ class ProjectEnvironmentalCommitmentsViewModelTest : KSRobolectricTestCase() {
     private fun setUpEnvironment(environment: Environment) {
         this.vm = ProjectEnvironmentalCommitmentsViewModel(environment)
 
-        compositeDisposable.add(this.vm.outputs.projectEnvironmentalCommitment().subscribe {
-            projectEnvironmentalCommitment.onNext(it)
-        })
+        compositeDisposable.add(
+            this.vm.outputs.projectEnvironmentalCommitment().subscribe {
+                projectEnvironmentalCommitment.onNext(it)
+            }
+        )
 
         compositeDisposable.add(
             this.vm.outputs.openVisitOurEnvironmentalResourcesCenter().subscribe {
