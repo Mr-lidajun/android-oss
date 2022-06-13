@@ -48,8 +48,6 @@ import com.kickstarter.ui.data.PledgeReason
 import com.kickstarter.ui.data.ProjectData
 import com.kickstarter.ui.fragments.PledgeFragment
 import com.stripe.android.StripeIntentResult
-import com.stripe.android.paymentsheet.PaymentSheet
-import com.stripe.android.paymentsheet.PaymentSheetResult
 import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -1193,7 +1191,7 @@ interface PledgeFragmentViewModel {
                 .subscribe { this.showSelectedCard.onNext(Pair(it, CardState.SELECTED)) }
 
             // - Present PaymentSheet if user logged in, and add card button pressed
-           this.newCardButtonClicked
+            this.newCardButtonClicked
                 .compose(combineLatestPair(setUpIntent))
                 .map { it.second }
                 .compose(bindToLifecycle())
@@ -1281,7 +1279,7 @@ interface PledgeFragmentViewModel {
                 .ofType(Backing::class.java)
                 .distinctUntilChanged()
 
-            val paymentMethodId: Observable<String> = selectedCardAndPosition.map { it.first.id() }
+            val paymentMethod: Observable<StoredCard> = selectedCardAndPosition.map { it.first }
 
             val extendedListForCheckOut = rewardAndAddOns
                 .map { extendAddOns(it) }
@@ -1289,12 +1287,12 @@ interface PledgeFragmentViewModel {
             val createBackingNotification = Observable.combineLatest(
                 project,
                 total.map { it.toString() },
-                paymentMethodId,
+                paymentMethod,
                 locationId,
                 extendedListForCheckOut,
                 cookieRefTag
-            ) { p, a, id, l, r, c ->
-                CreateBackingData(p, a, id, l, rewardsIds = r, refTag = c)
+            ) { p, a, pMethod, l, r, c ->
+                CreateBackingData(p, a, pMethod.id(), l, rewardsIds = r, refTag = c)
             }
                 .compose<CreateBackingData>(takeWhen(pledgeButtonClicked))
                 .switchMap {
@@ -1326,8 +1324,10 @@ interface PledgeFragmentViewModel {
                 .filter { it == PledgeReason.UPDATE_PLEDGE || it == PledgeReason.UPDATE_REWARD }
                 .compose(ignoreValues())
 
-            val optionalPaymentMethodId: Observable<String?> = paymentMethodId
-                .startWith(null as String?)
+            val optionalPaymentMethodId: Observable<String?> = paymentMethod
+                .startWith(null as StoredCard?)
+                .filter { !it?.id().isNullOrEmpty() }
+                .map { it.id() }
 
             val updateBackingNotification = Observable.combineLatest(
                 backingToUpdate,

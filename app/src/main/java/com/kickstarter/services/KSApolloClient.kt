@@ -116,7 +116,6 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                 })
             return@defer ps
         }
-
     }
 
     override fun createBacking(createBackingData: CreateBackingData): Observable<Checkout> {

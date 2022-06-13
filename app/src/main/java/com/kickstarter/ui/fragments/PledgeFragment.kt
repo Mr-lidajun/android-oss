@@ -63,6 +63,7 @@ import com.stripe.android.ApiResultCallback
 import com.stripe.android.SetupIntentResult
 import com.stripe.android.paymentsheet.PaymentSheet
 import com.stripe.android.paymentsheet.PaymentSheetResult
+import com.stripe.android.paymentsheet.model.PaymentOption
 import rx.android.schedulers.AndroidSchedulers
 import timber.log.Timber
 
@@ -83,6 +84,8 @@ class PledgeFragment :
     private lateinit var adapter: ShippingRulesAdapter
     private var headerAdapter = ExpandableHeaderAdapter()
     private var isExpanded = false
+    private lateinit var paymentSheet: PaymentSheet
+    private lateinit var flowController: PaymentSheet.FlowController
 
     private var binding: FragmentPledgeBinding? = null
 
@@ -96,7 +99,12 @@ class PledgeFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val paymentSheet = PaymentSheet(this, ::onPaymentSheetResult)
+        paymentSheet = PaymentSheet(this, ::onPaymentSheetResult)
+        flowController = PaymentSheet.FlowController.create(
+            this,
+            ::onPaymentOption,
+            ::onPaymentSheetResult
+        )
 
         setUpCardsAdapter()
         setUpShippingAdapter()
@@ -654,18 +662,35 @@ class PledgeFragment :
             .compose(observeForUI())
             .compose(bindToLifecycle())
             .subscribe {
-                presentPaymentSheet(it, paymentSheet)
+                flowControllerPresentPaymentOption(it)
             }
     }
 
-    fun presentPaymentSheet(clientSecret: String, paymentSheet: PaymentSheet) {
-        paymentSheet.presentWithSetupIntent(
-            setupIntentClientSecret= clientSecret,
-            PaymentSheet.Configuration(
+    private fun onPaymentOption(paymentOption: PaymentOption?) {
+        Timber.d("onPaymentOption with $paymentOption")
+        if (paymentOption != null) {
+        } else {
+        }
+    }
+
+    fun flowControllerPresentPaymentOption(clientSecret: String) {
+        flowController.configureWithSetupIntent(
+            setupIntentClientSecret = clientSecret,
+            configuration = PaymentSheet.Configuration(
                 merchantDisplayName = "Kickstarter",
                 allowsDelayedPaymentMethods = true
-            )
+            ),
+            callback = ::onConfigured
         )
+    }
+
+    private fun onConfigured(success: Boolean, error: Throwable?) {
+        if (success) {
+            flowController.presentPaymentOptions()
+            Timber.d("PaymentSheetFlowController presented successfully")
+        } else {
+            Timber.d("Failed to configure PaymentSheetFlowController: ${error?.message}")
+        }
     }
 
     fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult) {
@@ -678,6 +703,8 @@ class PledgeFragment :
             }
             is PaymentSheetResult.Completed -> {
                 Timber.d("${this.javaClass.canonicalName} :onPaymentSheetResult -> PaymentSheetResult.Completed")
+                flowController.getPaymentOption()
+                flowController.confirm()
             }
         }
     }
