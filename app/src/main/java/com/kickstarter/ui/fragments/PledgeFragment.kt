@@ -84,7 +84,6 @@ class PledgeFragment :
     private lateinit var adapter: ShippingRulesAdapter
     private var headerAdapter = ExpandableHeaderAdapter()
     private var isExpanded = false
-    private lateinit var paymentSheet: PaymentSheet
     private lateinit var flowController: PaymentSheet.FlowController
 
     private var binding: FragmentPledgeBinding? = null
@@ -99,7 +98,6 @@ class PledgeFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        paymentSheet = PaymentSheet(this, ::onPaymentSheetResult)
         flowController = PaymentSheet.FlowController.create(
             this,
             ::onPaymentOption,
