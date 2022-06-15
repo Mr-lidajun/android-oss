@@ -39,8 +39,8 @@ class ProjectEnvironmentalCommitmentsViewModel(private val environment: Environm
 
     private val projectEnvironmentalCommitment = BehaviorSubject.create<List<EnvironmentalCommitment>>()
     private val openVisitOurEnvironmentalResourcesCenter = BehaviorSubject.create<String>()
-
     init {
+        val env = "environment"
         Timber.d("${this.javaClass} initialized")
         val project = projectDataInput
             .map { it.project() }
@@ -67,7 +67,7 @@ class ProjectEnvironmentalCommitmentsViewModel(private val environment: Environm
                         UrlUtils
                             .appendPath(
                                 environment.webEndpoint(),
-                                ENVIROMENT
+                                env
                             )
                     )
                     Timber.d("${this.javaClass} : Subscription ViewModel.init in thread: ${Thread.currentThread()}")
@@ -96,13 +96,8 @@ class ProjectEnvironmentalCommitmentsViewModel(private val environment: Environm
         this.openVisitOurEnvironmentalResourcesCenter
 
     class Factory(private val environment: Environment) : ViewModelProvider.Factory {
-        @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return ProjectEnvironmentalCommitmentsViewModel(environment) as T
         }
-    }
-
-    companion object {
-        const val ENVIROMENT = "environment"
     }
 }
