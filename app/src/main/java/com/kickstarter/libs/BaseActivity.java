@@ -11,6 +11,7 @@ import com.kickstarter.KSApplication;
 import com.kickstarter.R;
 import com.kickstarter.libs.qualifiers.RequiresActivityViewModel;
 import com.kickstarter.libs.utils.extensions.BundleExtKt;
+import com.kickstarter.libs.utils.extensions.ContextExt;
 import com.kickstarter.services.ConnectivityReceiver;
 import com.kickstarter.ui.data.ActivityResult;
 import com.kickstarter.ui.extensions.ActivityExtKt;
@@ -49,12 +50,6 @@ public abstract class BaseActivity<ViewModelType extends ActivityViewModel> exte
   private static final String VIEW_MODEL_KEY = "viewModel";
   private final CompositeSubscription subscriptions = new CompositeSubscription();
   private final ConnectivityReceiver connectivityReceiver = new ConnectivityReceiver();
-
-  @EntryPoint
-  @InstallIn(SingletonComponent.class)
-  interface MyEntryPoint {
-    public Environment getEnvironment();
-  }
 
   protected ViewModelType viewModel;
 
@@ -268,7 +263,7 @@ public abstract class BaseActivity<ViewModelType extends ActivityViewModel> exte
    */
   @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
   public @NonNull Environment environment() {
-    return EntryPointAccessors.fromApplication(this, MyEntryPoint.class).getEnvironment();
+    return ContextExt.environment(this.getApplicationContext());
   }
 
   /**

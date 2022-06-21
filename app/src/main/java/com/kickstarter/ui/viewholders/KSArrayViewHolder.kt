@@ -2,15 +2,10 @@ package com.kickstarter.ui.viewholders
 
 import android.content.Context
 import android.view.View
-import com.kickstarter.KSApplication
 import com.kickstarter.libs.ActivityLifecycleType
 import com.kickstarter.libs.Environment
 import com.trello.rxlifecycle.ActivityEvent
 import com.trello.rxlifecycle.RxLifecycle
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
-import dagger.hilt.android.EntryPointAccessors
-import dagger.hilt.components.SingletonComponent
 import rx.Observable
 import rx.subjects.PublishSubject
 
@@ -65,15 +60,7 @@ abstract class KSArrayViewHolder(private val view: View) : ActivityLifecycleType
         return this.view.context
     }
 
-    @EntryPoint
-    @InstallIn(SingletonComponent::class)
-    interface MyEntryPoint {
-        fun getEnvironment(): Environment
-    }
-
-
     protected fun environment(): Environment {
-        val entryPoint = EntryPointAccessors.fromApplication(this.context(), MyEntryPoint::class.java)
-        return entryPoint.getEnvironment()
+        return Environment.builder().build() // context().getEnvironment() // TODO
     }
 }

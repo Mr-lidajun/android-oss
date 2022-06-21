@@ -17,7 +17,6 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.jakewharton.processphoenix.ProcessPhoenix
-import com.kickstarter.KSApplication
 import com.kickstarter.R
 import com.kickstarter.databinding.InternalToolsLayoutBinding
 import com.kickstarter.libs.ApiEndpoint

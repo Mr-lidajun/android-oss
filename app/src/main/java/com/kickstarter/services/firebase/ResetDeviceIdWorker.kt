@@ -5,11 +5,10 @@ import android.content.Intent
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.kickstarter.KSApplication
 import com.kickstarter.libs.Build
 import com.kickstarter.libs.FirebaseHelper
-import com.kickstarter.libs.qualifiers.ApplicationContext
 import com.kickstarter.services.ApiClientType
+import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
@@ -21,7 +20,7 @@ class ResetDeviceIdWorker(@ApplicationContext applicationContext: Context, param
     lateinit var apiClient: ApiClientType
 
     override fun doWork(): Result {
-        //(applicationContext as KSApplication).component().inject(this) TODO
+        // (applicationContext as KSApplication).component().inject(this) TODO
         return try {
             FirebaseHelper.delete()
             logSuccess()

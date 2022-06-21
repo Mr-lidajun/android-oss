@@ -11,6 +11,7 @@ import com.kickstarter.KSApplication;
 import com.kickstarter.libs.ActivityLifecycleType;
 import com.kickstarter.libs.BaseActivity;
 import com.kickstarter.libs.Environment;
+import com.kickstarter.libs.utils.extensions.ContextExt;
 import com.trello.rxlifecycle.ActivityEvent;
 import com.trello.rxlifecycle.RxLifecycle;
 
@@ -107,13 +108,7 @@ public abstract class KSViewHolder extends RecyclerView.ViewHolder implements Vi
     return this.view.getContext();
   }
 
-  @EntryPoint
-  @InstallIn(SingletonComponent.class)
-  interface MyEntryPoint {
-    public Environment getEnvironment();
-  }
-
   protected @NonNull Environment environment() {
-    return EntryPointAccessors.fromApplication(context(), MyEntryPoint.class).getEnvironment();
+    return ContextExt.environment(context().getApplicationContext());
   }
 }

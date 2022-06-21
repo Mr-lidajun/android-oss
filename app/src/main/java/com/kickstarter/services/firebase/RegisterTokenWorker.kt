@@ -11,14 +11,12 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonSyntaxException
-import com.kickstarter.KSApplication
 import com.kickstarter.libs.Build
-import com.kickstarter.libs.qualifiers.ApplicationContext
 import com.kickstarter.libs.utils.extensions.isZero
 import com.kickstarter.services.ApiClientType
 import com.kickstarter.services.apiresponses.ErrorEnvelope
 import com.kickstarter.ui.IntentKey
-import dagger.hilt.EntryPoints
+import dagger.hilt.android.qualifiers.ApplicationContext
 import rx.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
@@ -35,7 +33,7 @@ class RegisterTokenWorker(@ApplicationContext applicationContext: Context, priva
     private val token = this.params.inputData.getString(IntentKey.PUSH_TOKEN) as String
 
     override fun doWork(): Result {
-        //(applicationContext as KSApplication).component().inject(this) TODO
+        // (applicationContext as KSApplication).component().inject(this) TODO
         return handleResponse(
             this.apiClient
                 .registerPushToken(this.token)

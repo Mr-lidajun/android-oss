@@ -5,8 +5,8 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.kickstarter.libs.Build
-import com.kickstarter.libs.qualifiers.ApplicationContext
 import com.kickstarter.ui.IntentKey
+import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.ResponseBody
 import retrofit2.Response
 import timber.log.Timber

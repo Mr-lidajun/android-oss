@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.kickstarter.KSApplication;
 import com.kickstarter.libs.utils.extensions.BundleExtKt;
+import com.kickstarter.libs.utils.extensions.ContextExt;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -64,17 +65,11 @@ public class ActivityViewModelManager {
     envelope.putBundle(VIEW_MODEL_STATE_KEY, state);
   }
 
-  @EntryPoint
-  @InstallIn(SingletonComponent.class)
-  interface MyEntryPoint {
-    public Environment getEnvironment();
-  }
-
   private <T extends ActivityViewModel> ActivityViewModel create(final @NonNull Context context, final @NonNull Class<T> viewModelClass,
     final @Nullable Bundle savedInstanceState, final @NonNull String id) {
 
     final KSApplication application = (KSApplication) context.getApplicationContext();
-    final Environment environment = EntryPointAccessors.fromApplication(context, MyEntryPoint.class).getEnvironment();
+    final Environment environment = ContextExt.environment(application);
     final ActivityViewModel activityViewModel;
 
     try {

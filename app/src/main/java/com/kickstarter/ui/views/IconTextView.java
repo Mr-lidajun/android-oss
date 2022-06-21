@@ -4,18 +4,16 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 
-import com.kickstarter.KSApplication;
 import com.kickstarter.R;
 import com.kickstarter.libs.Font;
-
-import javax.inject.Inject;
+import com.kickstarter.libs.utils.extensions.ContextExt;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 
 public class IconTextView extends AppCompatTextView {
-  @Inject Font font;
+  private Font font;
 
   // Enum for the iconType XML parameter
   private static final int MATERIAL = 0;
@@ -27,16 +25,19 @@ public class IconTextView extends AppCompatTextView {
   public IconTextView(final @NonNull Context context) {
     super(context);
     initialize(context, null, 0, 0);
+    font = ContextExt.font(context.getApplicationContext());
   }
 
   public IconTextView(final @NonNull Context context, final @Nullable AttributeSet attrs) {
     super(context, attrs);
     initialize(context, attrs, 0, 0);
+    font = ContextExt.font(context.getApplicationContext());
   }
 
   public IconTextView(final @NonNull Context context, final @Nullable AttributeSet attrs, final int defStyleAttr) {
     super(context, attrs, defStyleAttr);
     initialize(context, attrs, defStyleAttr, 0);
+    font = ContextExt.font(context.getApplicationContext());
   }
 
   protected void initialize(final @NonNull Context context, final @Nullable AttributeSet attrs, final int defStyleAttr,

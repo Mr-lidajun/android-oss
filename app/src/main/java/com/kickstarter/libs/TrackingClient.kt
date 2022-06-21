@@ -10,18 +10,18 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.kickstarter.BuildConfig
 import com.kickstarter.R
-import com.kickstarter.libs.qualifiers.ApplicationContext
 import com.kickstarter.libs.utils.WebUtils
 import com.kickstarter.libs.utils.extensions.currentVariants
 import com.kickstarter.libs.utils.extensions.enabledFeatureFlags
 import com.kickstarter.models.User
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.json.JSONArray
 import org.json.JSONException
 import timber.log.Timber
 import javax.inject.Inject
 
 abstract class TrackingClient(
-    @param:ApplicationContext private val context: Context,
+    @ApplicationContext private val context: Context,
     @set:Inject var currentUser: CurrentUserType,
     @set:Inject var build: Build,
     @set:Inject var currentConfig: CurrentConfigType,

@@ -1,7 +1,6 @@
 package com.kickstarter.ui.activities
 
 import android.os.Bundle
-import com.kickstarter.KSApplication
 import com.kickstarter.databinding.ActivityFeatureFlagsBinding
 import com.kickstarter.libs.BaseActivity
 import com.kickstarter.libs.preferences.StringPreferenceType
@@ -11,10 +10,7 @@ import com.kickstarter.ui.adapters.FeatureFlagsAdapter
 import com.kickstarter.ui.itemdecorations.TableItemDecoration
 import com.kickstarter.ui.viewholders.FeatureFlagViewHolder
 import com.kickstarter.viewmodels.FeatureFlagsViewModel
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.components.SingletonComponent
 import javax.inject.Inject
 
 @AndroidEntryPoint

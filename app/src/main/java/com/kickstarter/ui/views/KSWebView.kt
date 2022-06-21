@@ -10,7 +10,6 @@ import android.webkit.ValueCallback
 import android.webkit.WebChromeClient
 import android.webkit.WebView.setWebContentsDebuggingEnabled
 import android.widget.FrameLayout
-import com.kickstarter.KSApplication
 import com.kickstarter.databinding.WebViewBinding
 import com.kickstarter.libs.Build
 import com.kickstarter.libs.WebViewJavascriptInterface

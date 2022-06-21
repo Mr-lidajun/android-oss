@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.Button
 import android.widget.ScrollView
-import com.kickstarter.KSApplication
 import com.kickstarter.R
 import com.kickstarter.libs.DeviceRegistrarType
 import com.kickstarter.libs.PushNotifications

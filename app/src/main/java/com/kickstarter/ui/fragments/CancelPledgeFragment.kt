@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
-import com.kickstarter.KSApplication
 import com.kickstarter.R
 import com.kickstarter.databinding.FragmentCancelPledgeBinding
 import com.kickstarter.libs.BaseFragment

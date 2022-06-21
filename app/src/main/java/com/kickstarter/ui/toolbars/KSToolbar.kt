@@ -10,18 +10,14 @@ import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import com.kickstarter.KSApplication
 import com.kickstarter.R
 import com.kickstarter.libs.BaseActivity
-import com.kickstarter.libs.Environment
 import com.kickstarter.libs.qualifiers.WebEndpoint
 import com.kickstarter.libs.utils.Secrets
-import dagger.hilt.android.AndroidEntryPoint
+import com.kickstarter.libs.utils.extensions.webEndpoint
 import rx.Subscription
 import rx.subscriptions.CompositeSubscription
-import javax.inject.Inject
 
-@AndroidEntryPoint
 open class KSToolbar @JvmOverloads constructor(
     context: Context,
     val attrs: AttributeSet? = null,
@@ -31,12 +27,9 @@ open class KSToolbar @JvmOverloads constructor(
     private var backgroundPaint: Paint? = null
 
     @WebEndpoint
-    private var webEndpoint: String? = null
+    private var webEndpoint: String? = context.applicationContext.webEndpoint()
 
     private val subscriptions = CompositeSubscription()
-
-    @Inject
-    lateinit var environment: Environment
 
     init {
         init(context)
@@ -46,7 +39,6 @@ open class KSToolbar @JvmOverloads constructor(
             backgroundPaint = Paint()
             backgroundPaint?.style = Paint.Style.FILL
             backgroundPaint?.color = ContextCompat.getColor(context, R.color.kds_trust_500)
-            webEndpoint = environment().webEndpoint()
         }
     }
     override fun onDraw(canvas: Canvas) {
@@ -54,10 +46,6 @@ open class KSToolbar @JvmOverloads constructor(
         if (!isInEditMode && webEndpoint != Secrets.WebEndpoint.PRODUCTION) {
             canvas.drawRect(0f, 0f, context.resources.getDimension(R.dimen.grid_2), height.toFloat(), backgroundPaint!!)
         }
-    }
-
-    protected fun environment(): Environment {
-        return environment
     }
 
     /**

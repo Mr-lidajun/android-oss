@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.kickstarter.libs.qualifiers.RequiresFragmentViewModel;
 import com.kickstarter.libs.utils.extensions.BundleExtKt;
+import com.kickstarter.libs.utils.extensions.ContextExt;
 import com.kickstarter.ui.data.ActivityResult;
 import com.trello.rxlifecycle.FragmentEvent;
 import com.trello.rxlifecycle.RxLifecycle;
@@ -240,12 +241,6 @@ public class BaseBottomSheetDialogFragment<ViewModelType extends FragmentViewMod
     }
   }
 
-  @EntryPoint
-  @InstallIn(SingletonComponent.class)
-  interface MyEntryPoint {
-    public Environment getEnvironment();
-  }
-
   private void assignViewModel(final @Nullable Bundle viewModelEnvelope) {
     if (this.viewModel == null) {
       final RequiresFragmentViewModel annotation = getClass().getAnnotation(RequiresFragmentViewModel.class);
@@ -254,7 +249,7 @@ public class BaseBottomSheetDialogFragment<ViewModelType extends FragmentViewMod
         this.viewModel = FragmentViewModelManager.getInstance().fetch(getContext(),
             viewModelClass,
             BundleExtKt.maybeGetBundle(viewModelEnvelope, VIEW_MODEL_KEY),
-                EntryPointAccessors.fromApplication(getContext(), MyEntryPoint.class).getEnvironment());
+                Environment.builder().build());
       }
     }
   }

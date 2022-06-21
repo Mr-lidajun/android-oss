@@ -10,12 +10,12 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.messaging.FirebaseMessaging
 import com.kickstarter.libs.braze.RemotePushClientType
-import com.kickstarter.libs.qualifiers.ApplicationContext
 import com.kickstarter.libs.utils.PlayServicesCapability
 import com.kickstarter.libs.utils.WorkUtils
 import com.kickstarter.services.firebase.RegisterTokenWorker
 import com.kickstarter.services.firebase.UnregisterTokenWorker
 import com.kickstarter.ui.IntentKey
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.concurrent.TimeUnit
 
 class DeviceRegistrar(

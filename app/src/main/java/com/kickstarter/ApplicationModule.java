@@ -58,7 +58,6 @@ import com.kickstarter.libs.qualifiers.AccessTokenPreference;
 import com.kickstarter.libs.qualifiers.ActivitySamplePreference;
 import com.kickstarter.libs.qualifiers.ApiRetrofit;
 import com.kickstarter.libs.qualifiers.AppRatingPreference;
-import com.kickstarter.libs.qualifiers.ApplicationContext;
 import com.kickstarter.libs.qualifiers.ConfigPreference;
 import com.kickstarter.libs.qualifiers.FirstSessionPreference;
 import com.kickstarter.libs.qualifiers.GamesNewsletterPreference;
@@ -99,6 +98,7 @@ import androidx.preference.PreferenceManager;
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
+import dagger.hilt.android.qualifiers.ApplicationContext;
 import dagger.hilt.components.SingletonComponent;
 import okhttp3.CookieJar;
 import okhttp3.JavaNetCookieJar;
@@ -429,13 +429,6 @@ public class ApplicationModule {
   @Singleton
   static Scheduler provideScheduler() {
     return Schedulers.computation();
-  }
-
-  @Provides
-  @Singleton
-  @ApplicationContext
-  Context provideApplicationContext(@ApplicationContext Context appContext) {
-    return appContext;
   }
 
   @Provides

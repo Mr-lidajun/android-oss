@@ -4,9 +4,51 @@ package com.kickstarter.libs.utils.extensions
 import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
+import com.kickstarter.IKSApplicationEntryPoint
 import com.kickstarter.KSApplication
+import dagger.hilt.android.EntryPointAccessors
 
 fun Context.isKSApplication() = (this is KSApplication) && !this.isInUnitTests
+
+fun Context.webEndpoint() = EntryPointAccessors.fromApplication(
+    this,
+    IKSApplicationEntryPoint::class.java
+).webEndpoint()
+
+fun Context.environment() = EntryPointAccessors.fromApplication(
+    this,
+    IKSApplicationEntryPoint::class.java
+).environment()
+
+fun Context.currentUser() = EntryPointAccessors.fromApplication(
+    this,
+    IKSApplicationEntryPoint::class.java
+).currentUser()
+
+fun Context.apiClient() = EntryPointAccessors.fromApplication(
+    this,
+    IKSApplicationEntryPoint::class.java
+).apiClient()
+
+fun Context.config() = EntryPointAccessors.fromApplication(
+    this,
+    IKSApplicationEntryPoint::class.java
+).currentConfig()
+
+fun Context.logOut() = EntryPointAccessors.fromApplication(
+    this,
+    IKSApplicationEntryPoint::class.java
+).logOut()
+
+fun Context.build() = EntryPointAccessors.fromApplication(
+    this,
+    IKSApplicationEntryPoint::class.java
+).build()
+
+fun Context.font() = EntryPointAccessors.fromApplication(
+    this,
+    IKSApplicationEntryPoint::class.java
+).font()
 
 /**
  * if the current context is an instance of Application android base class

@@ -23,15 +23,13 @@ import androidx.annotation.CallSuper;
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
-import dagger.hilt.EntryPoints;
 import dagger.hilt.android.HiltAndroidApp;
-import dagger.hilt.components.SingletonComponent;
 import kotlin.jvm.functions.Function0;
 import timber.log.Timber;
 
 @HiltAndroidApp
-public class KSApplication extends MultiDexApplication implements IKSApplicationComponent {
-  private SingletonComponent component;
+public class KSApplication extends MultiDexApplication {
+
   @Inject protected CookieManager cookieManager;
   @Inject protected PushNotifications pushNotifications;
   @Inject protected RemotePushClientType remotePushClientType;
@@ -42,16 +40,9 @@ public class KSApplication extends MultiDexApplication implements IKSApplication
   public void onCreate() {
     super.onCreate();
 
-    this.component = getComponent();
-    //component().inject(this);
-
     if (!isInUnitTests()) {
       initApplication();
     }
-  }
-
-  public SingletonComponent getComponent() {
-    return EntryPoints.get(this, SingletonComponent.class);
   }
 
   private void initApplication() {
@@ -83,10 +74,6 @@ public class KSApplication extends MultiDexApplication implements IKSApplication
     this.remotePushClientType.registerActivityLifecycleCallbacks(this);
 
     return true;
-  }
-
-  public SingletonComponent component() {
-    return this.component;
   }
 
   /**

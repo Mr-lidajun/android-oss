@@ -28,7 +28,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import com.jakewharton.rxbinding.view.RxView
-import com.kickstarter.KSApplication
 import com.kickstarter.R
 import com.kickstarter.databinding.FragmentPledgeBinding
 import com.kickstarter.libs.BaseFragment
@@ -62,11 +61,8 @@ import com.kickstarter.ui.itemdecorations.RewardCardItemDecoration
 import com.kickstarter.viewmodels.PledgeFragmentViewModel
 import com.stripe.android.ApiResultCallback
 import com.stripe.android.SetupIntentResult
-import dagger.hilt.android.AndroidEntryPoint
 import rx.android.schedulers.AndroidSchedulers
-import javax.inject.Inject
 
-@AndroidEntryPoint
 @RequiresFragmentViewModel(PledgeFragmentViewModel.ViewModel::class)
 class PledgeFragment :
     BaseFragment<PledgeFragmentViewModel.ViewModel>(),
@@ -81,8 +77,7 @@ class PledgeFragment :
         fun pledgeSuccessfullyUpdated()
     }
 
-    @Inject
-    lateinit var ksString: KSString
+    private lateinit var ksString: KSString
     private lateinit var adapter: ShippingRulesAdapter
     private var headerAdapter = ExpandableHeaderAdapter()
     private var isExpanded = false
@@ -894,6 +889,7 @@ class PledgeFragment :
 
     @SuppressLint("SetTextI18n")
     private fun setHtmlStrings(baseUrl: String) {
+
         val termsOfUseUrl = UrlUtils.appendPath(baseUrl, HelpActivity.TERMS_OF_USE)
         val cookiePolicyUrl = UrlUtils.appendPath(baseUrl, HelpActivity.COOKIES)
         val privacyPolicyUrl = UrlUtils.appendPath(baseUrl, HelpActivity.PRIVACY)

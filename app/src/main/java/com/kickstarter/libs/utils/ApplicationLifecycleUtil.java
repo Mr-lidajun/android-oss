@@ -16,21 +16,17 @@ import com.kickstarter.libs.Build;
 import com.kickstarter.libs.CurrentConfigType;
 import com.kickstarter.libs.CurrentUserType;
 import com.kickstarter.libs.Logout;
-import com.kickstarter.libs.preferences.StringPreferenceType;
 import com.kickstarter.libs.rx.transformers.Transformers;
-import com.kickstarter.libs.utils.extensions.ConfigExtension;
+import com.kickstarter.libs.utils.extensions.ContextExt;
 import com.kickstarter.services.ApiClientType;
 import com.kickstarter.services.apiresponses.ErrorEnvelope;
 
-import javax.inject.Inject;
-
 public final class ApplicationLifecycleUtil implements Application.ActivityLifecycleCallbacks, ComponentCallbacks2 {
-  protected @Inject ApiClientType client;
-  protected @Inject CurrentConfigType config;
-  protected @Inject CurrentUserType currentUser;
-  protected @Inject Logout logout;
-  protected @Inject Build build;
-  protected @Inject StringPreferenceType featuresFlagPreference;
+  protected ApiClientType client;
+  protected CurrentConfigType config;
+  protected CurrentUserType currentUser;
+  protected Logout logout;
+  protected Build build;
 
   private final KSApplication application;
   private boolean isInBackground = true;
@@ -38,6 +34,12 @@ public final class ApplicationLifecycleUtil implements Application.ActivityLifec
 
   public ApplicationLifecycleUtil(final @NonNull KSApplication application) {
     this.application = application;
+
+    client = ContextExt.apiClient(application);
+    currentUser = ContextExt.currentUser(application);
+    config = ContextExt.config(application);
+    logout = ContextExt.logOut(application);
+    build = ContextExt.build(application);
 
     this.currentUser.isLoggedIn().subscribe(userLoggedIn -> {
       this.isLoggedIn = userLoggedIn;
@@ -74,10 +76,6 @@ public final class ApplicationLifecycleUtil implements Application.ActivityLifec
       .share()
       .subscribe(notification -> {
         if (notification.hasValue()) {
-          //sync save features flags in the config object
-          if (this.build.isDebug() || Build.isInternal()) {
-            ConfigExtension.syncUserFeatureFlagsFromPref(notification.getValue(), this.featuresFlagPreference);
-          }
           this.config.config(notification.getValue());
         }
         if (notification.hasThrowable()) {

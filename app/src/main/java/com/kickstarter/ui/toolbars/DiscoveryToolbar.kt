@@ -6,11 +6,13 @@ import android.util.AttributeSet
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.view.GravityCompat
+import com.kickstarter.IKSApplicationEntryPoint
 import com.kickstarter.R
 import com.kickstarter.libs.KSString
 import com.kickstarter.services.DiscoveryParams
 import com.kickstarter.ui.activities.DiscoveryActivity
 import com.kickstarter.ui.activities.SearchActivity
+import dagger.hilt.android.EntryPointAccessors.fromApplication
 
 class DiscoveryToolbar @JvmOverloads constructor(
     context: Context,
@@ -25,7 +27,8 @@ class DiscoveryToolbar @JvmOverloads constructor(
         if (isInEditMode) {
             return
         }
-        ksString = requireNotNull(environment().ksString())
+
+        ksString = fromApplication(context.applicationContext, IKSApplicationEntryPoint::class.java).ksString()
 
         (findViewById<ImageButton>(R.id.menu_button)).setOnClickListener {
             menuButtonClick()
