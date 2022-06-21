@@ -38,7 +38,6 @@ public final class ApplicationLifecycleUtil implements Application.ActivityLifec
 
   public ApplicationLifecycleUtil(final @NonNull KSApplication application) {
     this.application = application;
-    application.component().inject(this);
 
     this.currentUser.isLoggedIn().subscribe(userLoggedIn -> {
       this.isLoggedIn = userLoggedIn;

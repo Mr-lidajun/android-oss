@@ -21,6 +21,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+
+import dagger.hilt.EntryPoint;
+import dagger.hilt.InstallIn;
+import dagger.hilt.android.AndroidEntryPoint;
+import dagger.hilt.android.EntryPointAccessors;
+import dagger.hilt.components.SingletonComponent;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
 import timber.log.Timber;
@@ -235,6 +241,12 @@ public class BaseFragment<ViewModelType extends FragmentViewModel> extends Fragm
     }
   }
 
+  @EntryPoint
+  @InstallIn(SingletonComponent.class)
+  interface MyEntryPoint {
+    public Environment getEnvironment();
+  }
+
   private void assignViewModel(final @Nullable Bundle viewModelEnvelope) {
     if (this.viewModel == null) {
       final RequiresFragmentViewModel annotation = getClass().getAnnotation(RequiresFragmentViewModel.class);
@@ -242,7 +254,9 @@ public class BaseFragment<ViewModelType extends FragmentViewModel> extends Fragm
       if (viewModelClass != null) {
         this.viewModel = FragmentViewModelManager.getInstance().fetch(getContext(),
           viewModelClass,
-          BundleExtKt.maybeGetBundle(viewModelEnvelope, VIEW_MODEL_KEY));
+          BundleExtKt.maybeGetBundle(viewModelEnvelope, VIEW_MODEL_KEY),
+          EntryPointAccessors.fromApplication(getContext(), MyEntryPoint.class).getEnvironment()
+        );
       }
     }
   }

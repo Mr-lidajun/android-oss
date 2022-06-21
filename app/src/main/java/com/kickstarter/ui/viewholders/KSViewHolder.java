@@ -9,10 +9,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kickstarter.KSApplication;
 import com.kickstarter.libs.ActivityLifecycleType;
+import com.kickstarter.libs.BaseActivity;
 import com.kickstarter.libs.Environment;
 import com.trello.rxlifecycle.ActivityEvent;
 import com.trello.rxlifecycle.RxLifecycle;
 
+import dagger.hilt.EntryPoint;
+import dagger.hilt.InstallIn;
+import dagger.hilt.android.EntryPointAccessors;
+import dagger.hilt.components.SingletonComponent;
 import rx.Observable;
 import rx.subjects.PublishSubject;
 import timber.log.Timber;
@@ -102,7 +107,13 @@ public abstract class KSViewHolder extends RecyclerView.ViewHolder implements Vi
     return this.view.getContext();
   }
 
+  @EntryPoint
+  @InstallIn(SingletonComponent.class)
+  interface MyEntryPoint {
+    public Environment getEnvironment();
+  }
+
   protected @NonNull Environment environment() {
-    return ((KSApplication) context().getApplicationContext()).component().environment();
+    return EntryPointAccessors.fromApplication(context(), MyEntryPoint.class).getEnvironment();
   }
 }

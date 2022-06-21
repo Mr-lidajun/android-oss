@@ -54,8 +54,6 @@ public class IconTextView extends AppCompatTextView {
       return;
     }
 
-    ((KSApplication) getContext().getApplicationContext()).component().inject(this);
-
     switch (this.iconType) {
       case MATERIAL:
         setTypeface(this.font.materialIconsTypeface());

@@ -2,15 +2,14 @@ package com.kickstarter;
 
 import com.facebook.FacebookSdk;
 
+import dagger.hilt.EntryPoints;
+import dagger.hilt.components.SingletonComponent;
+
 public class TestKSApplication extends KSApplication {
 
   @Override
-  public ApplicationComponent getComponent() {
-    final ApplicationComponent component = DaggerApplicationComponent.builder()
-            .applicationModule(new TestApplicationModule(this))
-            .build();
-
-    return component;
+  public SingletonComponent getComponent() {
+    return EntryPoints.get(this, SingletonComponent.class);
   }
 
   @Override

@@ -11,6 +11,7 @@ import com.kickstarter.KSApplication
 import com.kickstarter.R
 import com.kickstarter.databinding.FragmentCancelPledgeBinding
 import com.kickstarter.libs.BaseFragment
+import com.kickstarter.libs.KSString
 import com.kickstarter.libs.qualifiers.RequiresFragmentViewModel
 import com.kickstarter.libs.rx.transformers.Transformers.observeForUI
 import com.kickstarter.libs.utils.ViewUtils
@@ -19,9 +20,15 @@ import com.kickstarter.ui.ArgumentsKey
 import com.kickstarter.ui.extensions.snackbar
 import com.kickstarter.ui.extensions.text
 import com.kickstarter.viewmodels.CancelPledgeViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @RequiresFragmentViewModel(CancelPledgeViewModel.ViewModel::class)
+@AndroidEntryPoint
 class CancelPledgeFragment : BaseFragment<CancelPledgeViewModel.ViewModel>() {
+
+    @Inject
+    lateinit var ksString: KSString
 
     interface CancelPledgeDelegate {
         fun pledgeSuccessfullyCancelled()
@@ -91,7 +98,6 @@ class CancelPledgeFragment : BaseFragment<CancelPledgeViewModel.ViewModel>() {
     }
 
     private fun setPromptText(amountAndProjectName: Pair<String, String>) {
-        val ksString = requireNotNull((activity?.applicationContext as? KSApplication)?.component()?.environment()?.ksString())
         val amount = amountAndProjectName.first
         val name = amountAndProjectName.second
         val formattedString = ksString.format(

@@ -34,10 +34,12 @@ import com.kickstarter.libs.utils.ViewUtils
 import com.kickstarter.libs.utils.WorkUtils
 import com.kickstarter.services.firebase.ResetDeviceIdWorker
 import com.kickstarter.viewmodels.InternalToolsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import org.joda.time.format.DateTimeFormat
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+@AndroidEntryPoint
 @RequiresActivityViewModel(InternalToolsViewModel::class)
 class InternalToolsActivity : BaseActivity<InternalToolsViewModel>() {
     @JvmField
@@ -67,8 +69,6 @@ class InternalToolsActivity : BaseActivity<InternalToolsViewModel>() {
         binding = InternalToolsLayoutBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
-
-        (applicationContext as KSApplication).component().inject(this)
 
         setupBuildInformationSection()
 

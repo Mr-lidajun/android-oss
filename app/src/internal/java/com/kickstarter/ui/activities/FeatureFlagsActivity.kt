@@ -11,8 +11,13 @@ import com.kickstarter.ui.adapters.FeatureFlagsAdapter
 import com.kickstarter.ui.itemdecorations.TableItemDecoration
 import com.kickstarter.ui.viewholders.FeatureFlagViewHolder
 import com.kickstarter.viewmodels.FeatureFlagsViewModel
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Inject
 
+@AndroidEntryPoint
 @RequiresActivityViewModel(FeatureFlagsViewModel.ViewModel::class)
 class FeatureFlagsActivity : BaseActivity<FeatureFlagsViewModel.ViewModel>(), FeatureFlagViewHolder.Delegate {
 
@@ -26,8 +31,6 @@ class FeatureFlagsActivity : BaseActivity<FeatureFlagsViewModel.ViewModel>(), Fe
         super.onCreate(savedInstanceState)
         binding = ActivityFeatureFlagsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        (applicationContext as KSApplication).component().inject(this)
 
         val configFlagsAdapter = FeatureFlagsAdapter(this)
         binding.configFlags.adapter = configFlagsAdapter

@@ -29,12 +29,12 @@ public final class FragmentViewModelManager {
 
   @SuppressWarnings("unchecked")
   public <T extends FragmentViewModel> T fetch(final @NonNull Context context, final @NonNull Class<T> viewModelClass,
-    final @Nullable Bundle savedInstanceState) {
+    final @Nullable Bundle savedInstanceState, final @NonNull Environment environment) {
     final String id = fetchId(savedInstanceState);
     FragmentViewModel viewModel = this.viewModels.get(id);
 
     if (viewModel == null) {
-      viewModel = create(context, viewModelClass, savedInstanceState, id);
+      viewModel = create(context, viewModelClass, savedInstanceState, id, environment);
     }
 
     return (T) viewModel;
@@ -60,10 +60,9 @@ public final class FragmentViewModelManager {
   }
 
   private <T extends FragmentViewModel> FragmentViewModel create(final @NonNull Context context, final @NonNull Class<T> viewModelClass,
-    final @Nullable Bundle savedInstanceState, final @NonNull String id) {
+    final @Nullable Bundle savedInstanceState, final @NonNull String id, final @NonNull Environment environment) {
 
     final KSApplication application = (KSApplication) context.getApplicationContext();
-    final Environment environment = application.component().environment();
     final FragmentViewModel viewModel;
 
     try {

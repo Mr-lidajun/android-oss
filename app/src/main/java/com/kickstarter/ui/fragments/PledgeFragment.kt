@@ -32,6 +32,7 @@ import com.kickstarter.KSApplication
 import com.kickstarter.R
 import com.kickstarter.databinding.FragmentPledgeBinding
 import com.kickstarter.libs.BaseFragment
+import com.kickstarter.libs.KSString
 import com.kickstarter.libs.qualifiers.RequiresFragmentViewModel
 import com.kickstarter.libs.rx.transformers.Transformers.observeForUI
 import com.kickstarter.libs.utils.ObjectUtils
@@ -61,8 +62,11 @@ import com.kickstarter.ui.itemdecorations.RewardCardItemDecoration
 import com.kickstarter.viewmodels.PledgeFragmentViewModel
 import com.stripe.android.ApiResultCallback
 import com.stripe.android.SetupIntentResult
+import dagger.hilt.android.AndroidEntryPoint
 import rx.android.schedulers.AndroidSchedulers
+import javax.inject.Inject
 
+@AndroidEntryPoint
 @RequiresFragmentViewModel(PledgeFragmentViewModel.ViewModel::class)
 class PledgeFragment :
     BaseFragment<PledgeFragmentViewModel.ViewModel>(),
@@ -77,6 +81,8 @@ class PledgeFragment :
         fun pledgeSuccessfullyUpdated()
     }
 
+    @Inject
+    lateinit var ksString: KSString
     private lateinit var adapter: ShippingRulesAdapter
     private var headerAdapter = ExpandableHeaderAdapter()
     private var isExpanded = false
@@ -892,7 +898,6 @@ class PledgeFragment :
         val cookiePolicyUrl = UrlUtils.appendPath(baseUrl, HelpActivity.COOKIES)
         val privacyPolicyUrl = UrlUtils.appendPath(baseUrl, HelpActivity.PRIVACY)
 
-        val ksString = requireNotNull((activity?.applicationContext as? KSApplication)?.component()?.environment()?.ksString())
         val byPledgingYouAgree = getString(R.string.By_pledging_you_agree_to_Kickstarters_Terms_of_Use_Privacy_Policy_and_Cookie_Policy)
 
         val agreementWithUrls = ksString.format(

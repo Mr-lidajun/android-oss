@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
-import com.kickstarter.KSApplication;
 import com.kickstarter.R;
 import com.kickstarter.libs.PushNotifications;
 import com.kickstarter.libs.braze.RemotePushClientType;
@@ -34,7 +33,7 @@ public class MessageService extends FirebaseMessagingService {
   @Override
   public void onCreate() {
     super.onCreate();
-    ((KSApplication) getApplicationContext()).component().inject(this);
+    //((KSApplication) getApplicationContext()).component().inject(this); TODO
   }
 
   /**

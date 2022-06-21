@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import dagger.Module;
 import dagger.Provides;
 
+@InstallIn(SingletonComponent.class)
 @Module(includes = ApplicationModule.class)
 public final class ExternalApplicationModule {
   private ExternalApplicationModule() {}

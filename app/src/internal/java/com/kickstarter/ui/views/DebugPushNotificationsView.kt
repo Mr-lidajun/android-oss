@@ -11,8 +11,10 @@ import com.kickstarter.libs.PushNotifications
 import com.kickstarter.models.Activity
 import com.kickstarter.models.pushdata.GCM
 import com.kickstarter.services.apiresponses.PushNotificationEnvelope
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class DebugPushNotificationsView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : ScrollView(context, attrs, defStyleAttr) {
     @JvmField
     @Inject
@@ -26,7 +28,6 @@ class DebugPushNotificationsView @JvmOverloads constructor(context: Context, att
         if (isInEditMode) {
             return
         }
-        (context.applicationContext as KSApplication).component().inject(this)
 
         findViewById<Button>(R.id.register_device_button).setOnClickListener {
             registerDeviceButtonClick()

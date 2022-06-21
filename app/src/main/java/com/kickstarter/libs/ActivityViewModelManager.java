@@ -16,6 +16,11 @@ import java.util.UUID;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import dagger.hilt.EntryPoint;
+import dagger.hilt.InstallIn;
+import dagger.hilt.android.EntryPointAccessors;
+import dagger.hilt.components.SingletonComponent;
+
 public class ActivityViewModelManager {
   private static final String VIEW_MODEL_ID_KEY = "view_model_id";
   private static final String VIEW_MODEL_STATE_KEY = "view_model_state";
@@ -59,11 +64,17 @@ public class ActivityViewModelManager {
     envelope.putBundle(VIEW_MODEL_STATE_KEY, state);
   }
 
+  @EntryPoint
+  @InstallIn(SingletonComponent.class)
+  interface MyEntryPoint {
+    public Environment getEnvironment();
+  }
+
   private <T extends ActivityViewModel> ActivityViewModel create(final @NonNull Context context, final @NonNull Class<T> viewModelClass,
     final @Nullable Bundle savedInstanceState, final @NonNull String id) {
 
     final KSApplication application = (KSApplication) context.getApplicationContext();
-    final Environment environment = application.component().environment();
+    final Environment environment = EntryPointAccessors.fromApplication(context, MyEntryPoint.class).getEnvironment();
     final ActivityViewModel activityViewModel;
 
     try {

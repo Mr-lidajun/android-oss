@@ -18,6 +18,7 @@ import com.kickstarter.libs.utils.extensions.isZero
 import com.kickstarter.services.ApiClientType
 import com.kickstarter.services.apiresponses.ErrorEnvelope
 import com.kickstarter.ui.IntentKey
+import dagger.hilt.EntryPoints
 import rx.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
@@ -34,7 +35,7 @@ class RegisterTokenWorker(@ApplicationContext applicationContext: Context, priva
     private val token = this.params.inputData.getString(IntentKey.PUSH_TOKEN) as String
 
     override fun doWork(): Result {
-        (applicationContext as KSApplication).component().inject(this)
+        //(applicationContext as KSApplication).component().inject(this) TODO
         return handleResponse(
             this.apiClient
                 .registerPushToken(this.token)

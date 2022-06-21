@@ -25,7 +25,10 @@ import javax.inject.Singleton;
 import androidx.annotation.NonNull;
 import dagger.Module;
 import dagger.Provides;
+import dagger.hilt.InstallIn;
+import dagger.hilt.components.SingletonComponent;
 
+@InstallIn(SingletonComponent.class)
 @Module(includes = ApplicationModule.class)
 public final class InternalApplicationModule {
   @Provides

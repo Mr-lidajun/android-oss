@@ -98,6 +98,8 @@ import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 import dagger.Module;
 import dagger.Provides;
+import dagger.hilt.InstallIn;
+import dagger.hilt.components.SingletonComponent;
 import okhttp3.CookieJar;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;
@@ -110,13 +112,9 @@ import rx.schedulers.Schedulers;
 import timber.log.Timber;
 import type.CustomType;
 
+@InstallIn(SingletonComponent.class)
 @Module
 public class ApplicationModule {
-  private final Application application;
-
-  public ApplicationModule(final @NonNull Application application) {
-    this.application = application;
-  }
 
   @Provides
   @Singleton
@@ -405,12 +403,6 @@ public class ApplicationModule {
 
   @Provides
   @Singleton
-  Application provideApplication() {
-    return this.application;
-  }
-
-  @Provides
-  @Singleton
   SegmentTrackingClient provideSegmentTrackingClient(
           final @ApplicationContext @NonNull Context context,
           final @NonNull CurrentUserType currentUser,
@@ -442,14 +434,14 @@ public class ApplicationModule {
   @Provides
   @Singleton
   @ApplicationContext
-  Context provideApplicationContext() {
-    return this.application;
+  Context provideApplicationContext(@ApplicationContext Context appContext) {
+    return appContext;
   }
 
   @Provides
   @Singleton
-  AssetManager provideAssetManager() {
-    return this.application.getAssets();
+  AssetManager provideAssetManager(@ApplicationContext Context appContext) {
+    return appContext.getAssets();
   }
 
   @Provides
@@ -588,8 +580,8 @@ public class ApplicationModule {
 
   @Provides
   @Singleton
-  SharedPreferences provideSharedPreferences() {
-    return PreferenceManager.getDefaultSharedPreferences(this.application);
+  SharedPreferences provideSharedPreferences(@ApplicationContext Context appContext) {
+    return PreferenceManager.getDefaultSharedPreferences(appContext);
   }
 
   @Provides

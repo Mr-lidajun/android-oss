@@ -22,6 +22,10 @@ import com.trello.rxlifecycle.FragmentEvent;
 import com.trello.rxlifecycle.RxLifecycle;
 import com.trello.rxlifecycle.components.FragmentLifecycleProvider;
 
+import dagger.hilt.EntryPoint;
+import dagger.hilt.InstallIn;
+import dagger.hilt.android.EntryPointAccessors;
+import dagger.hilt.components.SingletonComponent;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
 import timber.log.Timber;
@@ -236,6 +240,12 @@ public class BaseBottomSheetDialogFragment<ViewModelType extends FragmentViewMod
     }
   }
 
+  @EntryPoint
+  @InstallIn(SingletonComponent.class)
+  interface MyEntryPoint {
+    public Environment getEnvironment();
+  }
+
   private void assignViewModel(final @Nullable Bundle viewModelEnvelope) {
     if (this.viewModel == null) {
       final RequiresFragmentViewModel annotation = getClass().getAnnotation(RequiresFragmentViewModel.class);
@@ -243,7 +253,8 @@ public class BaseBottomSheetDialogFragment<ViewModelType extends FragmentViewMod
       if (viewModelClass != null) {
         this.viewModel = FragmentViewModelManager.getInstance().fetch(getContext(),
             viewModelClass,
-            BundleExtKt.maybeGetBundle(viewModelEnvelope, VIEW_MODEL_KEY));
+            BundleExtKt.maybeGetBundle(viewModelEnvelope, VIEW_MODEL_KEY),
+                EntryPointAccessors.fromApplication(getContext(), MyEntryPoint.class).getEnvironment());
       }
     }
   }

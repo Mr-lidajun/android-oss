@@ -17,10 +17,12 @@ import com.kickstarter.libs.WebViewJavascriptInterface
 import com.kickstarter.libs.perimeterx.PerimeterXClientType
 import com.kickstarter.services.KSWebViewClient
 import com.kickstarter.services.RequestHandler
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
 
 private const val LOGTAG = "KSWebView"
+@AndroidEntryPoint
 class KSWebView@JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -53,7 +55,6 @@ class KSWebView@JvmOverloads constructor(
     private fun initWebView(context: Context) {
 
         if (!isInEditMode) {
-            (context.applicationContext as KSApplication).component().inject(this)
             binding.internalWebView.webViewClient = this.client
             binding.internalWebView.webChromeClient = WebChromeClient()
             binding.internalWebView.settings.javaScriptEnabled = true

@@ -16,9 +16,12 @@ import com.kickstarter.libs.BaseActivity
 import com.kickstarter.libs.Environment
 import com.kickstarter.libs.qualifiers.WebEndpoint
 import com.kickstarter.libs.utils.Secrets
+import dagger.hilt.android.AndroidEntryPoint
 import rx.Subscription
 import rx.subscriptions.CompositeSubscription
+import javax.inject.Inject
 
+@AndroidEntryPoint
 open class KSToolbar @JvmOverloads constructor(
     context: Context,
     val attrs: AttributeSet? = null,
@@ -31,6 +34,9 @@ open class KSToolbar @JvmOverloads constructor(
     private var webEndpoint: String? = null
 
     private val subscriptions = CompositeSubscription()
+
+    @Inject
+    lateinit var environment: Environment
 
     init {
         init(context)
@@ -51,7 +57,7 @@ open class KSToolbar @JvmOverloads constructor(
     }
 
     protected fun environment(): Environment {
-        return (context.applicationContext as KSApplication).component().environment()
+        return environment
     }
 
     /**

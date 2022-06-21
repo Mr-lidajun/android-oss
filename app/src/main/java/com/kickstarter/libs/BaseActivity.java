@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Pair;
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
-import com.kickstarter.ApplicationComponent;
 import com.kickstarter.KSApplication;
 import com.kickstarter.R;
 import com.kickstarter.libs.qualifiers.RequiresActivityViewModel;
@@ -25,6 +24,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
+
+import javax.inject.Inject;
+
+import dagger.hilt.EntryPoint;
+import dagger.hilt.InstallIn;
+import dagger.hilt.android.AndroidEntryPoint;
+import dagger.hilt.android.EntryPointAccessors;
+import dagger.hilt.components.SingletonComponent;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -42,6 +49,13 @@ public abstract class BaseActivity<ViewModelType extends ActivityViewModel> exte
   private static final String VIEW_MODEL_KEY = "viewModel";
   private final CompositeSubscription subscriptions = new CompositeSubscription();
   private final ConnectivityReceiver connectivityReceiver = new ConnectivityReceiver();
+
+  @EntryPoint
+  @InstallIn(SingletonComponent.class)
+  interface MyEntryPoint {
+    public Environment getEnvironment();
+  }
+
   protected ViewModelType viewModel;
 
   /**
@@ -250,18 +264,11 @@ public abstract class BaseActivity<ViewModelType extends ActivityViewModel> exte
   }
 
   /**
-   * Convenience method to return a Dagger component.
-   */
-  protected @NonNull ApplicationComponent component() {
-    return application().component();
-  }
-
-  /**
    * Returns the application's {@link Environment}.
    */
   @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
   public @NonNull Environment environment() {
-    return component().environment();
+    return EntryPointAccessors.fromApplication(this, MyEntryPoint.class).getEnvironment();
   }
 
   /**
