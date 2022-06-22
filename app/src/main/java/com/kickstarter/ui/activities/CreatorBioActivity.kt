@@ -13,8 +13,10 @@ import com.kickstarter.libs.utils.TransitionUtils.slideInFromLeft
 import com.kickstarter.models.Project
 import com.kickstarter.ui.IntentKey
 import com.kickstarter.viewmodels.CreatorBioViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import rx.android.schedulers.AndroidSchedulers
 
+@AndroidEntryPoint
 @RequiresActivityViewModel(CreatorBioViewModel.ViewModel::class)
 class CreatorBioActivity : BaseActivity<CreatorBioViewModel.ViewModel>() {
 

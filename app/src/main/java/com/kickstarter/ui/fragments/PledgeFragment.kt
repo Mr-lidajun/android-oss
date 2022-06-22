@@ -62,8 +62,11 @@ import com.kickstarter.ui.itemdecorations.RewardCardItemDecoration
 import com.kickstarter.viewmodels.PledgeFragmentViewModel
 import com.stripe.android.ApiResultCallback
 import com.stripe.android.SetupIntentResult
+import dagger.hilt.android.AndroidEntryPoint
 import rx.android.schedulers.AndroidSchedulers
+import javax.inject.Inject
 
+@AndroidEntryPoint
 @RequiresFragmentViewModel(PledgeFragmentViewModel.ViewModel::class)
 class PledgeFragment :
     BaseFragment<PledgeFragmentViewModel.ViewModel>(),
@@ -78,12 +81,14 @@ class PledgeFragment :
         fun pledgeSuccessfullyUpdated()
     }
 
-    private var ksString: KSString? = null
     private lateinit var adapter: ShippingRulesAdapter
     private var headerAdapter = ExpandableHeaderAdapter()
     private var isExpanded = false
 
     private var binding: FragmentPledgeBinding? = null
+
+    @Inject
+    lateinit var ksString: KSString
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -98,8 +103,6 @@ class PledgeFragment :
         setUpCardsAdapter()
         setUpShippingAdapter()
         setupRewardRecyclerView()
-
-        ksString = context?.applicationContext?.ksString()
 
         binding?.pledgeSectionPledgeAmount?.pledgeAmount?.onChange { this.viewModel.inputs.pledgeInput(it) }
 
@@ -781,7 +784,7 @@ class PledgeFragment :
     private fun setDeadlineWarning(totalAndDeadline: Pair<String, String>) {
         val total = totalAndDeadline.first
         val deadline = totalAndDeadline.second
-        val warning = ksString?.format(
+        val warning = ksString.format(
             getString(R.string.If_the_project_reaches_its_funding_goal_you_will_be_charged_total_on_project_deadline),
             "total", total,
             "project_deadline", deadline
@@ -796,16 +799,16 @@ class PledgeFragment :
     }
 
     private fun setPledgeMaximumText(maximumAmount: String) {
-        binding?.pledgeSectionPledgeAmount?. pledgeMaximum ?.text = ksString?.format(getString(R.string.Enter_an_amount_less_than_max_pledge), "max_pledge", maximumAmount)
-        binding?.pledgeSectionBonusSupport?.bonusMaximum?.text = ksString?.format(getString(R.string.Enter_an_amount_less_than_max_pledge), "max_pledge", maximumAmount)
+        binding?.pledgeSectionPledgeAmount?. pledgeMaximum ?.text = ksString.format(getString(R.string.Enter_an_amount_less_than_max_pledge), "max_pledge", maximumAmount)
+        binding?.pledgeSectionBonusSupport?.bonusMaximum?.text = ksString.format(getString(R.string.Enter_an_amount_less_than_max_pledge), "max_pledge", maximumAmount)
     }
 
     private fun setPledgeMinimumText(minimumAmount: String) {
-        binding?.pledgeSectionPledgeAmount?. pledgeMinimum ?.text = ksString?.format(getString(R.string.The_minimum_pledge_is_min_pledge), "min_pledge", minimumAmount)
+        binding?.pledgeSectionPledgeAmount?. pledgeMinimum ?.text = ksString.format(getString(R.string.The_minimum_pledge_is_min_pledge), "min_pledge", minimumAmount)
     }
 
     private fun setPlusTextView(textView: TextView, localizedAmount: CharSequence) {
-        textView.contentDescription = ksString?.format(getString(R.string.plus_shipping_cost), "shipping_cost", localizedAmount.toString())
+        textView.contentDescription = ksString.format(getString(R.string.plus_shipping_cost), "shipping_cost", localizedAmount.toString())
         textView.text = localizedAmount
     }
 
@@ -880,7 +883,7 @@ class PledgeFragment :
         val currencyConversionString = context?.getString(R.string.About_reward_amount)
         binding?.pledgeSectionTotal?.totalAmountConversion ?.text = (
             currencyConversionString?.let {
-                ksString?.format(it, "reward_amount", amount)
+                ksString.format(it, "reward_amount", amount)
             }
             )
     }
@@ -894,10 +897,10 @@ class PledgeFragment :
 
         val byPledgingYouAgree = getString(R.string.By_pledging_you_agree_to_Kickstarters_Terms_of_Use_Privacy_Policy_and_Cookie_Policy)
 
-        val agreementWithUrls = ksString?.format(
+        val agreementWithUrls = ksString.format(
             byPledgingYouAgree, "terms_of_use_link", termsOfUseUrl,
             "privacy_policy_link", privacyPolicyUrl, "cookie_policy_link", cookiePolicyUrl
-        ) ?: ""
+        )
 
         binding?.pledgeSectionFooter?.pledgeFooterPledgeAgreement?.let {
             setClickableHtml(
@@ -907,11 +910,11 @@ class PledgeFragment :
         }
 
         val trustUrl = UrlUtils.appendPath(baseUrl, "trust")
-        val accountabilityWithUrl = ksString?.format(
+        val accountabilityWithUrl = ksString.format(
             getString(R.string.Its_a_way_to_bring_creative_projects_to_life_Learn_more_about_accountability),
             "trust_link",
             trustUrl
-        ) ?: ""
+        )
 
         binding?.pledgeSectionAccountability?. accountability?.let {
             setClickableHtml(

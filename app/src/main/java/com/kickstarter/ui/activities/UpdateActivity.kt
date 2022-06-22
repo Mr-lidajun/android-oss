@@ -24,8 +24,10 @@ import com.kickstarter.services.RequestHandler
 import com.kickstarter.ui.IntentKey
 import com.kickstarter.ui.views.KSWebView
 import com.kickstarter.viewmodels.UpdateViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.Request
 
+@AndroidEntryPoint
 @RequiresActivityViewModel(UpdateViewModel.ViewModel::class)
 class UpdateActivity : BaseActivity<UpdateViewModel.ViewModel?>(), KSWebView.Delegate {
     private lateinit var ksString: KSString

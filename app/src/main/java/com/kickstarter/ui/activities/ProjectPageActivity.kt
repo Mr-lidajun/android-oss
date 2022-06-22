@@ -57,9 +57,11 @@ import com.kickstarter.ui.fragments.PledgeFragment
 import com.kickstarter.ui.fragments.RewardsFragment
 import com.kickstarter.viewmodels.projectpage.ProjectPageViewModel
 import com.stripe.android.view.CardInputWidget
+import dagger.hilt.android.AndroidEntryPoint
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
+@AndroidEntryPoint
 @RequiresActivityViewModel(ProjectPageViewModel.ViewModel::class)
 class ProjectPageActivity :
     BaseActivity<ProjectPageViewModel.ViewModel>(),

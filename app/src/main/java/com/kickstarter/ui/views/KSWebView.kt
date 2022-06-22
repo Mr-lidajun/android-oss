@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 private const val LOGTAG = "KSWebView"
 @AndroidEntryPoint
-class KSWebView@JvmOverloads constructor(
+class KSWebView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
