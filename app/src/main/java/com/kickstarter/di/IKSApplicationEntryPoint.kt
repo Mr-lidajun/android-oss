@@ -1,4 +1,4 @@
-package com.kickstarter
+package com.kickstarter.di
 
 import com.kickstarter.libs.Build
 import com.kickstarter.libs.CurrentConfigType
@@ -21,7 +21,6 @@ interface IKSApplicationEntryPoint {
     fun currentConfig(): CurrentConfigType
     fun logOut(): Logout
     fun build(): Build
-    fun webEndpoint(): String
     fun ksString(): KSString
     fun font(): Font
 }

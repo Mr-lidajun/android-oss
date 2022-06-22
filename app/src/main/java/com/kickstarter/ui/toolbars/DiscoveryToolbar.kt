@@ -6,8 +6,8 @@ import android.util.AttributeSet
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.view.GravityCompat
-import com.kickstarter.IKSApplicationEntryPoint
 import com.kickstarter.R
+import com.kickstarter.di.IKSApplicationEntryPoint
 import com.kickstarter.libs.KSString
 import com.kickstarter.services.DiscoveryParams
 import com.kickstarter.ui.activities.DiscoveryActivity

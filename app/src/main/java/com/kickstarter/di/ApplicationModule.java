@@ -1,4 +1,4 @@
-package com.kickstarter;
+package com.kickstarter.di;
 
 import android.app.Application;
 import android.content.Context;
@@ -14,6 +14,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kickstarter.KSApplication;
 import com.kickstarter.libs.ApiEndpoint;
 import com.kickstarter.libs.Build;
 import com.kickstarter.libs.BuildCheck;

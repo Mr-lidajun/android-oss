@@ -12,9 +12,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.kickstarter.R
 import com.kickstarter.libs.BaseActivity
-import com.kickstarter.libs.qualifiers.WebEndpoint
 import com.kickstarter.libs.utils.Secrets
-import com.kickstarter.libs.utils.extensions.webEndpoint
+import com.kickstarter.libs.utils.extensions.environment
 import rx.Subscription
 import rx.subscriptions.CompositeSubscription
 
@@ -25,9 +24,6 @@ open class KSToolbar @JvmOverloads constructor(
 ) : Toolbar(context, attrs, defStyleAttr) {
 
     private var backgroundPaint: Paint? = null
-
-    @WebEndpoint
-    private var webEndpoint: String? = context.applicationContext.webEndpoint()
 
     private val subscriptions = CompositeSubscription()
 
@@ -43,7 +39,7 @@ open class KSToolbar @JvmOverloads constructor(
     }
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        if (!isInEditMode && webEndpoint != Secrets.WebEndpoint.PRODUCTION) {
+        if (!isInEditMode && context.applicationContext.environment().webEndpoint() != Secrets.WebEndpoint.PRODUCTION) {
             canvas.drawRect(0f, 0f, context.resources.getDimension(R.dimen.grid_2), height.toFloat(), backgroundPaint!!)
         }
     }

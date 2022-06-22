@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.content.res.AssetManager
 import androidx.preference.PreferenceManager
 import androidx.test.core.app.ApplicationProvider
+import com.kickstarter.di.ApplicationModule
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext

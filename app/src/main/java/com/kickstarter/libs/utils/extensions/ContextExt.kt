@@ -4,16 +4,11 @@ package com.kickstarter.libs.utils.extensions
 import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
-import com.kickstarter.IKSApplicationEntryPoint
 import com.kickstarter.KSApplication
+import com.kickstarter.di.IKSApplicationEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 
 fun Context.isKSApplication() = (this is KSApplication) && !this.isInUnitTests
-
-fun Context.webEndpoint() = EntryPointAccessors.fromApplication(
-    this,
-    IKSApplicationEntryPoint::class.java
-).webEndpoint()
 
 fun Context.environment() = EntryPointAccessors.fromApplication(
     this,
@@ -50,6 +45,10 @@ fun Context.font() = EntryPointAccessors.fromApplication(
     IKSApplicationEntryPoint::class.java
 ).font()
 
+fun Context.ksString() = EntryPointAccessors.fromApplication(
+    this,
+    IKSApplicationEntryPoint::class.java
+).ksString()
 /**
  * if the current context is an instance of Application android base class
  * register the callbacks provided on the parameter.

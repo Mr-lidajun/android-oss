@@ -1,4 +1,4 @@
-package com.kickstarter;
+package com.kickstarter.di;
 
 import android.content.SharedPreferences;
 

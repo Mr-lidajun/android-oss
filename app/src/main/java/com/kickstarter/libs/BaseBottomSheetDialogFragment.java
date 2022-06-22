@@ -249,7 +249,7 @@ public class BaseBottomSheetDialogFragment<ViewModelType extends FragmentViewMod
         this.viewModel = FragmentViewModelManager.getInstance().fetch(getContext(),
             viewModelClass,
             BundleExtKt.maybeGetBundle(viewModelEnvelope, VIEW_MODEL_KEY),
-                Environment.builder().build());
+                ContextExt.environment(getContext().getApplicationContext()));
       }
     }
   }
