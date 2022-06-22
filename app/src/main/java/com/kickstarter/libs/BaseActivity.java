@@ -26,13 +26,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 
-import javax.inject.Inject;
-
-import dagger.hilt.EntryPoint;
-import dagger.hilt.InstallIn;
-import dagger.hilt.android.AndroidEntryPoint;
-import dagger.hilt.android.EntryPointAccessors;
-import dagger.hilt.components.SingletonComponent;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;

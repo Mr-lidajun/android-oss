@@ -23,11 +23,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
-import dagger.hilt.EntryPoint;
-import dagger.hilt.InstallIn;
-import dagger.hilt.android.AndroidEntryPoint;
-import dagger.hilt.android.EntryPointAccessors;
-import dagger.hilt.components.SingletonComponent;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
 import timber.log.Timber;

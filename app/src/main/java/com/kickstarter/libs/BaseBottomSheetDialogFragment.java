@@ -23,10 +23,6 @@ import com.trello.rxlifecycle.FragmentEvent;
 import com.trello.rxlifecycle.RxLifecycle;
 import com.trello.rxlifecycle.components.FragmentLifecycleProvider;
 
-import dagger.hilt.EntryPoint;
-import dagger.hilt.InstallIn;
-import dagger.hilt.android.EntryPointAccessors;
-import dagger.hilt.components.SingletonComponent;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
 import timber.log.Timber;

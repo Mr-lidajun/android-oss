@@ -17,11 +17,6 @@ import java.util.UUID;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import dagger.hilt.EntryPoint;
-import dagger.hilt.InstallIn;
-import dagger.hilt.android.EntryPointAccessors;
-import dagger.hilt.components.SingletonComponent;
-
 public class ActivityViewModelManager {
   private static final String VIEW_MODEL_ID_KEY = "view_model_id";
   private static final String VIEW_MODEL_STATE_KEY = "view_model_state";

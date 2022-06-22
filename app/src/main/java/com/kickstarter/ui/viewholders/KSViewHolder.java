@@ -7,18 +7,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.kickstarter.KSApplication;
 import com.kickstarter.libs.ActivityLifecycleType;
-import com.kickstarter.libs.BaseActivity;
 import com.kickstarter.libs.Environment;
 import com.kickstarter.libs.utils.extensions.ContextExt;
 import com.trello.rxlifecycle.ActivityEvent;
 import com.trello.rxlifecycle.RxLifecycle;
 
-import dagger.hilt.EntryPoint;
-import dagger.hilt.InstallIn;
-import dagger.hilt.android.EntryPointAccessors;
-import dagger.hilt.components.SingletonComponent;
 import rx.Observable;
 import rx.subjects.PublishSubject;
 import timber.log.Timber;
