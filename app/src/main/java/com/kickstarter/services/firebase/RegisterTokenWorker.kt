@@ -12,6 +12,9 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonSyntaxException
 import com.kickstarter.libs.Build
+import com.kickstarter.libs.utils.extensions.apiClient
+import com.kickstarter.libs.utils.extensions.build
+import com.kickstarter.libs.utils.extensions.gSon
 import com.kickstarter.libs.utils.extensions.isZero
 import com.kickstarter.services.ApiClientType
 import com.kickstarter.services.apiresponses.ErrorEnvelope
@@ -19,21 +22,21 @@ import com.kickstarter.ui.IntentKey
 import dagger.hilt.android.qualifiers.ApplicationContext
 import rx.schedulers.Schedulers
 import timber.log.Timber
-import javax.inject.Inject
 
 class RegisterTokenWorker(@ApplicationContext applicationContext: Context, private val params: WorkerParameters) : Worker(applicationContext, params) {
 
-    @Inject
     lateinit var apiClient: ApiClientType
-    @Inject
     lateinit var build: Build
-    @Inject
     lateinit var gson: Gson
 
     private val token = this.params.inputData.getString(IntentKey.PUSH_TOKEN) as String
 
     override fun doWork(): Result {
-        // (applicationContext as KSApplication).component().inject(this) TODO
+        // TODO for now access directly to the SingletonComponent entry, but on next iterations will bring @HiltWorker to the picture
+        apiClient = applicationContext.apiClient()
+        build = applicationContext.build()
+        gson = applicationContext.gSon()
+
         return handleResponse(
             this.apiClient
                 .registerPushToken(this.token)

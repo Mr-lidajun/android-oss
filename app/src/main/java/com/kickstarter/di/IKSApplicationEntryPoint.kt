@@ -1,5 +1,6 @@
 package com.kickstarter.di
 
+import com.google.gson.Gson
 import com.kickstarter.libs.Build
 import com.kickstarter.libs.CurrentConfigType
 import com.kickstarter.libs.CurrentUserType
@@ -23,4 +24,5 @@ interface IKSApplicationEntryPoint {
     fun build(): Build
     fun ksString(): KSString
     fun font(): Font
+    fun gSon(): Gson
 }

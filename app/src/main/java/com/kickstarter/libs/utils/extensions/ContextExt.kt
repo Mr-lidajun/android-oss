@@ -49,6 +49,12 @@ fun Context.ksString() = EntryPointAccessors.fromApplication(
     this,
     IKSApplicationEntryPoint::class.java
 ).ksString()
+
+fun Context.gSon() = EntryPointAccessors.fromApplication(
+    this,
+    IKSApplicationEntryPoint::class.java
+).gSon()
+
 /**
  * if the current context is an instance of Application android base class
  * register the callbacks provided on the parameter.

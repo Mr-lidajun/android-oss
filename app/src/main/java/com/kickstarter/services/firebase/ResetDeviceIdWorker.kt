@@ -7,20 +7,22 @@ import androidx.work.WorkerParameters
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.kickstarter.libs.Build
 import com.kickstarter.libs.FirebaseHelper
+import com.kickstarter.libs.utils.extensions.apiClient
+import com.kickstarter.libs.utils.extensions.build
 import com.kickstarter.services.ApiClientType
 import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
 import java.io.IOException
-import javax.inject.Inject
 
 class ResetDeviceIdWorker(@ApplicationContext applicationContext: Context, params: WorkerParameters) : Worker(applicationContext, params) {
-    @Inject
-    lateinit var build: Build
-    @Inject
     lateinit var apiClient: ApiClientType
+    lateinit var build: Build
 
     override fun doWork(): Result {
-        // (applicationContext as KSApplication).component().inject(this) TODO
+        // TODO for now access directly to the SingletonComponent entry, but on next iterations will bring @HiltWorker to the picture
+        apiClient = applicationContext.apiClient()
+        build = applicationContext.build()
+
         return try {
             FirebaseHelper.delete()
             logSuccess()
