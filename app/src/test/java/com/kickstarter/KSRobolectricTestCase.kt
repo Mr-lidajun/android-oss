@@ -2,14 +2,15 @@ package com.kickstarter
 
 import android.app.Application
 import android.content.Context
+import androidx.preference.PreferenceManager
 import androidx.test.core.app.ApplicationProvider
-import com.kickstarter.libs.AnalyticEvents
 import com.kickstarter.libs.Environment
 import com.kickstarter.libs.KSCurrency
 import com.kickstarter.libs.KSString
 import com.kickstarter.libs.MockCurrentUser
 import com.kickstarter.libs.MockTrackingClient
 import com.kickstarter.libs.TrackingClientType
+import com.kickstarter.libs.AnalyticEvents
 import com.kickstarter.libs.utils.Secrets
 import com.kickstarter.mock.MockCurrentConfig
 import com.kickstarter.mock.MockExperimentsClientType
@@ -19,20 +20,25 @@ import com.kickstarter.mock.services.MockApolloClient
 import com.kickstarter.mock.services.MockWebClient
 import com.kickstarter.models.User
 import com.stripe.android.Stripe
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.HiltTestApplication
 import junit.framework.TestCase
 import org.joda.time.DateTimeUtils
 import org.junit.After
 import org.junit.Before
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
-import kotlin.jvm.Throws
+import java.net.CookieManager
 
+@HiltAndroidTest
 @RunWith(KSRobolectricGradleTestRunner::class)
-@Config(shadows = [ShadowAndroidXMultiDex::class], sdk = [KSRobolectricGradleTestRunner.DEFAULT_SDK])
+@Config(shadows = [ShadowAndroidXMultiDex::class], sdk = [KSRobolectricGradleTestRunner.DEFAULT_SDK], application = HiltTestApplication::class)
 abstract class KSRobolectricTestCase : TestCase() {
+    lateinit var environment: Environment
+
     private val application: Application = ApplicationProvider.getApplicationContext()
-    private lateinit var environment: Environment
 
     lateinit var experimentsTest: TestSubscriber<String>
     lateinit var segmentTrack: TestSubscriber<String>
@@ -47,21 +53,28 @@ abstract class KSRobolectricTestCase : TestCase() {
         val experimentsClientType = experimentsClient()
         val segmentTestClient = segmentTrackingClient(mockCurrentConfig, experimentsClientType)
 
-        val component = DaggerApplicationComponent.builder()
+        /*val component = DaggerApplicationComponent.builder()
             .applicationModule(TestApplicationModule(application()))
-            .build()
+            .build()*/
 
         val config = ConfigFactory.config().toBuilder()
             .build()
-
         mockCurrentConfig.config(config)
 
-        environment = component.environment().toBuilder()
+        val mockShared = PreferenceManager.getDefaultSharedPreferences(application)
+        val mockKSString = KSString(application.packageName, application.resources)
+        val mockCookieManager = Mockito.mock(CookieManager::class.java)
+
+        environment = Environment.Builder()
+            .cookieManager(mockCookieManager)
+            .sharedPreferences(mockShared)
             .ksCurrency(KSCurrency(mockCurrentConfig))
             .apiClient(MockApiClient())
             .apolloClient(MockApolloClient())
             .currentConfig(mockCurrentConfig)
+            .currentUser(MockCurrentUser())
             .webClient(MockWebClient())
+            .ksString(mockKSString)
             .stripe(Stripe(context(), Secrets.StripePublishableKey.STAGING))
             .analytics(AnalyticEvents(listOf(segmentTestClient)))
             .optimizely(experimentsClientType)

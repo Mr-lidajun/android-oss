@@ -8,11 +8,6 @@ import dagger.hilt.components.SingletonComponent;
 public class TestKSApplication extends KSApplication {
 
   @Override
-  public SingletonComponent getComponent() {
-    return EntryPoints.get(this, SingletonComponent.class);
-  }
-
-  @Override
   public void onCreate() {
     // - LoginToutViewModelTest needs the FacebookSDK initialized
     FacebookSdk.sdkInitialize(this);
