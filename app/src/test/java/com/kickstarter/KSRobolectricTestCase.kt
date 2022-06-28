@@ -4,13 +4,13 @@ import android.app.Application
 import android.content.Context
 import androidx.preference.PreferenceManager
 import androidx.test.core.app.ApplicationProvider
+import com.kickstarter.libs.AnalyticEvents
 import com.kickstarter.libs.Environment
 import com.kickstarter.libs.KSCurrency
 import com.kickstarter.libs.KSString
 import com.kickstarter.libs.MockCurrentUser
 import com.kickstarter.libs.MockTrackingClient
 import com.kickstarter.libs.TrackingClientType
-import com.kickstarter.libs.AnalyticEvents
 import com.kickstarter.libs.utils.Secrets
 import com.kickstarter.mock.MockCurrentConfig
 import com.kickstarter.mock.MockExperimentsClientType
@@ -20,7 +20,6 @@ import com.kickstarter.mock.services.MockApolloClient
 import com.kickstarter.mock.services.MockWebClient
 import com.kickstarter.models.User
 import com.stripe.android.Stripe
-import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import junit.framework.TestCase
 import org.joda.time.DateTimeUtils
@@ -32,10 +31,11 @@ import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
 import java.net.CookieManager
 
-@HiltAndroidTest
 @RunWith(KSRobolectricGradleTestRunner::class)
 @Config(shadows = [ShadowAndroidXMultiDex::class], sdk = [KSRobolectricGradleTestRunner.DEFAULT_SDK], application = HiltTestApplication::class)
 abstract class KSRobolectricTestCase : TestCase() {
+
+    // - Previously obtained via DaggerComponent.component().environment()
     lateinit var environment: Environment
 
     private val application: Application = ApplicationProvider.getApplicationContext()
@@ -52,10 +52,6 @@ abstract class KSRobolectricTestCase : TestCase() {
         val mockCurrentConfig = MockCurrentConfig()
         val experimentsClientType = experimentsClient()
         val segmentTestClient = segmentTrackingClient(mockCurrentConfig, experimentsClientType)
-
-        /*val component = DaggerApplicationComponent.builder()
-            .applicationModule(TestApplicationModule(application()))
-            .build()*/
 
         val config = ConfigFactory.config().toBuilder()
             .build()

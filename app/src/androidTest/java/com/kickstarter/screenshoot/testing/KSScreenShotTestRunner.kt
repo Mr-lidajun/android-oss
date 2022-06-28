@@ -3,6 +3,7 @@ package com.kickstarter.screenshoot.testing
 import android.app.Application
 import android.content.Context
 import com.karumi.shot.ShotTestRunner
+import dagger.hilt.android.testing.HiltTestApplication
 
 class KSScreenShotTestRunner : ShotTestRunner() {
     override fun newApplication(
@@ -10,6 +11,6 @@ class KSScreenShotTestRunner : ShotTestRunner() {
         className: String?,
         context: Context?
     ): Application {
-        return super.newApplication(cl, InstrumentedApp::class.java.name, context)
+        return super.newApplication(cl, HiltTestApplication::class.java.name, context)
     }
 }
