@@ -10,11 +10,17 @@ import com.kickstarter.libs.utils.DateTimeUtils
 import com.kickstarter.mock.factories.UserFactory
 import com.kickstarter.ui.views.CommentCard
 import com.kickstarter.ui.views.CommentCardStatus
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.joda.time.DateTime
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
+@HiltAndroidTest
 class CommentCardShotTest : ScreenshotTest {
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     lateinit var commentCard: CommentCard
 

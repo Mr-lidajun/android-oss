@@ -10,9 +10,15 @@ import com.kickstarter.mock.factories.RewardsItemFactory
 import com.kickstarter.ui.adapters.RewardItemsAdapter
 import com.kickstarter.ui.views.AddOnCard
 import com.kickstarter.ui.views.Stepper
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.Rule
 import org.junit.Test
 
+@HiltAndroidTest
 class AddonCardShotTest : ScreenshotTest {
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     private lateinit var addonCard: AddOnCard
     private lateinit var stepper: Stepper

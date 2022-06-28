@@ -7,10 +7,16 @@ import com.karumi.shot.ScreenshotTest
 import com.kickstarter.R
 import com.kickstarter.ui.views.CommentComposerStatus
 import com.kickstarter.ui.views.CommentComposerView
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
+@HiltAndroidTest
 class CommentComposerShotTest : ScreenshotTest {
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     lateinit var commentComposerView: CommentComposerView
 

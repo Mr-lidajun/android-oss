@@ -10,17 +10,24 @@ import com.kickstarter.R
 import com.kickstarter.libs.htmlparser.HTMLParser
 import com.kickstarter.libs.htmlparser.TextViewElement
 import com.kickstarter.libs.htmlparser.getStyledComponents
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
+@HiltAndroidTest
 class TextViewElementShotTest : ScreenshotTest {
 
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
     lateinit var app: Context
     private var headerSize: Int = 0
     private var body: Int = 0
 
     @Before
     fun setup() {
+
         // - Test Application
         app = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext
 
@@ -128,7 +135,7 @@ class TextViewElementShotTest : ScreenshotTest {
             "   <li><a href=\\\"http://record.pt\\\" target=\\\"_blank\\\" rel=\\\"noopener\\\">link</a></li>\n" +
             "   <li>text with <a href=\\\"http://record.pt\\\" target=\\\"_blank\\\" rel=\\\"noopener\\\">link</a></li>\n" +
             "   <li>Hola <strong><em>que tal </em></strong> majete</li>\n" +
-            "   <li><a href=$url target=\\\"_blank\\\" rel=\\\"noopener\\\"><em><strong>Meneane </strong></em></a><a href=$url target=\\\"_blank\\\" rel=\\\"noopener\\\">Another URL in this list</a> and some text</li>"
+            "   <li><a href=$url target=\\\"_blank\\\" rel=\\\"noopener\\\"><em><strong>Meneane </strong></em></a><a href=$url target=\\\"_blank\\\" rel=\\\"noopener\\\">Another URL in this list</a> and some text</li>"+
         "</ul>"
 
         val listOfElements = HTMLParser().parse(html)

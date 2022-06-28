@@ -5,9 +5,15 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.karumi.shot.ScreenshotTest
 import com.kickstarter.R
 import com.kickstarter.ui.views.Stepper
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.Rule
 import org.junit.Test
 
+@HiltAndroidTest
 class StepperShotTest : ScreenshotTest {
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     @Test
     fun stepperInitializationByDefaultTest() {
