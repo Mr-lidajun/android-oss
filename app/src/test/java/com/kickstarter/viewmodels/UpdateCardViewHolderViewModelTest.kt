@@ -2,7 +2,7 @@ package com.kickstarter.viewmodels
 
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.libs.Environment
-import com.kickstarter.libs.MockCurrentUser
+import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.mock.factories.ProjectFactory
 import com.kickstarter.mock.factories.UpdateFactory
 import com.kickstarter.mock.factories.UserFactory
@@ -100,7 +100,11 @@ class UpdateCardViewHolderViewModelTest : KSRobolectricTestCase() {
 
         val environment = environment()
             .toBuilder()
-            .currentUser(MockCurrentUser(UserFactory.user()))
+            .currentUser(
+                MockCurrentUser(
+                    UserFactory.user()
+                )
+            )
             .build()
 
         setUpEnvironment(environment)

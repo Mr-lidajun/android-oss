@@ -23,7 +23,7 @@ import rx.schedulers.Schedulers
 import timber.log.Timber
 
 open class SegmentTrackingClient(
-    build: Build,
+    build: BuildDI,
     private val context: Context,
     currentConfig: CurrentConfigType,
     currentUser: CurrentUserType,
@@ -82,11 +82,11 @@ open class SegmentTrackingClient(
             var logLevel = Analytics.LogLevel.NONE
             var segmentClient: Analytics
 
-            if (build.isRelease && Build.isExternal()) {
+            if (build.isRelease && build.isExternal()) {
                 apiKey = Secrets.Segment.PRODUCTION
             }
 
-            if (build.isDebug || Build.isInternal()) {
+            if (build.isDebug || build.isInternal()) {
                 apiKey = Secrets.Segment.STAGING
                 logLevel = Analytics.LogLevel.VERBOSE
 

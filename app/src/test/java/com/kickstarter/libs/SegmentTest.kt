@@ -53,6 +53,9 @@ import com.kickstarter.mock.factories.ProjectDataFactory
 import com.kickstarter.mock.factories.ProjectFactory
 import com.kickstarter.mock.factories.RewardFactory
 import com.kickstarter.mock.factories.UserFactory
+import com.kickstarter.mock.services.MockCurrentUser
+import com.kickstarter.mock.services.MockSharedPreferences
+import com.kickstarter.mock.services.MockTrackingClient
 import com.kickstarter.models.Project
 import com.kickstarter.models.Reward
 import com.kickstarter.models.Urls
@@ -73,7 +76,8 @@ class SegmentTest : KSRobolectricTestCase() {
 
     lateinit var build: Build
     lateinit var context: Context
-    private val mockShared: SharedPreferences = MockSharedPreferences()
+    private val mockShared: SharedPreferences =
+        MockSharedPreferences()
 
     override fun setUp() {
         super.setUp()
@@ -109,7 +113,8 @@ class SegmentTest : KSRobolectricTestCase() {
             }
         }
 
-        val mockClient = MockSegmentTrackingClient(build, context, mockCurrentConfig(), MockCurrentUser(user), mockOptimizely, mockShared)
+        val mockClient = MockSegmentTrackingClient(build, context, mockCurrentConfig(),
+            MockCurrentUser(user), mockOptimizely, mockShared)
         mockClient.initialize()
         assertNotNull(mockClient)
         assertTrue(mockClient.isEnabled())
@@ -1512,21 +1517,22 @@ class SegmentTest : KSRobolectricTestCase() {
         assertEquals(123, properties["discover_tag"])
     }
 
-    private fun client(user: User?) = MockTrackingClient(
-        user?.let { MockCurrentUser(it) }
-            ?: MockCurrentUser(),
-        mockCurrentConfig(),
-        TrackingClientType.Type.SEGMENT,
-        object : MockExperimentsClientType() {
-            override fun enabledFeatures(user: User?): List<String> {
-                return listOf("optimizely_feature")
-            }
+    private fun client(user: User?) =
+        MockTrackingClient(
+            user?.let { MockCurrentUser(it) }
+                ?: MockCurrentUser(),
+            mockCurrentConfig(),
+            TrackingClientType.Type.SEGMENT,
+            object : MockExperimentsClientType() {
+                override fun enabledFeatures(user: User?): List<String> {
+                    return listOf("optimizely_feature")
+                }
 
-            override fun getTrackingProperties(): Map<String, Array<String>> {
-                return getOptimizelySession()
+                override fun getTrackingProperties(): Map<String, Array<String>> {
+                    return getOptimizelySession()
+                }
             }
-        }
-    )
+        )
 
     private fun getOptimizelySession(): Map<String, Array<String>> {
         val array = arrayOf("suggested_no_reward_amount[variation_3]")

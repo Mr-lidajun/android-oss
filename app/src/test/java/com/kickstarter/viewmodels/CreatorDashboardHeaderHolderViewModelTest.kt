@@ -5,7 +5,7 @@ import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.R
 import com.kickstarter.libs.CurrentUserType
 import com.kickstarter.libs.Environment
-import com.kickstarter.libs.MockCurrentUser
+import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.libs.RefTag
 import com.kickstarter.libs.RefTag.Companion.dashboard
 import com.kickstarter.libs.models.OptimizelyFeature
@@ -58,7 +58,8 @@ class CreatorDashboardHeaderHolderViewModelTest : KSRobolectricTestCase() {
     @Test
     fun testMessagesButtonIsGone_whenCurrentUserIsCollaborator() {
         val creator = creator()
-        val currentUser: CurrentUserType = MockCurrentUser(collaborator())
+        val currentUser: CurrentUserType =
+            MockCurrentUser(collaborator())
         val project = project().toBuilder().creator(creator).build()
         val projectStatsEnvelope = projectStatsEnvelope()
         setUpEnvironment(environment().toBuilder().currentUser(currentUser).build())
@@ -71,7 +72,8 @@ class CreatorDashboardHeaderHolderViewModelTest : KSRobolectricTestCase() {
     @Test
     fun testMessagesButtonIsGone_whenCurrentUserIsProjectCreator() {
         val creator = creator()
-        val currentUser: CurrentUserType = MockCurrentUser(creator)
+        val currentUser: CurrentUserType =
+            MockCurrentUser(creator)
         val project = project().toBuilder().creator(creator).build()
         setUpEnvironment(environment().toBuilder().currentUser(currentUser).build())
         vm.inputs.configureWith(ProjectDashboardData(project, projectStatsEnvelope(), false))
@@ -86,7 +88,10 @@ class CreatorDashboardHeaderHolderViewModelTest : KSRobolectricTestCase() {
             .toBuilder()
             .memberProjectsCount(1)
             .build()
-        val collaborator: CurrentUserType = MockCurrentUser(collaboratorWith1Project)
+        val collaborator: CurrentUserType =
+            MockCurrentUser(
+                collaboratorWith1Project
+            )
         setUpEnvironment(environment().toBuilder().currentUser(collaborator).build())
         vm.inputs.configureWith(ProjectDashboardData(project(), projectStatsEnvelope(), false))
         otherProjectsButtonIsGone.assertValue(true)
@@ -94,7 +99,8 @@ class CreatorDashboardHeaderHolderViewModelTest : KSRobolectricTestCase() {
 
     @Test
     fun testOtherProjectsButtonIsGone_whenCurrentUserIsMemberOfManyProjects_viewingAllProjects() {
-        val collaborator: CurrentUserType = MockCurrentUser(collaborator())
+        val collaborator: CurrentUserType =
+            MockCurrentUser(collaborator())
         setUpEnvironment(environment().toBuilder().currentUser(collaborator).build())
         vm.inputs.configureWith(ProjectDashboardData(project(), projectStatsEnvelope(), false))
         otherProjectsButtonIsGone.assertValue(false)
@@ -102,7 +108,8 @@ class CreatorDashboardHeaderHolderViewModelTest : KSRobolectricTestCase() {
 
     @Test
     fun testOtherProjectsButtonIsGone_whenCurrentUserIsMemberOfManyProjects_viewingSingleProject() {
-        val collaborator: CurrentUserType = MockCurrentUser(collaborator())
+        val collaborator: CurrentUserType =
+            MockCurrentUser(collaborator())
         setUpEnvironment(environment().toBuilder().currentUser(collaborator).build())
         vm.inputs.configureWith(ProjectDashboardData(project(), projectStatsEnvelope(), true))
         otherProjectsButtonIsGone.assertValue(true)
@@ -190,7 +197,8 @@ class CreatorDashboardHeaderHolderViewModelTest : KSRobolectricTestCase() {
     @Test
     fun testStartMessagesActivity() {
         val creator = creator()
-        val currentUser: CurrentUserType = MockCurrentUser(creator)
+        val currentUser: CurrentUserType =
+            MockCurrentUser(creator)
         val project = project().toBuilder().creator(creator).build()
         setUpEnvironment(environment().toBuilder().currentUser(currentUser).build())
         vm.inputs.configureWith(ProjectDashboardData(project, projectStatsEnvelope(), false))
@@ -214,7 +222,8 @@ class CreatorDashboardHeaderHolderViewModelTest : KSRobolectricTestCase() {
     fun testStartProjectActivity_whenFeatureFlagOn_shouldEmitProjectPage() {
         val project = project()
         val projectStatsEnvelope = projectStatsEnvelope()
-        val currentUser: CurrentUserType = MockCurrentUser()
+        val currentUser: CurrentUserType =
+            MockCurrentUser()
         val mockExperimentsClientType: MockExperimentsClientType =
             object : MockExperimentsClientType() {
                 override fun isFeatureEnabled(feature: OptimizelyFeature.Key): Boolean {

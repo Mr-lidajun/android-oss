@@ -3,7 +3,7 @@ package com.kickstarter.viewmodels
 import android.content.Intent
 import android.util.Pair
 import com.kickstarter.KSRobolectricTestCase
-import com.kickstarter.libs.MockCurrentUser
+import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.libs.utils.EventName
 import com.kickstarter.mock.factories.ApiExceptionFactory
 import com.kickstarter.mock.factories.AvatarFactory
@@ -46,7 +46,11 @@ class CommentsViewModelTest : KSRobolectricTestCase() {
     @Test
     fun testCommentsViewModel_whenUserLoggedInAndBacking_shouldShowEnabledComposer() {
         val vm = CommentsViewModel.ViewModel(
-            environment().toBuilder().currentUser(MockCurrentUser(UserFactory.user())).build()
+            environment().toBuilder().currentUser(
+                MockCurrentUser(
+                    UserFactory.user()
+                )
+            ).build()
         )
         vm.outputs.commentComposerStatus().subscribe(commentComposerStatus)
         vm.outputs.showCommentComposer().subscribe(showCommentComposer)
@@ -77,7 +81,11 @@ class CommentsViewModelTest : KSRobolectricTestCase() {
     @Test
     fun testCommentsViewModel_whenUserIsLoggedInNotBacking_shouldShowDisabledComposer() {
         val vm = CommentsViewModel.ViewModel(
-            environment().toBuilder().currentUser(MockCurrentUser(UserFactory.user())).build()
+            environment().toBuilder().currentUser(
+                MockCurrentUser(
+                    UserFactory.user()
+                )
+            ).build()
         )
         vm.outputs.commentComposerStatus().subscribe(commentComposerStatus)
         vm.outputs.showCommentComposer().subscribe(showCommentComposer)
@@ -98,7 +106,11 @@ class CommentsViewModelTest : KSRobolectricTestCase() {
             .canComment(true)
             .build()
         val vm = CommentsViewModel.ViewModel(
-            environment().toBuilder().currentUser(MockCurrentUser(currentUser)).build()
+            environment().toBuilder().currentUser(
+                MockCurrentUser(
+                    currentUser
+                )
+            ).build()
         )
 
         vm.outputs.commentComposerStatus().subscribe(commentComposerStatus)
@@ -120,7 +132,11 @@ class CommentsViewModelTest : KSRobolectricTestCase() {
             .canComment(false)
             .build()
         val vm = CommentsViewModel.ViewModel(
-            environment().toBuilder().currentUser(MockCurrentUser(currentUser)).build()
+            environment().toBuilder().currentUser(
+                MockCurrentUser(
+                    currentUser
+                )
+            ).build()
         )
 
         vm.outputs.commentComposerStatus().subscribe(commentComposerStatus)
@@ -144,7 +160,11 @@ class CommentsViewModelTest : KSRobolectricTestCase() {
             .isBacking(false)
             .build()
         val vm = CommentsViewModel.ViewModel(
-            environment().toBuilder().currentUser(MockCurrentUser(currentUser)).build()
+            environment().toBuilder().currentUser(
+                MockCurrentUser(
+                    currentUser
+                )
+            ).build()
         )
 
         vm.outputs.commentComposerStatus().subscribe(commentComposerStatus)
@@ -169,7 +189,11 @@ class CommentsViewModelTest : KSRobolectricTestCase() {
             .build()
 
         val vm = CommentsViewModel.ViewModel(
-            environment().toBuilder().currentUser(MockCurrentUser(currentUser)).build()
+            environment().toBuilder().currentUser(
+                MockCurrentUser(
+                    currentUser
+                )
+            ).build()
         )
         val currentUserAvatar = TestSubscriber<String?>()
         vm.outputs.currentUserAvatar().subscribe(currentUserAvatar)
@@ -383,7 +407,11 @@ class CommentsViewModelTest : KSRobolectricTestCase() {
         val createdAt = DateTime.now()
 
         val vm = CommentsViewModel.ViewModel(
-            environment().toBuilder().currentUser(MockCurrentUser(currentUser)).build()
+            environment().toBuilder().currentUser(
+                MockCurrentUser(
+                    currentUser
+                )
+            ).build()
         )
 
         val commentCardData = CommentFactory.liveCommentCardData(createdAt = createdAt, currentUser = currentUser)
@@ -408,7 +436,11 @@ class CommentsViewModelTest : KSRobolectricTestCase() {
             .build()
 
         val vm = CommentsViewModel.ViewModel(
-            environment().toBuilder().currentUser(MockCurrentUser(currentUser)).build()
+            environment().toBuilder().currentUser(
+                MockCurrentUser(
+                    currentUser
+                )
+            ).build()
         )
 
         // Start the view model with an update.
@@ -449,7 +481,11 @@ class CommentsViewModelTest : KSRobolectricTestCase() {
                 return Observable.just(commentEnvelope)
             }
         })
-            .currentUser(MockCurrentUser(currentUser))
+            .currentUser(
+                MockCurrentUser(
+                    currentUser
+                )
+            )
             .scheduler(testScheduler)
             .build()
 
@@ -484,7 +520,11 @@ class CommentsViewModelTest : KSRobolectricTestCase() {
                 return Observable.just(commentEnvelope)
             }
         })
-            .currentUser(MockCurrentUser(currentUser))
+            .currentUser(
+                MockCurrentUser(
+                    currentUser
+                )
+            )
             .scheduler(testScheduler)
             .build()
 
@@ -578,7 +618,11 @@ class CommentsViewModelTest : KSRobolectricTestCase() {
                 return Observable.just(commentEnvelope)
             }
         })
-            .currentUser(MockCurrentUser(currentUser))
+            .currentUser(
+                MockCurrentUser(
+                    currentUser
+                )
+            )
             .scheduler(testScheduler)
             .build()
 
@@ -674,7 +718,11 @@ class CommentsViewModelTest : KSRobolectricTestCase() {
                 return Observable.just(commentEnvelope)
             }
         })
-            .currentUser(MockCurrentUser(currentUser))
+            .currentUser(
+                MockCurrentUser(
+                    currentUser
+                )
+            )
             .scheduler(testScheduler)
             .build()
 
@@ -765,7 +813,11 @@ class CommentsViewModelTest : KSRobolectricTestCase() {
                 return Observable.just(commentEnvelope)
             }
         })
-            .currentUser(MockCurrentUser(currentUser))
+            .currentUser(
+                MockCurrentUser(
+                    currentUser
+                )
+            )
             .scheduler(testScheduler)
             .build()
 

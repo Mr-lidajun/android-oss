@@ -3,8 +3,8 @@ package com.kickstarter.viewmodels
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.libs.AnalyticEvents
 import com.kickstarter.libs.Environment
-import com.kickstarter.libs.MockCurrentUser
-import com.kickstarter.libs.MockTrackingClient
+import com.kickstarter.mock.services.MockCurrentUser
+import com.kickstarter.mock.services.MockTrackingClient
 import com.kickstarter.libs.TrackingClientType
 import com.kickstarter.mock.MockCurrentConfig
 import com.kickstarter.mock.MockExperimentsClientType

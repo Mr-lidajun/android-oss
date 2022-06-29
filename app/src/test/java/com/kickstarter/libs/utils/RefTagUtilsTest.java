@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import com.kickstarter.KSRobolectricTestCase;
 import com.kickstarter.libs.utils.extensions.ProjectExt;
 import com.kickstarter.mock.factories.ProjectFactory;
-import com.kickstarter.libs.MockSharedPreferences;
+import com.kickstarter.mock.services.MockSharedPreferences;
 import com.kickstarter.libs.RefTag;
 import com.kickstarter.models.Project;
 import com.kickstarter.models.Urls;

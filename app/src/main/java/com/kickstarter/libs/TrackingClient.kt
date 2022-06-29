@@ -23,7 +23,7 @@ import javax.inject.Inject
 abstract class TrackingClient(
     @ApplicationContext private val context: Context,
     @set:Inject var currentUser: CurrentUserType,
-    @set:Inject var build: Build,
+    @set:Inject var build: BuildDI,
     @set:Inject var currentConfig: CurrentConfigType,
     @set:Inject var optimizely: ExperimentsClientType
 ) : TrackingClientType() {

@@ -2,7 +2,7 @@ package com.kickstarter.viewmodels
 
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.libs.Environment
-import com.kickstarter.libs.MockCurrentUser
+import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.mock.factories.ProjectDataFactory
 import com.kickstarter.mock.factories.ProjectFactory
 import com.kickstarter.mock.factories.UserFactory
@@ -75,7 +75,11 @@ class FrequentlyAskedQuestionViewModelTest : KSRobolectricTestCase() {
 
     @Test
     fun testGoToComposeMessageActivity_WhenLoggedInUserIsNotBacker() {
-        setUpEnvironment(environment().toBuilder().currentUser(MockCurrentUser(UserFactory.user())).build())
+        setUpEnvironment(environment().toBuilder().currentUser(
+            MockCurrentUser(
+                UserFactory.user()
+            )
+        ).build())
 
         this.vm.configureWith(ProjectDataFactory.project(ProjectFactory.project()))
 
@@ -88,7 +92,11 @@ class FrequentlyAskedQuestionViewModelTest : KSRobolectricTestCase() {
     @Test
     fun testGoToMessagesActivity_WhenLoggedInUserIsABacker() {
         val project = ProjectFactory.project().toBuilder().isBacking(true).build()
-        setUpEnvironment(environment().toBuilder().currentUser(MockCurrentUser(UserFactory.user())).build())
+        setUpEnvironment(environment().toBuilder().currentUser(
+            MockCurrentUser(
+                UserFactory.user()
+            )
+        ).build())
 
         this.vm.configureWith(ProjectDataFactory.project(project))
 

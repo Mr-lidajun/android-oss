@@ -4,7 +4,7 @@ import android.content.Intent
 import android.util.Pair
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.libs.Environment
-import com.kickstarter.libs.MockCurrentUser
+import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.libs.utils.EventName
 import com.kickstarter.mock.factories.AvatarFactory
 import com.kickstarter.mock.factories.CommentCardDataFactory
@@ -95,7 +95,11 @@ class ThreadViewModelTest : KSRobolectricTestCase() {
             .build()
 
         val vm = ThreadViewModel.ViewModel(
-            environment().toBuilder().currentUser(MockCurrentUser(currentUser)).build()
+            environment().toBuilder().currentUser(
+                MockCurrentUser(
+                    currentUser
+                )
+            ).build()
         )
         val currentUserAvatar = TestSubscriber<String?>()
         vm.outputs.currentUserAvatar().subscribe(currentUserAvatar)
@@ -109,7 +113,11 @@ class ThreadViewModelTest : KSRobolectricTestCase() {
     @Test
     fun testThreadViewModel_whenUserLoggedInAndBacking_shouldShowEnabledComposer() {
         val vm = ThreadViewModel.ViewModel(
-            environment().toBuilder().currentUser(MockCurrentUser(UserFactory.user())).build()
+            environment().toBuilder().currentUser(
+                MockCurrentUser(
+                    UserFactory.user()
+                )
+            ).build()
         )
         vm.outputs.replyComposerStatus().subscribe(replyComposerStatus)
         vm.outputs.showReplyComposer().subscribe(showReplyComposer)
@@ -140,7 +148,11 @@ class ThreadViewModelTest : KSRobolectricTestCase() {
     @Test
     fun testThreadViewModel_whenUserIsLoggedInNotBacking_shouldShowDisabledComposer() {
         val vm = ThreadViewModel.ViewModel(
-            environment().toBuilder().currentUser(MockCurrentUser(UserFactory.user())).build()
+            environment().toBuilder().currentUser(
+                MockCurrentUser(
+                    UserFactory.user()
+                )
+            ).build()
         )
         vm.outputs.replyComposerStatus().subscribe(replyComposerStatus)
         vm.outputs.showReplyComposer().subscribe(showReplyComposer)
@@ -162,7 +174,11 @@ class ThreadViewModelTest : KSRobolectricTestCase() {
             .isBacking(false)
             .build()
         val vm = ThreadViewModel.ViewModel(
-            environment().toBuilder().currentUser(MockCurrentUser(currentUser)).build()
+            environment().toBuilder().currentUser(
+                MockCurrentUser(
+                    currentUser
+                )
+            ).build()
         )
 
         vm.outputs.replyComposerStatus().subscribe(replyComposerStatus)
@@ -186,7 +202,11 @@ class ThreadViewModelTest : KSRobolectricTestCase() {
             .isBacking(false)
             .build()
         val vm = ThreadViewModel.ViewModel(
-            environment().toBuilder().currentUser(MockCurrentUser(currentUser)).build()
+            environment().toBuilder().currentUser(
+                MockCurrentUser(
+                    currentUser
+                )
+            ).build()
         )
 
         vm.outputs.replyComposerStatus().subscribe(replyComposerStatus)
@@ -324,7 +344,11 @@ class ThreadViewModelTest : KSRobolectricTestCase() {
                     return Observable.just(commentEnvelope)
                 }
             })
-            .currentUser(MockCurrentUser(currentUser))
+            .currentUser(
+                MockCurrentUser(
+                    currentUser
+                )
+            )
             .scheduler(testScheduler)
             .build()
 
@@ -425,7 +449,11 @@ class ThreadViewModelTest : KSRobolectricTestCase() {
                     return Observable.just(commentEnvelope)
                 }
             })
-            .currentUser(MockCurrentUser(currentUser))
+            .currentUser(
+                MockCurrentUser(
+                    currentUser
+                )
+            )
             .scheduler(testScheduler)
             .build()
 
@@ -558,7 +586,11 @@ class ThreadViewModelTest : KSRobolectricTestCase() {
                     return Observable.just(commentEnvelope)
                 }
             })
-            .currentUser(MockCurrentUser(currentUser))
+            .currentUser(
+                MockCurrentUser(
+                    currentUser
+                )
+            )
             .scheduler(testScheduler)
             .build()
 
@@ -677,7 +709,11 @@ class ThreadViewModelTest : KSRobolectricTestCase() {
                     return Observable.just(commentEnvelope)
                 }
             })
-            .currentUser(MockCurrentUser(currentUser))
+            .currentUser(
+                MockCurrentUser(
+                    currentUser
+                )
+            )
             .scheduler(testScheduler)
             .build()
 

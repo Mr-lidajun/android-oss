@@ -1,5 +1,10 @@
-package com.kickstarter.libs;
+package com.kickstarter.mock.services;
 
+import com.kickstarter.libs.Config;
+import com.kickstarter.libs.CurrentConfigType;
+import com.kickstarter.libs.CurrentUserType;
+import com.kickstarter.libs.ExperimentsClientType;
+import com.kickstarter.libs.TrackingClientType;
 import com.kickstarter.libs.utils.extensions.ConfigExtension;
 import com.kickstarter.mock.factories.ConfigFactory;
 import com.kickstarter.models.Location;

@@ -5,6 +5,7 @@ import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.libs.braze.InAppCustomListener
 import com.kickstarter.libs.braze.InAppCustomListenerHandler
 import com.kickstarter.mock.factories.UserFactory
+import com.kickstarter.mock.services.MockCurrentUser
 import org.junit.Test
 
 class InAppCustomListenerHandlerTest : KSRobolectricTestCase() {
@@ -28,7 +29,8 @@ class InAppCustomListenerHandlerTest : KSRobolectricTestCase() {
 
     @Test
     fun testMessageShouldShow_False() {
-        val mockUser = MockCurrentUser() // - no user logged in
+        val mockUser =
+            MockCurrentUser() // - no user logged in
         val handler = InAppCustomListenerHandler(mockUser)
 
         Thread.sleep(100) // wait a bit until InAppCustomListenerHandler.init block executed
@@ -47,7 +49,8 @@ class InAppCustomListenerHandlerTest : KSRobolectricTestCase() {
 
     @Test
     fun testInAppCustomListener_Discard() {
-        val mockUser = MockCurrentUser() // - no user logged in
+        val mockUser =
+            MockCurrentUser() // - no user logged in
         val listener = InAppCustomListener(mockUser, build)
 
         Thread.sleep(100) // wait a bit until InAppCustomListener.init block executed

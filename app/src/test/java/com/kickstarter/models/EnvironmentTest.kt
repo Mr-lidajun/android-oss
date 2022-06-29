@@ -1,7 +1,7 @@
 package com.kickstarter.models
 
 import com.kickstarter.KSRobolectricTestCase
-import com.kickstarter.libs.MockCurrentUser
+import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.mock.factories.UserFactory
 import org.junit.Test
 
@@ -39,7 +39,8 @@ class EnvironmentTest : KSRobolectricTestCase() {
 
     @Test
     fun testToBuilderInit() {
-        val collaborator = MockCurrentUser(UserFactory.collaborator())
+        val collaborator =
+            MockCurrentUser(UserFactory.collaborator())
         val environment = environment().toBuilder().currentUser(collaborator).build()
         assertEquals(environment.currentUser(), collaborator)
     }

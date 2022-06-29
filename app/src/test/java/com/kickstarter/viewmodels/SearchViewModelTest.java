@@ -2,7 +2,7 @@ package com.kickstarter.viewmodels;
 
 import com.kickstarter.KSRobolectricTestCase;
 import com.kickstarter.libs.Environment;
-import com.kickstarter.libs.MockCurrentUser;
+import com.kickstarter.mock.services.MockCurrentUser;
 import com.kickstarter.libs.RefTag;
 import com.kickstarter.libs.models.OptimizelyFeature;
 import com.kickstarter.mock.MockExperimentsClientType;

@@ -6,6 +6,7 @@ import android.app.Application
 import android.content.Context
 import com.kickstarter.KSApplication
 import com.kickstarter.di.IKSApplicationEntryPoint
+import com.kickstarter.libs.Logout
 import dagger.hilt.android.EntryPointAccessors
 
 fun Context.isKSApplication() = (this is KSApplication) && !this.isInUnitTests
@@ -13,7 +14,7 @@ fun Context.isKSApplication() = (this is KSApplication) && !this.isInUnitTests
 fun Context.environment() = EntryPointAccessors.fromApplication(
     this,
     IKSApplicationEntryPoint::class.java
-).environment()
+).environment().environment()
 
 fun Context.currentUser() = EntryPointAccessors.fromApplication(
     this,

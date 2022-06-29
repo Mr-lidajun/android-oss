@@ -6,7 +6,7 @@ import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.R
 import com.kickstarter.libs.Either
 import com.kickstarter.libs.Environment
-import com.kickstarter.libs.MockCurrentUser
+import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.libs.utils.DateTimeUtils
 import com.kickstarter.libs.utils.EventName
 import com.kickstarter.mock.factories.BackingFactory
@@ -572,7 +572,11 @@ class BackingFragmentViewModelTest : KSRobolectricTestCase() {
 
         val environment = environment()
             .toBuilder()
-            .currentUser(MockCurrentUser(UserFactory.user()))
+            .currentUser(
+                MockCurrentUser(
+                    UserFactory.user()
+                )
+            )
             .apolloClient(mockApolloClientForBacking(backing))
             .build()
         setUpEnvironment(environment)
@@ -600,7 +604,11 @@ class BackingFragmentViewModelTest : KSRobolectricTestCase() {
         val environment = environment()
             .toBuilder()
             .apolloClient(mockApolloClientForBacking(backing))
-            .currentUser(MockCurrentUser(UserFactory.user()))
+            .currentUser(
+                MockCurrentUser(
+                    UserFactory.user()
+                )
+            )
             .build()
         setUpEnvironment(environment)
         this.vm.inputs.configureWith(ProjectDataFactory.project(backedProject))
@@ -626,7 +634,11 @@ class BackingFragmentViewModelTest : KSRobolectricTestCase() {
         val environment = environment()
             .toBuilder()
             .apolloClient(mockApolloClientForBacking(backing))
-            .currentUser(MockCurrentUser(UserFactory.user()))
+            .currentUser(
+                MockCurrentUser(
+                    UserFactory.user()
+                )
+            )
             .build()
         setUpEnvironment(environment)
         this.vm.inputs.configureWith(ProjectDataFactory.project(backedProject))
@@ -653,7 +665,11 @@ class BackingFragmentViewModelTest : KSRobolectricTestCase() {
         val environment = environment()
             .toBuilder()
             .apolloClient(mockApolloClientForBacking(backing))
-            .currentUser(MockCurrentUser(UserFactory.user()))
+            .currentUser(
+                MockCurrentUser(
+                    UserFactory.user()
+                )
+            )
             .build()
         setUpEnvironment(environment)
         this.vm.inputs.configureWith(ProjectDataFactory.project(backedProject))
@@ -680,7 +696,11 @@ class BackingFragmentViewModelTest : KSRobolectricTestCase() {
         val environment = environment()
             .toBuilder()
             .apolloClient(mockApolloClientForBacking(backing))
-            .currentUser(MockCurrentUser(UserFactory.user()))
+            .currentUser(
+                MockCurrentUser(
+                    UserFactory.user()
+                )
+            )
             .build()
         setUpEnvironment(environment)
         this.vm.inputs.configureWith(ProjectDataFactory.project(backedProject))
@@ -707,7 +727,11 @@ class BackingFragmentViewModelTest : KSRobolectricTestCase() {
         val environment = environment()
             .toBuilder()
             .apolloClient(mockApolloClientForBacking(backing))
-            .currentUser(MockCurrentUser(UserFactory.user()))
+            .currentUser(
+                MockCurrentUser(
+                    UserFactory.user()
+                )
+            )
             .build()
         setUpEnvironment(environment)
         this.vm.inputs.configureWith(ProjectDataFactory.project(backedProject))
@@ -733,7 +757,11 @@ class BackingFragmentViewModelTest : KSRobolectricTestCase() {
         val environment = environment()
             .toBuilder()
             .apolloClient(mockApolloClientForBacking(backing))
-            .currentUser(MockCurrentUser(UserFactory.user()))
+            .currentUser(
+                MockCurrentUser(
+                    UserFactory.user()
+                )
+            )
             .build()
         setUpEnvironment(environment)
         this.vm.inputs.configureWith(ProjectDataFactory.project(backedProject))
@@ -759,7 +787,11 @@ class BackingFragmentViewModelTest : KSRobolectricTestCase() {
         val environment = environment()
             .toBuilder()
             .apolloClient(mockApolloClientForBacking(backing))
-            .currentUser(MockCurrentUser(UserFactory.user()))
+            .currentUser(
+                MockCurrentUser(
+                    UserFactory.user()
+                )
+            )
             .build()
         setUpEnvironment(environment)
         this.vm.inputs.configureWith(ProjectDataFactory.project(backedProject))
@@ -953,7 +985,8 @@ class BackingFragmentViewModelTest : KSRobolectricTestCase() {
             .status(Backing.STATUS_PLEDGED)
             .build()
 
-        val currentUser = MockCurrentUser(UserFactory.creator())
+        val currentUser =
+            MockCurrentUser(UserFactory.creator())
 
         val environment = environment()
             .toBuilder()

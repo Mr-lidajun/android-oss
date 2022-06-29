@@ -1,5 +1,6 @@
-package com.kickstarter.libs;
+package com.kickstarter.mock.services;
 
+import com.kickstarter.libs.CurrentUserType;
 import com.kickstarter.models.User;
 
 import androidx.annotation.NonNull;

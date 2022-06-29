@@ -1,4 +1,4 @@
-package com.kickstarter.libs;
+package com.kickstarter.mock.services;
 
 import android.content.SharedPreferences;
 

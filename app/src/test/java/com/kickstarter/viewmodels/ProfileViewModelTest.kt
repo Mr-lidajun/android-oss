@@ -2,7 +2,7 @@ package com.kickstarter.viewmodels
 
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.libs.Environment
-import com.kickstarter.libs.MockCurrentUser
+import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.libs.utils.EventName
 import com.kickstarter.libs.utils.NumberUtils
 import com.kickstarter.mock.factories.DiscoverEnvelopeFactory

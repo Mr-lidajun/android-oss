@@ -6,6 +6,7 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.kickstarter.libs.Build
+import com.kickstarter.libs.BuildDI
 import com.kickstarter.libs.FirebaseHelper
 import com.kickstarter.libs.utils.extensions.apiClient
 import com.kickstarter.libs.utils.extensions.build
@@ -16,7 +17,7 @@ import java.io.IOException
 
 class ResetDeviceIdWorker(@ApplicationContext applicationContext: Context, params: WorkerParameters) : Worker(applicationContext, params) {
     lateinit var apiClient: ApiClientType
-    lateinit var build: Build
+    lateinit var build: BuildDI
 
     override fun doWork(): Result {
         // TODO for now access directly to the SingletonComponent entry, but on next iterations will bring @HiltWorker to the picture

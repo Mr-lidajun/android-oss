@@ -12,6 +12,7 @@ import android.webkit.WebView.setWebContentsDebuggingEnabled
 import android.widget.FrameLayout
 import com.kickstarter.databinding.WebViewBinding
 import com.kickstarter.libs.Build
+import com.kickstarter.libs.BuildDI
 import com.kickstarter.libs.WebViewJavascriptInterface
 import com.kickstarter.libs.perimeterx.PerimeterXClientType
 import com.kickstarter.services.KSWebViewClient
@@ -33,7 +34,7 @@ class KSWebView @JvmOverloads constructor(
     lateinit var client: KSWebViewClient
 
     @Inject
-    lateinit var build: Build
+    lateinit var build: BuildDI
 
     @Inject
     lateinit var perimeterX: PerimeterXClientType
@@ -60,7 +61,7 @@ class KSWebView @JvmOverloads constructor(
             binding.internalWebView.settings.allowFileAccess = false
             this.client.setDelegate(this)
 
-            if (Build.isInternal() || build.isDebug) {
+            if (build.isInternal() || build.isDebug) {
                 setWebContentsDebuggingEnabled(true)
             }
 

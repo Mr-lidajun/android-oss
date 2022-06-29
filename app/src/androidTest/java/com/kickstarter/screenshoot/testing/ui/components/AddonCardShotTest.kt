@@ -6,16 +6,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.test.platform.app.InstrumentationRegistry
 import com.karumi.shot.ScreenshotTest
 import com.kickstarter.R
+import com.kickstarter.di.ApplicationModule
 import com.kickstarter.mock.factories.RewardsItemFactory
 import com.kickstarter.ui.adapters.RewardItemsAdapter
 import com.kickstarter.ui.views.AddOnCard
 import com.kickstarter.ui.views.Stepper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
 import org.junit.Rule
 import org.junit.Test
 
 @HiltAndroidTest
+@UninstallModules(ApplicationModule::class)
 class AddonCardShotTest : ScreenshotTest {
     @get:Rule
     var hiltRule = HiltAndroidRule(this)

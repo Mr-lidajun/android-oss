@@ -2,6 +2,7 @@ package com.kickstarter.libs.perimeterx
 
 import android.content.Context
 import com.kickstarter.libs.Build
+import com.kickstarter.libs.BuildDI
 import com.kickstarter.libs.utils.Secrets
 import com.perimeterx.msdk.CaptchaResultCallback
 import com.perimeterx.msdk.PXManager
@@ -14,7 +15,7 @@ import timber.log.Timber
 import java.util.Date
 
 private const val LOGTAG = "PerimeterXClient"
-open class PerimeterXClient(private val build: Build) : PerimeterXClientType {
+open class PerimeterXClient(private val build: BuildDI) : PerimeterXClientType {
 
     private val headers: PublishSubject<HashMap<String, String>> = PublishSubject.create()
     private val isManagerReady: PublishSubject<Boolean> = PublishSubject.create()

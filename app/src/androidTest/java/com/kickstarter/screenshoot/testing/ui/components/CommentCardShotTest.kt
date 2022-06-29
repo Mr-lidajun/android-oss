@@ -5,6 +5,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import com.karumi.shot.ScreenshotTest
 import com.kickstarter.R
+import com.kickstarter.di.ApplicationModule
 import com.kickstarter.libs.KSString
 import com.kickstarter.libs.utils.DateTimeUtils
 import com.kickstarter.mock.factories.UserFactory
@@ -12,6 +13,7 @@ import com.kickstarter.ui.views.CommentCard
 import com.kickstarter.ui.views.CommentCardStatus
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
 import org.joda.time.DateTime
 import org.junit.Before
 import org.junit.Rule

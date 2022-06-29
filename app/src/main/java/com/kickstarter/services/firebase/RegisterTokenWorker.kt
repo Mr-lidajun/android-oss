@@ -12,6 +12,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonSyntaxException
 import com.kickstarter.libs.Build
+import com.kickstarter.libs.BuildDI
 import com.kickstarter.libs.utils.extensions.apiClient
 import com.kickstarter.libs.utils.extensions.build
 import com.kickstarter.libs.utils.extensions.gSon
@@ -26,7 +27,7 @@ import timber.log.Timber
 class RegisterTokenWorker(@ApplicationContext applicationContext: Context, private val params: WorkerParameters) : Worker(applicationContext, params) {
 
     lateinit var apiClient: ApiClientType
-    lateinit var build: Build
+    lateinit var build: BuildDI
     lateinit var gson: Gson
 
     private val token = this.params.inputData.getString(IntentKey.PUSH_TOKEN) as String

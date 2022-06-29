@@ -5,7 +5,7 @@ import androidx.annotation.NonNull
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.R
 import com.kickstarter.libs.Environment
-import com.kickstarter.libs.MockCurrentUser
+import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.libs.models.OptimizelyFeature
 import com.kickstarter.libs.utils.EventName
 import com.kickstarter.mock.MockExperimentsClientType

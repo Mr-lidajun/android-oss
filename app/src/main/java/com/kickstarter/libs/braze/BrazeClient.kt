@@ -11,6 +11,7 @@ import com.braze.configuration.BrazeConfig
 import com.braze.ui.inappmessage.BrazeInAppMessageManager
 import com.google.firebase.messaging.RemoteMessage
 import com.kickstarter.libs.Build
+import com.kickstarter.libs.BuildDI
 import com.kickstarter.libs.CurrentUserType
 import com.kickstarter.libs.utils.Secrets
 import com.kickstarter.libs.utils.extensions.isKSApplication
@@ -75,7 +76,7 @@ interface RemotePushClientType {
  */
 open class BrazeClient(
     private val context: Context,
-    private val build: Build
+    private val build: BuildDI
 ) : RemotePushClientType {
 
     private var initialized = false
@@ -98,7 +99,7 @@ open class BrazeClient(
                 .build()
             Appboy.configure(context, appBoyConfig)
 
-            if (this.build.isDebug || Build.isInternal()) {
+            if (this.build.isDebug || build.isInternal()) {
                 AppboyLogger.setLogLevel(Log.VERBOSE)
             }
 
@@ -112,10 +113,10 @@ open class BrazeClient(
         var senderId = ""
 
         if (isSDKEnabled()) {
-            if (build.isRelease && Build.isExternal()) {
+            if (build.isRelease && build.isExternal()) {
                 senderId = Secrets.FirebaseSenderID.PRODUCTION
             }
-            if (build.isDebug || Build.isInternal()) {
+            if (build.isDebug || build.isInternal()) {
                 senderId = Secrets.FirebaseSenderID.STAGING
             }
         }
@@ -151,7 +152,7 @@ open class BrazeClient(
      * on the `onIntegrationReady` callback
      */
     companion object {
-        fun setInAppCustomListener(currentUser: CurrentUserType, build: Build) {
+        fun setInAppCustomListener(currentUser: CurrentUserType, build: BuildDI) {
             BrazeInAppMessageManager.getInstance().setCustomInAppMessageManagerListener(InAppCustomListener(currentUser, build))
         }
     }

@@ -3,7 +3,7 @@ package com.kickstarter.viewmodels
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.libs.CurrentUserType
 import com.kickstarter.libs.Environment
-import com.kickstarter.libs.MockCurrentUser
+import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.libs.models.OptimizelyFeature
 import com.kickstarter.libs.utils.EventName
 import com.kickstarter.mock.MockExperimentsClientType
@@ -113,7 +113,8 @@ class ActivityFeedViewModelTest : KSRobolectricTestCase() {
 
     @Test
     fun testClickingInterfaceElements_shouldEmitProjectPage() {
-        val currentUser: CurrentUserType = MockCurrentUser()
+        val currentUser: CurrentUserType =
+            MockCurrentUser()
         val mockExperimentsClientType: MockExperimentsClientType =
             object : MockExperimentsClientType() {
                 override fun isFeatureEnabled(feature: OptimizelyFeature.Key): Boolean {
@@ -167,7 +168,8 @@ class ActivityFeedViewModelTest : KSRobolectricTestCase() {
 
     @Test
     fun testErroredBackings_whenLoggedIn() {
-        val currentUser: CurrentUserType = MockCurrentUser()
+        val currentUser: CurrentUserType =
+            MockCurrentUser()
         val initialUser = user()
         currentUser.login(initialUser, "deadbeef")
         val updatedUser = user()
@@ -197,7 +199,8 @@ class ActivityFeedViewModelTest : KSRobolectricTestCase() {
     @Test
     fun testLoginFlow() {
         val apiClient: ApiClientType = MockApiClient()
-        val currentUser: CurrentUserType = MockCurrentUser()
+        val currentUser: CurrentUserType =
+            MockCurrentUser()
         val environment = environment().toBuilder()
             .apiClient(apiClient)
             .currentUser(currentUser)
@@ -231,7 +234,8 @@ class ActivityFeedViewModelTest : KSRobolectricTestCase() {
             }
         }
 
-        val currentUser: CurrentUserType = MockCurrentUser()
+        val currentUser: CurrentUserType =
+            MockCurrentUser()
         currentUser.logout()
 
         val environment = environment().toBuilder()
@@ -259,7 +263,8 @@ class ActivityFeedViewModelTest : KSRobolectricTestCase() {
 
     @Test
     fun testStartFixPledge_shouldEmitToFixPledgeProjectPage() {
-        val currentUser: CurrentUserType = MockCurrentUser()
+        val currentUser: CurrentUserType =
+            MockCurrentUser()
         val mockExperimentsClientType: MockExperimentsClientType =
             object : MockExperimentsClientType() {
                 override fun isFeatureEnabled(feature: OptimizelyFeature.Key): Boolean {
@@ -296,7 +301,8 @@ class ActivityFeedViewModelTest : KSRobolectricTestCase() {
 
     @Test
     fun testSurveys_LoggedIn_SwipeRefreshed() {
-        val currentUser: CurrentUserType = MockCurrentUser()
+        val currentUser: CurrentUserType =
+            MockCurrentUser()
         currentUser.login(user(), "deadbeef")
 
         val environment = environment().toBuilder()
@@ -313,7 +319,8 @@ class ActivityFeedViewModelTest : KSRobolectricTestCase() {
 
     @Test
     fun testUser_LoggedIn_SwipeRefreshed() {
-        val currentUser: CurrentUserType = MockCurrentUser()
+        val currentUser: CurrentUserType =
+            MockCurrentUser()
         val initialUser = user().toBuilder().unseenActivityCount(3).build()
 
         currentUser.login(initialUser, "deadbeef")
@@ -345,7 +352,8 @@ class ActivityFeedViewModelTest : KSRobolectricTestCase() {
 
     @Test
     fun testUser_whenLoggedInAndResumedWithErroredBackings() {
-        val currentUser: CurrentUserType = MockCurrentUser()
+        val currentUser: CurrentUserType =
+            MockCurrentUser()
         val initialUser = user()
             .toBuilder()
             .erroredBackingsCount(3)

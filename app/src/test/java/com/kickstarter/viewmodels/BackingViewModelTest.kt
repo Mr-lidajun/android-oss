@@ -3,7 +3,7 @@ package com.kickstarter.viewmodels
 import android.content.Intent
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.libs.Environment
-import com.kickstarter.libs.MockCurrentUser
+import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.mock.factories.BackingFactory.backing
 import com.kickstarter.mock.factories.ProjectFactory
 import com.kickstarter.mock.factories.UserFactory.user
@@ -40,7 +40,11 @@ class BackingViewModelTest : KSRobolectricTestCase() {
         setUpEnvironment(
             envWithBacking(backing)
                 .toBuilder()
-                .currentUser(MockCurrentUser(creatorUser))
+                .currentUser(
+                    MockCurrentUser(
+                        creatorUser
+                    )
+                )
                 .build()
         )
         vm?.outputs?.showBackingFragment()?.subscribe {
@@ -71,7 +75,11 @@ class BackingViewModelTest : KSRobolectricTestCase() {
         val vm = BackingViewModel.ViewModel(
             envWithBacking(backing)
                 .toBuilder()
-                .currentUser(MockCurrentUser(creatorUser))
+                .currentUser(
+                    MockCurrentUser(
+                        creatorUser
+                    )
+                )
                 .build()
         )
             .also {

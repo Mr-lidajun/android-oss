@@ -2,6 +2,7 @@ package com.kickstarter.services.interceptors
 
 import android.net.Uri
 import com.kickstarter.libs.Build
+import com.kickstarter.libs.BuildDI
 import com.kickstarter.libs.CurrentUserType
 import com.kickstarter.libs.FirebaseHelper
 import com.kickstarter.libs.perimeterx.PerimeterXClientType
@@ -20,7 +21,7 @@ class ApiRequestInterceptor(
     private val currentUser: CurrentUserType,
     private val endpoint: String,
     private val pxManager: PerimeterXClientType,
-    private val build: Build
+    private val build: BuildDI
 ) : Interceptor {
 
     @Throws(IOException::class)

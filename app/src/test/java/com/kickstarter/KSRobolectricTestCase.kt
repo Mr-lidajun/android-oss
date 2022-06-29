@@ -8,8 +8,8 @@ import com.kickstarter.libs.AnalyticEvents
 import com.kickstarter.libs.Environment
 import com.kickstarter.libs.KSCurrency
 import com.kickstarter.libs.KSString
-import com.kickstarter.libs.MockCurrentUser
-import com.kickstarter.libs.MockTrackingClient
+import com.kickstarter.mock.services.MockCurrentUser
+import com.kickstarter.mock.services.MockTrackingClient
 import com.kickstarter.libs.TrackingClientType
 import com.kickstarter.libs.utils.Secrets
 import com.kickstarter.mock.MockCurrentConfig
@@ -102,10 +102,11 @@ abstract class KSRobolectricTestCase : TestCase() {
     private fun segmentTrackingClient(mockCurrentConfig: MockCurrentConfig, experimentsClientType: MockExperimentsClientType): MockTrackingClient {
         segmentTrack = TestSubscriber()
         segmentIdentify = TestSubscriber()
-        val segmentTrackingClient = MockTrackingClient(
-            MockCurrentUser(),
-            mockCurrentConfig, TrackingClientType.Type.SEGMENT, experimentsClientType
-        )
+        val segmentTrackingClient =
+            MockTrackingClient(
+                MockCurrentUser(),
+                mockCurrentConfig, TrackingClientType.Type.SEGMENT, experimentsClientType
+            )
         segmentTrackingClient.eventNames.subscribe(segmentTrack)
         segmentTrackingClient.identifiedUser.subscribe(segmentIdentify)
         return segmentTrackingClient

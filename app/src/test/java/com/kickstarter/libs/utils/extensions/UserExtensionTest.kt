@@ -1,7 +1,7 @@
 package com.kickstarter.libs.utils.extensions
 
 import com.kickstarter.KSRobolectricTestCase
-import com.kickstarter.libs.MockSharedPreferences
+import com.kickstarter.mock.services.MockSharedPreferences
 import com.kickstarter.mock.factories.UserFactory
 import com.kickstarter.models.extensions.PushNotification
 import com.kickstarter.models.extensions.getTraits

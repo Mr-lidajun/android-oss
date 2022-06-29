@@ -4,7 +4,7 @@ import android.content.Intent;
 
 import com.kickstarter.KSRobolectricTestCase;
 import com.kickstarter.libs.Environment;
-import com.kickstarter.libs.MockCurrentUser;
+import com.kickstarter.mock.services.MockCurrentUser;
 import com.kickstarter.libs.utils.EventName;
 import com.kickstarter.mock.services.MockApiClient;
 import com.kickstarter.models.User;

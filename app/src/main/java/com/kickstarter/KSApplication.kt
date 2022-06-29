@@ -20,7 +20,7 @@ import java.net.CookieHandler
 import java.net.CookieManager
 import java.net.HttpCookie
 import java.net.URI
-import java.util.UUID
+import java.util.*
 import javax.inject.Inject
 
 @HiltAndroidApp

@@ -1,9 +1,9 @@
 package com.kickstarter.libs.utils
 
-import com.kickstarter.libs.Build
+import com.kickstarter.libs.BuildDI
 
 object WebUtils {
-    fun userAgent(build: Build): String {
+    fun userAgent(build: BuildDI): String {
         return StringBuilder()
             .append("Kickstarter Android Mobile Variant/")
             .append(build.variant())

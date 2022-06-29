@@ -39,7 +39,7 @@ open class KSToolbar @JvmOverloads constructor(
     }
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        if (!isInEditMode && context.applicationContext.environment().webEndpoint() != Secrets.WebEndpoint.PRODUCTION) {
+        if (!isInEditMode && context.applicationContext.environment().environment().webEndpoint() != Secrets.WebEndpoint.PRODUCTION) {
             canvas.drawRect(0f, 0f, context.resources.getDimension(R.dimen.grid_2), height.toFloat(), backgroundPaint!!)
         }
     }

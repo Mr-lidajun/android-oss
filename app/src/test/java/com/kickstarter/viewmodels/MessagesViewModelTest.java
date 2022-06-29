@@ -7,7 +7,7 @@ import com.kickstarter.KSRobolectricTestCase;
 import com.kickstarter.libs.CurrentUserType;
 import com.kickstarter.libs.Environment;
 import com.kickstarter.libs.MessagePreviousScreenType;
-import com.kickstarter.libs.MockCurrentUser;
+import com.kickstarter.mock.services.MockCurrentUser;
 import com.kickstarter.mock.factories.ApiExceptionFactory;
 import com.kickstarter.mock.factories.BackingFactory;
 import com.kickstarter.mock.factories.MessageFactory;
