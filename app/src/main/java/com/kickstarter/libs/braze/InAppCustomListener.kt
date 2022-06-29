@@ -7,7 +7,6 @@ import com.braze.ui.inappmessage.InAppMessageCloser
 import com.braze.ui.inappmessage.InAppMessageOperation
 import com.braze.ui.inappmessage.listeners.IInAppMessageManagerListener
 import com.kickstarter.libs.Build
-import com.kickstarter.libs.BuildDI
 import com.kickstarter.libs.CurrentUserType
 import timber.log.Timber
 
@@ -19,7 +18,7 @@ import timber.log.Timber
  */
 class InAppCustomListener(
     loggedInUser: CurrentUserType,
-    private val build: BuildDI
+    private val build: Build
 ) : IInAppMessageManagerListener {
 
     private var handler: InAppCustomListenerHandler

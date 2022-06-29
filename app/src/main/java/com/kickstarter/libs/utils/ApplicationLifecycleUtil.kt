@@ -8,7 +8,10 @@ import android.os.Bundle
 import com.facebook.appevents.AppEventsLogger
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.kickstarter.KSApplication
-import com.kickstarter.libs.*
+import com.kickstarter.libs.Config
+import com.kickstarter.libs.CurrentConfigType
+import com.kickstarter.libs.CurrentUserType
+import com.kickstarter.libs.Logout
 import com.kickstarter.libs.rx.transformers.Transformers
 import com.kickstarter.libs.utils.extensions.apiClient
 import com.kickstarter.libs.utils.extensions.config
@@ -27,7 +30,7 @@ class ApplicationLifecycleUtil(private val application: KSApplication) :
     private val client: ApiClientType = application.apiClient()
     private val config: CurrentConfigType = application.config()
     private val currentUser: CurrentUserType = application.currentUser()
-    private val logout: LogoutDI = application.logOut()
+    private val logout: Logout = application.logOut()
     private var isInBackground = true
     private var isLoggedIn = false
 

@@ -7,7 +7,10 @@ import androidx.appcompat.app.AlertDialog
 import com.kickstarter.BuildConfig
 import com.kickstarter.R
 import com.kickstarter.databinding.SettingsLayoutBinding
-import com.kickstarter.libs.*
+import com.kickstarter.libs.BaseActivity
+import com.kickstarter.libs.Build
+import com.kickstarter.libs.KSString
+import com.kickstarter.libs.Logout
 import com.kickstarter.libs.qualifiers.RequiresActivityViewModel
 import com.kickstarter.libs.rx.transformers.Transformers
 import com.kickstarter.libs.transformations.CircleTransformation
@@ -19,9 +22,9 @@ import rx.android.schedulers.AndroidSchedulers
 
 @RequiresActivityViewModel(SettingsViewModel.ViewModel::class)
 class SettingsActivity : BaseActivity<SettingsViewModel.ViewModel>() {
-    private lateinit var build: BuildDI
+    private lateinit var build: Build
     private lateinit var ksString: KSString
-    private lateinit var logout: LogoutDI
+    private lateinit var logout: Logout
     private var logoutConfirmationDialog: AlertDialog? = null
     private lateinit var binding: SettingsLayoutBinding
 

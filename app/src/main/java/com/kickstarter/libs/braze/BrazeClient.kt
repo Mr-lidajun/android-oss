@@ -11,7 +11,6 @@ import com.braze.configuration.BrazeConfig
 import com.braze.ui.inappmessage.BrazeInAppMessageManager
 import com.google.firebase.messaging.RemoteMessage
 import com.kickstarter.libs.Build
-import com.kickstarter.libs.BuildDI
 import com.kickstarter.libs.CurrentUserType
 import com.kickstarter.libs.utils.Secrets
 import com.kickstarter.libs.utils.extensions.isKSApplication
@@ -76,7 +75,7 @@ interface RemotePushClientType {
  */
 open class BrazeClient(
     private val context: Context,
-    private val build: BuildDI
+    private val build: Build
 ) : RemotePushClientType {
 
     private var initialized = false
@@ -152,7 +151,7 @@ open class BrazeClient(
      * on the `onIntegrationReady` callback
      */
     companion object {
-        fun setInAppCustomListener(currentUser: CurrentUserType, build: BuildDI) {
+        fun setInAppCustomListener(currentUser: CurrentUserType, build: Build) {
             BrazeInAppMessageManager.getInstance().setCustomInAppMessageManagerListener(InAppCustomListener(currentUser, build))
         }
     }

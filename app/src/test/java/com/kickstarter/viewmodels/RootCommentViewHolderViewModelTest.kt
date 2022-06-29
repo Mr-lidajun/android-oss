@@ -2,9 +2,9 @@ package com.kickstarter.viewmodels
 
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.libs.Environment
-import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.mock.factories.CommentFactory
 import com.kickstarter.mock.factories.UserFactory
+import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.ui.data.CommentCardData
 import com.kickstarter.ui.views.CommentCardBadge
 import com.kickstarter.ui.views.CommentCardStatus

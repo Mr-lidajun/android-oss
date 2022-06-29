@@ -1,10 +1,18 @@
 package com.kickstarter.screenshoot.testing.di
 
-import com.kickstarter.libs.*
+import com.kickstarter.libs.Build
+import com.kickstarter.libs.CurrentConfigType
+import com.kickstarter.libs.CurrentUserType
+import com.kickstarter.libs.EnvironmentImpl
+import com.kickstarter.libs.Font
+import com.kickstarter.libs.KSString
+import com.kickstarter.libs.Logout
 import com.kickstarter.mock.MockCurrentConfig
 import com.kickstarter.mock.services.MockBuildDI
 import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.mock.services.MockEnvironment
+import com.kickstarter.mock.services.MockFont
+import com.kickstarter.mock.services.MockKSString
 import com.kickstarter.mock.services.MockLogOut
 import dagger.Binds
 import dagger.Module
@@ -13,7 +21,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface ActivityModule {
+interface InstrumentedTestModule {
 
     @Binds
     fun provideEnvironment(
@@ -33,10 +41,20 @@ interface ActivityModule {
     @Binds
     fun provideLogOut(
         impl: MockLogOut
-    ): LogoutDI
+    ): Logout
 
     @Binds
     fun provideBuild(
         impl: MockBuildDI
-    ): BuildDI
+    ): Build
+
+    @Binds
+    fun provideKSString(
+        impl: MockKSString
+    ): KSString
+
+    @Binds
+    fun provideFont(
+        impl: MockFont
+    ): Font
 }

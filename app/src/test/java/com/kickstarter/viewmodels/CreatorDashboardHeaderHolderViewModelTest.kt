@@ -5,7 +5,6 @@ import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.R
 import com.kickstarter.libs.CurrentUserType
 import com.kickstarter.libs.Environment
-import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.libs.RefTag
 import com.kickstarter.libs.RefTag.Companion.dashboard
 import com.kickstarter.libs.models.OptimizelyFeature
@@ -17,6 +16,7 @@ import com.kickstarter.mock.factories.ProjectFactory.project
 import com.kickstarter.mock.factories.ProjectStatsEnvelopeFactory.projectStatsEnvelope
 import com.kickstarter.mock.factories.UserFactory.collaborator
 import com.kickstarter.mock.factories.UserFactory.creator
+import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.models.Project
 import com.kickstarter.ui.adapters.data.ProjectDashboardData
 import org.joda.time.DateTime

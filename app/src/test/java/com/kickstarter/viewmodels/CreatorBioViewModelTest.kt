@@ -3,9 +3,9 @@ package com.kickstarter.viewmodels
 import android.content.Intent
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.libs.Environment
-import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.mock.factories.ProjectFactory
 import com.kickstarter.mock.factories.UserFactory
+import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.models.Project
 import com.kickstarter.ui.IntentKey
 import org.junit.Test
@@ -43,11 +43,13 @@ class CreatorBioViewModelTest : KSRobolectricTestCase() {
 
     @Test
     fun testGoToComposeMessageActivity_WhenLoggedInUserIsNotBacker() {
-        setUpEnvironment(environment().toBuilder().currentUser(
-            MockCurrentUser(
-                UserFactory.user()
-            )
-        ).build())
+        setUpEnvironment(
+            environment().toBuilder().currentUser(
+                MockCurrentUser(
+                    UserFactory.user()
+                )
+            ).build()
+        )
 
         this.messageIconIsGone.assertValue(false)
         this.vm.inputs.messageButtonClicked()
@@ -58,11 +60,14 @@ class CreatorBioViewModelTest : KSRobolectricTestCase() {
     @Test
     fun testGoToMessagesActivity_WhenLoggedInUserIsABacker() {
         val project = ProjectFactory.project().toBuilder().isBacking(true).build()
-        setUpEnvironment(environment().toBuilder().currentUser(
-            MockCurrentUser(
-                UserFactory.user()
-            )
-        ).build(), project)
+        setUpEnvironment(
+            environment().toBuilder().currentUser(
+                MockCurrentUser(
+                    UserFactory.user()
+                )
+            ).build(),
+            project
+        )
 
         this.messageIconIsGone.assertValue(false)
         this.vm.inputs.messageButtonClicked()
@@ -74,11 +79,14 @@ class CreatorBioViewModelTest : KSRobolectricTestCase() {
     fun testMessageIconIsGone_WhenLoggedInUserIsCreatorOfProject() {
         val creator = UserFactory.creator()
         val project = ProjectFactory.project().toBuilder().creator(creator).build()
-        setUpEnvironment(environment().toBuilder().currentUser(
-            MockCurrentUser(
-                creator
-            )
-        ).build(), project)
+        setUpEnvironment(
+            environment().toBuilder().currentUser(
+                MockCurrentUser(
+                    creator
+                )
+            ).build(),
+            project
+        )
 
         this.messageIconIsGone.assertValue(true)
     }

@@ -9,7 +9,6 @@ import com.kickstarter.R
 import com.kickstarter.databinding.ActivityChangePasswordBinding
 import com.kickstarter.libs.BaseActivity
 import com.kickstarter.libs.Logout
-import com.kickstarter.libs.LogoutDI
 import com.kickstarter.libs.qualifiers.RequiresActivityViewModel
 import com.kickstarter.libs.rx.transformers.Transformers
 import com.kickstarter.libs.utils.ApplicationUtils
@@ -23,7 +22,7 @@ import com.kickstarter.viewmodels.ChangePasswordViewModel
 class ChangePasswordActivity : BaseActivity<ChangePasswordViewModel.ViewModel>() {
 
     private var saveEnabled = false
-    private var logout: LogoutDI? = null
+    private var logout: Logout? = null
     private lateinit var binding: ActivityChangePasswordBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

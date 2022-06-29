@@ -12,7 +12,6 @@ import android.webkit.WebView.setWebContentsDebuggingEnabled
 import android.widget.FrameLayout
 import com.kickstarter.databinding.WebViewBinding
 import com.kickstarter.libs.Build
-import com.kickstarter.libs.BuildDI
 import com.kickstarter.libs.WebViewJavascriptInterface
 import com.kickstarter.libs.perimeterx.PerimeterXClientType
 import com.kickstarter.services.KSWebViewClient
@@ -34,7 +33,7 @@ class KSWebView @JvmOverloads constructor(
     lateinit var client: KSWebViewClient
 
     @Inject
-    lateinit var build: BuildDI
+    lateinit var build: Build
 
     @Inject
     lateinit var perimeterX: PerimeterXClientType

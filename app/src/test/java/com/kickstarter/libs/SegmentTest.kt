@@ -113,8 +113,10 @@ class SegmentTest : KSRobolectricTestCase() {
             }
         }
 
-        val mockClient = MockSegmentTrackingClient(build, context, mockCurrentConfig(),
-            MockCurrentUser(user), mockOptimizely, mockShared)
+        val mockClient = MockSegmentTrackingClient(
+            build, context, mockCurrentConfig(),
+            MockCurrentUser(user), mockOptimizely, mockShared
+        )
         mockClient.initialize()
         assertNotNull(mockClient)
         assertTrue(mockClient.isEnabled())

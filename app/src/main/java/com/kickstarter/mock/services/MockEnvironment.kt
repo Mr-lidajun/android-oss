@@ -1,6 +1,10 @@
 package com.kickstarter.mock.services
 
-import com.kickstarter.libs.*
+import com.kickstarter.libs.AnalyticEvents
+import com.kickstarter.libs.Environment
+import com.kickstarter.libs.EnvironmentImpl
+import com.kickstarter.libs.KSCurrency
+import com.kickstarter.libs.TrackingClientType
 import com.kickstarter.mock.MockCurrentConfig
 import com.kickstarter.mock.MockExperimentsClientType
 import com.kickstarter.mock.factories.ConfigFactory
@@ -23,11 +27,11 @@ class MockEnvironment : EnvironmentImpl {
         mockCurrentConfig.config(config)
 
         val mockShared = MockSharedPreferences()
-        //val mockKSString = KSString(application.packageName, application.resources)
-        //val mockCookieManager = Mockito.mock(CookieManager::class.java)
+        // val mockKSString = KSString(application.packageName, application.resources)
+        // val mockCookieManager = Mockito.mock(CookieManager::class.java)
 
         return Environment.Builder()
-            //.cookieManager(mockCookieManager)
+            // .cookieManager(mockCookieManager)
             .sharedPreferences(mockShared)
             .ksCurrency(KSCurrency(mockCurrentConfig))
             .apiClient(MockApiClient())
@@ -35,8 +39,8 @@ class MockEnvironment : EnvironmentImpl {
             .currentConfig(mockCurrentConfig)
             .currentUser(MockCurrentUser())
             .webClient(MockWebClient())
-            //.ksString(mockKSString)
-            //.stripe(Stripe(context(), Secrets.StripePublishableKey.STAGING))
+            // .ksString(mockKSString)
+            // .stripe(Stripe(context(), Secrets.StripePublishableKey.STAGING))
             .analytics(AnalyticEvents(listOf(segmentTestClient)))
             .optimizely(experimentsClientType)
             .build()
@@ -60,5 +64,4 @@ class MockEnvironment : EnvironmentImpl {
         segmentTrackingClient.identifiedUser.subscribe(segmentIdentify)
         return segmentTrackingClient
     }
-
 }

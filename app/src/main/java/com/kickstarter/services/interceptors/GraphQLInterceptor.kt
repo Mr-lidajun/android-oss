@@ -1,7 +1,6 @@
 package com.kickstarter.services.interceptors
 
 import com.kickstarter.libs.Build
-import com.kickstarter.libs.BuildDI
 import com.kickstarter.libs.CurrentUserType
 import com.kickstarter.libs.FirebaseHelper
 import com.kickstarter.libs.perimeterx.PerimeterXClientType
@@ -17,7 +16,7 @@ import okhttp3.Response
 class GraphQLInterceptor(
     private val clientId: String,
     private val currentUser: CurrentUserType,
-    private val build: BuildDI,
+    private val build: Build,
     private val pxManager: PerimeterXClientType
 ) : Interceptor {
     override fun intercept(chain: Chain): Response {

@@ -9,14 +9,13 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.kickstarter.libs.Build
-import com.kickstarter.libs.BuildDI
 import com.kickstarter.libs.utils.extensions.build
 import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
 import java.io.IOException
 
 class UnregisterTokenWorker(@ApplicationContext applicationContext: Context, private val params: WorkerParameters) : Worker(applicationContext, params) {
-    lateinit var build: BuildDI
+    lateinit var build: Build
 
     override fun doWork(): Result {
 

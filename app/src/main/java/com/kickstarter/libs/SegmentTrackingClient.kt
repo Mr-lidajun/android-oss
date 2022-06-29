@@ -23,7 +23,7 @@ import rx.schedulers.Schedulers
 import timber.log.Timber
 
 open class SegmentTrackingClient(
-    build: BuildDI,
+    build: Build,
     private val context: Context,
     currentConfig: CurrentConfigType,
     currentUser: CurrentUserType,

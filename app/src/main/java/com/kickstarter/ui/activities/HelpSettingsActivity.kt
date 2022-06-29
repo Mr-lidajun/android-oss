@@ -9,7 +9,6 @@ import com.kickstarter.R
 import com.kickstarter.databinding.ActivityHelpSettingsBinding
 import com.kickstarter.libs.BaseActivity
 import com.kickstarter.libs.Build
-import com.kickstarter.libs.BuildDI
 import com.kickstarter.libs.CurrentUserType
 import com.kickstarter.libs.qualifiers.RequiresActivityViewModel
 import com.kickstarter.libs.utils.Secrets
@@ -23,7 +22,7 @@ import rx.android.schedulers.AndroidSchedulers
 @RequiresActivityViewModel(HelpSettingsViewModel.ViewModel::class)
 class HelpSettingsActivity : BaseActivity<HelpSettingsViewModel.ViewModel>() {
 
-    private lateinit var build: BuildDI
+    private lateinit var build: Build
     private lateinit var currentUser: CurrentUserType
 
     private val mailto = R.string.mailto

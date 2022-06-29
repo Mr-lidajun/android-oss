@@ -2,10 +2,10 @@ package com.kickstarter.viewmodels
 
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.libs.Environment
-import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.mock.factories.ProjectFactory
 import com.kickstarter.mock.factories.UpdateFactory
 import com.kickstarter.mock.factories.UserFactory
+import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.models.Update
 import org.joda.time.DateTime
 import org.junit.Test

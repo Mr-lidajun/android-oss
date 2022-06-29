@@ -6,7 +6,7 @@ import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import java.lang.StringBuilder
 
-interface BuildDI {
+interface Build {
     val isDebug: Boolean
     val isRelease: Boolean
     fun applicationId(): String
@@ -18,7 +18,7 @@ interface BuildDI {
     fun isExternal(): Boolean
     fun isInternal(): Boolean
 }
-class Build(private val packageInfo: PackageInfo): BuildDI {
+class BuildImpl(private val packageInfo: PackageInfo) : Build {
     override fun applicationId(): String {
         return packageInfo.packageName
     }

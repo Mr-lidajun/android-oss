@@ -5,13 +5,13 @@ import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.R
 import com.kickstarter.libs.AnalyticEvents
 import com.kickstarter.libs.Environment
-import com.kickstarter.mock.services.MockCurrentUser
-import com.kickstarter.mock.services.MockTrackingClient
 import com.kickstarter.libs.TrackingClientType
 import com.kickstarter.mock.MockCurrentConfig
 import com.kickstarter.mock.MockExperimentsClientType
 import com.kickstarter.mock.factories.UserFactory
 import com.kickstarter.mock.services.MockApolloClient
+import com.kickstarter.mock.services.MockCurrentUser
+import com.kickstarter.mock.services.MockTrackingClient
 import com.kickstarter.models.User
 import org.junit.Test
 import rx.Observable

@@ -8,27 +8,32 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.gson.Gson
+import com.google.gson.FieldNamingPolicy
+import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import com.google.gson.JsonSyntaxException
 import com.kickstarter.libs.Build
-import com.kickstarter.libs.BuildDI
+import com.kickstarter.libs.DateTimeTypeConverter
 import com.kickstarter.libs.utils.extensions.apiClient
 import com.kickstarter.libs.utils.extensions.build
-import com.kickstarter.libs.utils.extensions.gSon
 import com.kickstarter.libs.utils.extensions.isZero
 import com.kickstarter.services.ApiClientType
 import com.kickstarter.services.apiresponses.ErrorEnvelope
 import com.kickstarter.ui.IntentKey
 import dagger.hilt.android.qualifiers.ApplicationContext
+import org.joda.time.DateTime
 import rx.schedulers.Schedulers
 import timber.log.Timber
 
 class RegisterTokenWorker(@ApplicationContext applicationContext: Context, private val params: WorkerParameters) : Worker(applicationContext, params) {
 
     lateinit var apiClient: ApiClientType
-    lateinit var build: BuildDI
-    lateinit var gson: Gson
+    lateinit var build: Build
+
+    val gson = GsonBuilder()
+        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+        .registerTypeAdapter(DateTime::class.java, DateTimeTypeConverter())
+        .create()
 
     private val token = this.params.inputData.getString(IntentKey.PUSH_TOKEN) as String
 
@@ -36,7 +41,6 @@ class RegisterTokenWorker(@ApplicationContext applicationContext: Context, priva
         // TODO for now access directly to the SingletonComponent entry, but on next iterations will bring @HiltWorker to the picture
         apiClient = applicationContext.apiClient()
         build = applicationContext.build()
-        gson = applicationContext.gSon()
 
         return handleResponse(
             this.apiClient
@@ -53,6 +57,7 @@ class RegisterTokenWorker(@ApplicationContext applicationContext: Context, priva
             logResponse()
             Result.success()
         } else {
+            Result.retry()
             try {
                 val errorEnvelope = this.gson.fromJson(response, ErrorEnvelope::class.java)
                 logError("📵 Failed to register push token ${errorEnvelope.httpCode()} ${errorEnvelope.errorMessages()?.firstOrNull()}")

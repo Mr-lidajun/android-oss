@@ -11,7 +11,7 @@ import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.kickstarter.R
 import com.kickstarter.databinding.ViewElementVideoFromHtmlBinding
-import com.kickstarter.libs.BuildDI
+import com.kickstarter.libs.Build
 import com.kickstarter.libs.htmlparser.VideoViewElement
 import com.kickstarter.ui.adapters.projectcampaign.ViewElementAdapter
 import com.kickstarter.ui.extensions.loadImage
@@ -23,7 +23,7 @@ class VideoElementViewHolder(
     val requireActivity: FragmentActivity
 ) : KSViewHolder(binding.root) {
 
-    private lateinit var build: BuildDI
+    private lateinit var build: Build
 
     private val thumbnail = binding.thumbnail
     private val loadingIndicator = binding.loadingIndicator

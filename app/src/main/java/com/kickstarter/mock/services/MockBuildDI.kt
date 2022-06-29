@@ -1,9 +1,9 @@
 package com.kickstarter.mock.services
 
-import com.kickstarter.libs.BuildDI
+import com.kickstarter.libs.Build
 import org.joda.time.DateTime
 
-class MockBuildDI:BuildDI {
+class MockBuildDI : Build {
     override val isDebug: Boolean
         get() = true
     override val isRelease: Boolean
@@ -40,5 +40,4 @@ class MockBuildDI:BuildDI {
     override fun isInternal(): Boolean {
         return false
     }
-
 }

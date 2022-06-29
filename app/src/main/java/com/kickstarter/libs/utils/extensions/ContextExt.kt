@@ -6,7 +6,6 @@ import android.app.Application
 import android.content.Context
 import com.kickstarter.KSApplication
 import com.kickstarter.di.IKSApplicationEntryPoint
-import com.kickstarter.libs.Logout
 import dagger.hilt.android.EntryPointAccessors
 
 fun Context.isKSApplication() = (this is KSApplication) && !this.isInUnitTests
@@ -50,11 +49,6 @@ fun Context.ksString() = EntryPointAccessors.fromApplication(
     this,
     IKSApplicationEntryPoint::class.java
 ).ksString()
-
-fun Context.gSon() = EntryPointAccessors.fromApplication(
-    this,
-    IKSApplicationEntryPoint::class.java
-).gSon()
 
 /**
  * if the current context is an instance of Application android base class

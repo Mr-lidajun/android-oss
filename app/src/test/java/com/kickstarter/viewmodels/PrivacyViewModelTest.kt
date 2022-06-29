@@ -2,9 +2,9 @@ package com.kickstarter.viewmodels
 
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.libs.Environment
-import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.mock.factories.UserFactory
 import com.kickstarter.mock.services.MockApiClient
+import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.models.User
 import org.junit.Test
 import rx.Observable

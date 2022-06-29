@@ -15,8 +15,33 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.kickstarter.KSApplication
-import com.kickstarter.libs.*
+import com.kickstarter.libs.AnalyticEvents
+import com.kickstarter.libs.ApiEndpoint
+import com.kickstarter.libs.Build
+import com.kickstarter.libs.BuildCheck
+import com.kickstarter.libs.BuildImpl
+import com.kickstarter.libs.CurrentConfig
+import com.kickstarter.libs.CurrentConfigType
+import com.kickstarter.libs.CurrentUser
+import com.kickstarter.libs.CurrentUserType
+import com.kickstarter.libs.DateTimeTypeConverter
+import com.kickstarter.libs.DeviceRegistrar
+import com.kickstarter.libs.DeviceRegistrarType
+import com.kickstarter.libs.EXPERIMENTS_CLIENT_READY
 import com.kickstarter.libs.Environment.Companion.builder
+import com.kickstarter.libs.EnvironmentImpl
+import com.kickstarter.libs.ExperimentsClientType
+import com.kickstarter.libs.Font
+import com.kickstarter.libs.FontImpl
+import com.kickstarter.libs.InternalToolsType
+import com.kickstarter.libs.KSCurrency
+import com.kickstarter.libs.KSString
+import com.kickstarter.libs.KSStringImpl
+import com.kickstarter.libs.Logout
+import com.kickstarter.libs.LogoutImpl
+import com.kickstarter.libs.OptimizelyExperimentsClient
+import com.kickstarter.libs.PushNotifications
+import com.kickstarter.libs.SegmentTrackingClient
 import com.kickstarter.libs.braze.BrazeClient
 import com.kickstarter.libs.braze.RemotePushClientType
 import com.kickstarter.libs.graphql.DateAdapter
@@ -63,7 +88,6 @@ import com.optimizely.ab.android.sdk.OptimizelyClient
 import com.optimizely.ab.android.sdk.OptimizelyManager
 import com.stripe.android.PaymentConfiguration
 import com.stripe.android.Stripe
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -94,7 +118,7 @@ class ApplicationModule {
     fun provideSegmentTrackingClient(
         @ApplicationContext context: Context,
         currentUser: CurrentUserType,
-        build: BuildDI,
+        build: Build,
         currentConfig: CurrentConfigType,
         experimentsClientType: ExperimentsClientType
     ): SegmentTrackingClient {
@@ -137,7 +161,7 @@ class ApplicationModule {
     fun provideOptimizely(
         @ApplicationContext context: Context,
         apiEndpoint: ApiEndpoint,
-        build: BuildDI
+        build: Build
     ): ExperimentsClientType {
         val optimizelyEnvironment: OptimizelyEnvironment = when (apiEndpoint) {
             ApiEndpoint.PRODUCTION -> {
@@ -179,7 +203,7 @@ class ApplicationModule {
         @ActivitySamplePreference activitySamplePreference: IntPreferenceType,
         apiClient: ApiClientType,
         apolloClient: ApolloClientType,
-        build: BuildDI,
+        build: Build,
         buildCheck: BuildCheck,
         cookieManager: CookieManager,
         currentConfig: CurrentConfigType,
@@ -192,7 +216,7 @@ class ApplicationModule {
         ksCurrency: KSCurrency,
         ksString: KSString,
         analytics: AnalyticEvents,
-        logout: LogoutDI,
+        logout: Logout,
         optimizely: ExperimentsClientType,
         playServicesCapability: PlayServicesCapability,
         scheduler: Scheduler,
@@ -232,7 +256,7 @@ class ApplicationModule {
     @Provides
     @Singleton
     fun provideBrazeClient(
-        build: BuildDI,
+        build: Build,
         @ApplicationContext context: Context
     ): RemotePushClientType {
         return BrazeClient(context, build)
@@ -241,7 +265,7 @@ class ApplicationModule {
     @Provides
     @Singleton
     fun provideApolloClient(
-        build: BuildDI,
+        build: Build,
         httpLoggingInterceptor: HttpLoggingInterceptor,
         graphQLInterceptor: GraphQLInterceptor,
         @WebEndpoint webEndpoint: String,
@@ -270,7 +294,7 @@ class ApplicationModule {
     @Singleton
     fun providePerimeterXManager(
         @ApplicationContext context: Context,
-        build: BuildDI
+        build: Build
     ): PerimeterXClientType {
         val manager = PerimeterXClient(build)
         if (context is KSApplication && !context.isInUnitTests) {
@@ -286,7 +310,7 @@ class ApplicationModule {
         cookieJar: CookieJar,
         httpLoggingInterceptor: HttpLoggingInterceptor,
         ksRequestInterceptor: KSRequestInterceptor,
-        build: BuildDI,
+        build: Build,
         webRequestInterceptor: WebRequestInterceptor
     ): OkHttpClient {
         val builder: OkHttpClient.Builder = OkHttpClient.Builder()
@@ -321,7 +345,7 @@ class ApplicationModule {
         currentUser: CurrentUserType,
         endpoint: ApiEndpoint,
         manager: PerimeterXClientType,
-        build: BuildDI
+        build: Build
     ): ApiRequestInterceptor {
         return ApiRequestInterceptor(clientId, currentUser, endpoint.url(), manager, build)
     }
@@ -331,7 +355,7 @@ class ApplicationModule {
     fun provideGraphQLInterceptor(
         clientId: String,
         currentUser: CurrentUserType,
-        build: BuildDI,
+        build: Build,
         manager: PerimeterXClientType
     ): GraphQLInterceptor {
         return GraphQLInterceptor(clientId, currentUser, build, manager)
@@ -352,7 +376,7 @@ class ApplicationModule {
     @Provides
     @Singleton
     fun provideKSRequestInterceptor(
-        build: BuildDI,
+        build: Build,
         manager: PerimeterXClientType
     ): KSRequestInterceptor {
         return KSRequestInterceptor(build, manager)
@@ -389,7 +413,7 @@ class ApplicationModule {
         currentUser: CurrentUserType,
         @WebEndpoint endpoint: String,
         internalTools: InternalToolsType,
-        build: BuildDI,
+        build: Build,
         manager: PerimeterXClientType
     ): WebRequestInterceptor {
         return WebRequestInterceptor(currentUser, endpoint, internalTools, build, manager)
@@ -485,8 +509,8 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideBuild(packageInfo: PackageInfo): BuildDI {
-        return Build(packageInfo)
+    fun provideBuild(packageInfo: PackageInfo): Build {
+        return BuildImpl(packageInfo)
     }
 
     @Provides
@@ -553,7 +577,7 @@ class ApplicationModule {
     @Provides
     @Singleton
     fun provideFont(assetManager: AssetManager): Font {
-        return Font(assetManager)
+        return FontImpl(assetManager)
     }
 
     @Provides
@@ -591,8 +615,8 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideLogout(cookieManager: CookieManager, currentUser: CurrentUserType): LogoutDI {
-        return Logout(cookieManager, currentUser)
+    fun provideLogout(cookieManager: CookieManager, currentUser: CurrentUserType): Logout {
+        return LogoutImpl(cookieManager, currentUser)
     }
 
     @Provides

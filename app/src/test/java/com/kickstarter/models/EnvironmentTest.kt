@@ -1,8 +1,8 @@
 package com.kickstarter.models
 
 import com.kickstarter.KSRobolectricTestCase
-import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.mock.factories.UserFactory
+import com.kickstarter.mock.services.MockCurrentUser
 import org.junit.Test
 
 class EnvironmentTest : KSRobolectricTestCase() {

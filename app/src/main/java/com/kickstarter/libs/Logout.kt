@@ -3,10 +3,10 @@ package com.kickstarter.libs
 import com.facebook.login.LoginManager
 import java.net.CookieManager
 
-interface LogoutDI {
+interface Logout {
     fun execute()
 }
-class Logout(private val cookieManager: CookieManager, private val currentUser: CurrentUserType): LogoutDI {
+class LogoutImpl(private val cookieManager: CookieManager, private val currentUser: CurrentUserType) : Logout {
     override fun execute() {
         currentUser.logout()
         cookieManager.cookieStore.removeAll()

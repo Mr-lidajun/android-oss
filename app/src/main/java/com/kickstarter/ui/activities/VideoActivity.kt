@@ -19,7 +19,6 @@ import com.google.android.exoplayer2.util.Util
 import com.kickstarter.databinding.VideoPlayerLayoutBinding
 import com.kickstarter.libs.BaseActivity
 import com.kickstarter.libs.Build
-import com.kickstarter.libs.BuildDI
 import com.kickstarter.libs.qualifiers.RequiresActivityViewModel
 import com.kickstarter.libs.rx.transformers.Transformers
 import com.kickstarter.libs.utils.WebUtils.userAgent
@@ -29,7 +28,7 @@ import com.trello.rxlifecycle.ActivityEvent
 
 @RequiresActivityViewModel(VideoViewModel.ViewModel::class)
 class VideoActivity : BaseActivity<VideoViewModel.ViewModel>() {
-    private lateinit var build: BuildDI
+    private lateinit var build: Build
     private var player: SimpleExoPlayer? = null
     private var playerPosition: Long? = null
     private var trackSelector: DefaultTrackSelector? = null

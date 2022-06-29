@@ -1,8 +1,8 @@
 package com.kickstarter.mock.services
 
-import com.kickstarter.libs.LogoutDI
+import com.kickstarter.libs.Logout
 
-class MockLogOut: LogoutDI {
+class MockLogOut : Logout {
     override fun execute() {
     }
 }

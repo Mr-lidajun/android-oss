@@ -22,31 +22,43 @@ interface KSString {
 
     fun format(
         string: String,
-        key1: String, value1: String?,
-        key2: String, value2: String?,
-        key3: String, value3: String?,
-        key4: String, value4: String?
+        key1: String,
+        value1: String?,
+        key2: String,
+        value2: String?,
+        key3: String,
+        value3: String?,
+        key4: String,
+        value4: String?
     ): String
 
     fun format(baseKeyPath: String, count: Int): String
     fun format(
-        baseKeyPath: String, count: Int,
-        key1: String, value1: String?
+        baseKeyPath: String,
+        count: Int,
+        key1: String,
+        value1: String?
     ): String
 
     fun format(
-        baseKeyPath: String, count: Int,
-        key1: String, value1: String?,
-        key2: String, value2: String?,
-        key3: String, value3: String?
+        baseKeyPath: String,
+        count: Int,
+        key1: String,
+        value1: String?,
+        key2: String,
+        value2: String?,
+        key3: String,
+        value3: String?
     ): String
 
     fun format(
-        baseKeyPath: String, count: Int,
-        key1: String, value1: String?,
-        key2: String, value2: String?
+        baseKeyPath: String,
+        count: Int,
+        key1: String,
+        value1: String?,
+        key2: String,
+        value2: String?
     ): String
-    
 }
 
 class KSStringImpl(private val packageName: String, private val resources: Resources) : KSString {
@@ -65,12 +77,14 @@ class KSStringImpl(private val packageName: String, private val resources: Resou
      */
     override fun format(
         string: String,
-        key1: String, value1: String?,
-        key2: String, value2: String?
+        key1: String,
+        value1: String?,
+        key2: String,
+        value2: String?
     ): String {
         val substitutions: Map<String, String?> = HashMap<String, String?>().apply {
-                put(key1, value1)
-                put(key2, value2)
+            put(key1, value1)
+            put(key2, value2)
         }
         return replace(string, substitutions)
     }
@@ -80,14 +94,17 @@ class KSStringImpl(private val packageName: String, private val resources: Resou
      */
     override fun format(
         string: String,
-        key1: String, value1: String?,
-        key2: String, value2: String?,
-        key3: String, value3: String?
+        key1: String,
+        value1: String?,
+        key2: String,
+        value2: String?,
+        key3: String,
+        value3: String?
     ): String {
         val substitutions: Map<String, String?> = HashMap<String, String?>().apply {
-                put(key1, value1)
-                put(key2, value2)
-                put(key3, value3)
+            put(key1, value1)
+            put(key2, value2)
+            put(key3, value3)
         }
         return replace(string, substitutions)
     }
@@ -97,16 +114,20 @@ class KSStringImpl(private val packageName: String, private val resources: Resou
      */
     override fun format(
         string: String,
-        key1: String, value1: String?,
-        key2: String, value2: String?,
-        key3: String, value3: String?,
-        key4: String, value4: String?
+        key1: String,
+        value1: String?,
+        key2: String,
+        value2: String?,
+        key3: String,
+        value3: String?,
+        key4: String,
+        value4: String?
     ): String {
         val substitutions: Map<String, String?> = HashMap<String, String?>().apply {
-                put(key1, value1)
-                put(key2, value2)
-                put(key3, value3)
-                put(key4, value4)
+            put(key1, value1)
+            put(key2, value2)
+            put(key3, value3)
+            put(key4, value4)
         }
         return replace(string, substitutions)
     }
@@ -128,8 +149,10 @@ class KSStringImpl(private val packageName: String, private val resources: Resou
      * a count of 0 would give the string resource `foo_zero`, a count of 1 `foo_one`, and so on.
      */
     override fun format(
-        baseKeyPath: String, count: Int,
-        key1: String, value1: String?
+        baseKeyPath: String,
+        count: Int,
+        key1: String,
+        value1: String?
     ): String {
         val string = stringFromKeyPath(baseKeyPath, keyPathComponentForCount(count)!!)
         return format(string, key1, value1)
@@ -141,9 +164,12 @@ class KSStringImpl(private val packageName: String, private val resources: Resou
      * a count of 0 would give the string resource `foo_zero`, a count of 1 `foo_one`, and so on.
      */
     override fun format(
-        baseKeyPath: String, count: Int,
-        key1: String, value1: String?,
-        key2: String, value2: String?
+        baseKeyPath: String,
+        count: Int,
+        key1: String,
+        value1: String?,
+        key2: String,
+        value2: String?
     ): String {
         val string = stringFromKeyPath(baseKeyPath, keyPathComponentForCount(count)!!)
         return format(string, key1, value1, key2, value2)
@@ -155,10 +181,14 @@ class KSStringImpl(private val packageName: String, private val resources: Resou
      * a count of 0 would give the string resource `foo_zero`, a count of 1 `foo_one`, and so on.
      */
     override fun format(
-        baseKeyPath: String, count: Int,
-        key1: String, value1: String?,
-        key2: String, value2: String?,
-        key3: String, value3: String?
+        baseKeyPath: String,
+        count: Int,
+        key1: String,
+        value1: String?,
+        key2: String,
+        value2: String?,
+        key3: String,
+        value3: String?
     ): String {
         val string = stringFromKeyPath(baseKeyPath, keyPathComponentForCount(count)!!)
         return format(string, key1, value1, key2, value2, key3, value3)

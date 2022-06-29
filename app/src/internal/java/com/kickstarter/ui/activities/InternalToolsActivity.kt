@@ -19,7 +19,11 @@ import androidx.work.WorkManager
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.kickstarter.R
 import com.kickstarter.databinding.InternalToolsLayoutBinding
-import com.kickstarter.libs.*
+import com.kickstarter.libs.ApiEndpoint
+import com.kickstarter.libs.BaseActivity
+import com.kickstarter.libs.Build
+import com.kickstarter.libs.FirebaseHelper
+import com.kickstarter.libs.Logout
 import com.kickstarter.libs.preferences.StringPreferenceType
 import com.kickstarter.libs.qualifiers.ApiEndpointPreference
 import com.kickstarter.libs.qualifiers.RequiresActivityViewModel
@@ -37,18 +41,16 @@ import javax.inject.Inject
 @AndroidEntryPoint
 @RequiresActivityViewModel(InternalToolsViewModel::class)
 class InternalToolsActivity : BaseActivity<InternalToolsViewModel>() {
-    @JvmField
+
     @Inject
     @ApiEndpointPreference
     var apiEndpointPreference: StringPreferenceType? = null
 
-    @JvmField
     @Inject
-    var build: BuildDI? = null
+    var build: Build? = null
 
-    @JvmField
     @Inject
-    var logout: LogoutDI? = null
+    var logout: Logout? = null
 
     private lateinit var binding: InternalToolsLayoutBinding
 

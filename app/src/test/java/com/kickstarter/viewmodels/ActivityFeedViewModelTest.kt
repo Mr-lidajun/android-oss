@@ -3,7 +3,6 @@ package com.kickstarter.viewmodels
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.libs.CurrentUserType
 import com.kickstarter.libs.Environment
-import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.libs.models.OptimizelyFeature
 import com.kickstarter.libs.utils.EventName
 import com.kickstarter.mock.MockExperimentsClientType
@@ -15,6 +14,7 @@ import com.kickstarter.mock.factories.ActivityFactory.updateActivity
 import com.kickstarter.mock.factories.SurveyResponseFactory.surveyResponse
 import com.kickstarter.mock.factories.UserFactory.user
 import com.kickstarter.mock.services.MockApiClient
+import com.kickstarter.mock.services.MockCurrentUser
 import com.kickstarter.models.Activity
 import com.kickstarter.models.ErroredBacking
 import com.kickstarter.models.Project

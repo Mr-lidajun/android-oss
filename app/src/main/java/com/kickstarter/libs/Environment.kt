@@ -19,7 +19,7 @@ class Environment private constructor(
     private val activitySamplePreference: IntPreferenceType?,
     private val apiClient: ApiClientType?,
     private val apolloClient: ApolloClientType?,
-    private val build: BuildDI?,
+    private val build: Build?,
     private val buildCheck: BuildCheck?,
     private val cookieManager: CookieManager?,
     private val currentConfig: CurrentConfigType?,
@@ -32,7 +32,7 @@ class Environment private constructor(
     private val ksCurrency: KSCurrency?,
     private val ksString: KSString?,
     private val analytics: AnalyticEvents?,
-    private val logout: LogoutDI?,
+    private val logout: Logout?,
     private val optimizely: ExperimentsClientType?,
     private val playServicesCapability: PlayServicesCapability?,
     private val scheduler: Scheduler?,
@@ -40,7 +40,7 @@ class Environment private constructor(
     private val stripe: Stripe?,
     private val webClient: WebClientType?,
     private val webEndpoint: String
-): EnvironmentImpl {
+) : EnvironmentImpl {
     fun activitySamplePreference() = this.activitySamplePreference
     fun apiClient() = this.apiClient
     fun apolloClient() = this.apolloClient
@@ -70,7 +70,7 @@ class Environment private constructor(
         private var activitySamplePreference: IntPreferenceType? = null,
         private var apiClient: ApiClientType? = null,
         private var apolloClient: ApolloClientType? = null,
-        private var build: BuildDI? = null,
+        private var build: Build? = null,
         private var buildCheck: BuildCheck? = null,
         private var cookieManager: CookieManager? = null,
         private var currentConfig: CurrentConfigType? = null,
@@ -83,7 +83,7 @@ class Environment private constructor(
         private var ksCurrency: KSCurrency? = null,
         private var ksString: KSString? = null,
         private var analytics: AnalyticEvents? = null,
-        private var logout: LogoutDI? = null,
+        private var logout: Logout? = null,
         private var optimizely: ExperimentsClientType? = null,
         private var playServicesCapability: PlayServicesCapability? = null,
         private var scheduler: Scheduler? = null,
@@ -95,7 +95,7 @@ class Environment private constructor(
         fun activitySamplePreference(activitySamplePreference: IntPreferenceType) = apply { this.activitySamplePreference = activitySamplePreference }
         fun apiClient(apiClient: ApiClientType) = apply { this.apiClient = apiClient }
         fun apolloClient(apolloClient: ApolloClientType) = apply { this.apolloClient = apolloClient }
-        fun build(build: BuildDI) = apply { this.build = build }
+        fun build(build: Build) = apply { this.build = build }
         fun buildCheck(buildCheck: BuildCheck) = apply { this.buildCheck = buildCheck }
         fun cookieManager(cookieManager: CookieManager) = apply { this.cookieManager = cookieManager }
         fun currentConfig(currentConfig: CurrentConfigType) = apply { this.currentConfig = currentConfig }
@@ -108,7 +108,7 @@ class Environment private constructor(
         fun ksCurrency(ksCurrency: KSCurrency) = apply { this.ksCurrency = ksCurrency }
         fun ksString(ksString: KSString) = apply { this.ksString = ksString }
         fun analytics(analytics: AnalyticEvents) = apply { this.analytics = analytics }
-        fun logout(logout: LogoutDI) = apply { this.logout = logout }
+        fun logout(logout: Logout) = apply { this.logout = logout }
         fun optimizely(optimizely: ExperimentsClientType) = apply { this.optimizely = optimizely }
         fun playServicesCapability(playServicesCapability: PlayServicesCapability) = apply { this.playServicesCapability = playServicesCapability }
         fun scheduler(scheduler: Scheduler) = apply { this.scheduler = scheduler }

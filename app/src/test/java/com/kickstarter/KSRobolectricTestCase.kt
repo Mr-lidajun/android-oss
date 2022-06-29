@@ -8,8 +8,6 @@ import com.kickstarter.libs.AnalyticEvents
 import com.kickstarter.libs.Environment
 import com.kickstarter.libs.KSCurrency
 import com.kickstarter.libs.KSString
-import com.kickstarter.mock.services.MockCurrentUser
-import com.kickstarter.mock.services.MockTrackingClient
 import com.kickstarter.libs.TrackingClientType
 import com.kickstarter.libs.utils.Secrets
 import com.kickstarter.mock.MockCurrentConfig
@@ -17,6 +15,8 @@ import com.kickstarter.mock.MockExperimentsClientType
 import com.kickstarter.mock.factories.ConfigFactory
 import com.kickstarter.mock.services.MockApiClient
 import com.kickstarter.mock.services.MockApolloClient
+import com.kickstarter.mock.services.MockCurrentUser
+import com.kickstarter.mock.services.MockTrackingClient
 import com.kickstarter.mock.services.MockWebClient
 import com.kickstarter.models.User
 import com.stripe.android.Stripe

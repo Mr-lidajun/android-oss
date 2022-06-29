@@ -2,7 +2,6 @@ package com.kickstarter.services.interceptors
 
 import android.net.Uri
 import com.kickstarter.libs.Build
-import com.kickstarter.libs.BuildDI
 import com.kickstarter.libs.CurrentUserType
 import com.kickstarter.libs.InternalToolsType
 import com.kickstarter.libs.perimeterx.PerimeterXClientType
@@ -26,7 +25,7 @@ class WebRequestInterceptor(
     private val currentUser: CurrentUserType,
     private val endpoint: String,
     private val internalTools: InternalToolsType,
-    private val build: BuildDI,
+    private val build: Build,
     private val pxManager: PerimeterXClientType
 ) : Interceptor {
 
