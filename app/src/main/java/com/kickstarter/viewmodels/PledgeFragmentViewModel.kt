@@ -424,7 +424,7 @@ interface PledgeFragmentViewModel {
 
         private val apolloClient = requireNotNull(environment.apolloClient())
         private val optimizely = environment.optimizely()
-        private val cookieManager = requireNotNull(environment.cookieManager())
+        private val cookieManager = requireNotNull(environment.cookieManager()?.manager())
         private val currentConfig = requireNotNull(environment.currentConfig())
         private val currentUser = requireNotNull(environment.currentUser())
         private val ksCurrency = requireNotNull(environment.ksCurrency())

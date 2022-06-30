@@ -80,7 +80,7 @@ interface ThanksViewModel {
         private val hasSeenGamesNewsletterPreference = environment.hasSeenGamesNewsletterPreference()
         private val currentUser = requireNotNull(environment.currentUser())
         private val sharedPreferences = requireNotNull(environment.sharedPreferences())
-        private val cookieManager = requireNotNull(environment.cookieManager())
+        private val cookieManager = requireNotNull(environment.cookieManager()?.manager())
 
         private val categoryCardViewHolderClicked = PublishSubject.create<Category>()
         private val closeButtonClicked = PublishSubject.create<Void?>()

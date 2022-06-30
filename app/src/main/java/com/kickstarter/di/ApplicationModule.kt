@@ -20,6 +20,8 @@ import com.kickstarter.libs.ApiEndpoint
 import com.kickstarter.libs.Build
 import com.kickstarter.libs.BuildCheck
 import com.kickstarter.libs.BuildImpl
+import com.kickstarter.libs.CookieManagerImpl
+import com.kickstarter.libs.CookieManagerType
 import com.kickstarter.libs.CurrentConfig
 import com.kickstarter.libs.CurrentConfigType
 import com.kickstarter.libs.CurrentUser
@@ -106,7 +108,6 @@ import rx.Scheduler
 import rx.schedulers.Schedulers
 import timber.log.Timber
 import type.CustomType
-import java.net.CookieManager
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -206,7 +207,7 @@ class ApplicationModule {
         apolloClient: ApolloClientType,
         build: Build,
         buildCheck: BuildCheck,
-        cookieManager: CookieManager,
+        cookieManager: CookieManagerType,
         currentConfig: CurrentConfigType,
         currentUser: CurrentUserType,
         @FirstSessionPreference firstSessionPreference: BooleanPreferenceType,
@@ -526,14 +527,14 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideCookieJar(cookieManager: CookieManager): CookieJar {
-        return JavaNetCookieJar(cookieManager)
+    fun provideCookieJar(cookieManager: CookieManagerType): CookieJar {
+        return JavaNetCookieJar(cookieManager.handler())
     }
 
     @Provides
     @Singleton
-    fun provideCookieManager(): CookieManager {
-        return CookieManager()
+    fun provideCookieManager(): CookieManagerType {
+        return CookieManagerImpl()
     }
 
     @Provides
@@ -616,8 +617,8 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideLogout(cookieManager: CookieManager, currentUser: CurrentUserType): Logout {
-        return LogoutImpl(cookieManager, currentUser)
+    fun provideLogout(cookieManager: CookieManagerType, currentUser: CurrentUserType): Logout {
+        return LogoutImpl(cookieManager.manager(), currentUser)
     }
 
     @Provides

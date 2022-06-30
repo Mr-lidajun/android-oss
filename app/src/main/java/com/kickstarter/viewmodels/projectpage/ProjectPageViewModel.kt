@@ -252,7 +252,7 @@ interface ProjectPageViewModel {
         Inputs,
         Outputs {
 
-        private val cookieManager = requireNotNull(environment.cookieManager())
+        private val cookieManager = requireNotNull(environment.cookieManager()?.manager())
         private val currentUser = requireNotNull(environment.currentUser())
         private val ksCurrency = requireNotNull(environment.ksCurrency())
         private val optimizely = environment.optimizely()

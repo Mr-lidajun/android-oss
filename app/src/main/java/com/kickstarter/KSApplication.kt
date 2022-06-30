@@ -12,12 +12,12 @@ import com.kickstarter.libs.PushNotifications
 import com.kickstarter.libs.braze.RemotePushClientType
 import com.kickstarter.libs.utils.ApplicationLifecycleUtil
 import com.kickstarter.libs.utils.Secrets
+import com.kickstarter.libs.utils.extensions.environment
 import dagger.hilt.android.HiltAndroidApp
 import org.joda.time.DateTime
 import timber.log.Timber
 import timber.log.Timber.Forest.plant
 import java.net.CookieHandler
-import java.net.CookieManager
 import java.net.HttpCookie
 import java.net.URI
 import java.util.*
@@ -25,8 +25,6 @@ import javax.inject.Inject
 
 @HiltAndroidApp
 open class KSApplication : MultiDexApplication() {
-    @Inject
-    lateinit var cookieManager: CookieManager
 
     @Inject
     lateinit var pushNotifications: PushNotifications
@@ -80,6 +78,7 @@ open class KSApplication : MultiDexApplication() {
         get() = false
 
     private fun setVisitorCookie() {
+        val cookieManager = environment().cookieManager()
         val deviceId = identifier
         val uniqueIdentifier =
             if (TextUtils.isEmpty(deviceId)) UUID.randomUUID().toString() else deviceId
@@ -88,8 +87,8 @@ open class KSApplication : MultiDexApplication() {
         cookie.secure = true
         val webUri = URI.create(Secrets.WebEndpoint.PRODUCTION)
         val apiUri = URI.create(ApiEndpoint.PRODUCTION.url())
-        cookieManager.cookieStore.add(webUri, cookie)
-        cookieManager.cookieStore.add(apiUri, cookie)
-        CookieHandler.setDefault(cookieManager)
+        cookieManager?.cookieStore()?.add(webUri, cookie)
+        cookieManager?.cookieStore()?.add(apiUri, cookie)
+        CookieHandler.setDefault(cookieManager?.manager())
     }
 }

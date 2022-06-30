@@ -66,7 +66,7 @@ public interface ProjectUpdatesViewModel {
       super(environment);
 
       this.client = environment.apiClient();
-      this.cookieManager = environment.cookieManager();
+      this.cookieManager = environment.cookieManager().manager();
       this.sharedPreferences = environment.sharedPreferences();
 
       final Observable<Project> project = intent()

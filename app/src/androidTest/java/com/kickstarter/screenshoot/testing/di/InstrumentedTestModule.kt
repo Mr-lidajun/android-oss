@@ -1,6 +1,8 @@
 package com.kickstarter.screenshoot.testing.di
 
+import com.kickstarter.libs.AnalyticEvents
 import com.kickstarter.libs.Build
+import com.kickstarter.libs.CookieManagerType
 import com.kickstarter.libs.CurrentConfigType
 import com.kickstarter.libs.CurrentUserType
 import com.kickstarter.libs.EnvironmentImpl
@@ -9,8 +11,8 @@ import com.kickstarter.libs.KSString
 import com.kickstarter.libs.Logout
 import com.kickstarter.libs.PushNotifications
 import com.kickstarter.libs.braze.RemotePushClientType
-import com.kickstarter.libs.AnalyticEvents
 import com.kickstarter.mock.MockCurrentConfig
+import com.kickstarter.mock.services.MockAnalytics
 import com.kickstarter.mock.services.MockBuildDI
 import com.kickstarter.mock.services.MockCookieManager
 import com.kickstarter.mock.services.MockCurrentUser
@@ -19,13 +21,11 @@ import com.kickstarter.mock.services.MockFont
 import com.kickstarter.mock.services.MockKSString
 import com.kickstarter.mock.services.MockLogOut
 import com.kickstarter.mock.services.MockPushNotifications
-import com.kickstarter.mock.services.MockAnalytics
 import com.kickstarter.mock.services.MockRemotePushClientType
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import java.net.CookieManager
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -69,7 +69,7 @@ interface InstrumentedTestModule {
     @Binds
     fun provideCookieManager(
         impl: MockCookieManager
-    ): CookieManager
+    ): CookieManagerType
 
     @Binds
     fun providePushNotification(

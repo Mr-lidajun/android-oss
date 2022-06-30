@@ -120,7 +120,7 @@ interface DiscoveryFragmentViewModel {
         private val activitySamplePreference = environment.activitySamplePreference()
         private val optimizely = environment.optimizely()
         private val sharedPreferences = requireNotNull(environment.sharedPreferences())
-        private val cookieManager = requireNotNull(environment.cookieManager())
+        private val cookieManager = requireNotNull(environment.cookieManager()?.manager())
         private val currentUser = requireNotNull(environment.currentUser())
         @JvmField
         val inputs: Inputs = this

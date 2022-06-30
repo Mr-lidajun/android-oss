@@ -10,7 +10,6 @@ import com.kickstarter.services.ApolloClientType
 import com.kickstarter.services.WebClientType
 import com.stripe.android.Stripe
 import rx.Scheduler
-import java.net.CookieManager
 
 interface EnvironmentImpl {
     fun environment(): Environment
@@ -21,7 +20,7 @@ class Environment private constructor(
     private val apolloClient: ApolloClientType?,
     private val build: Build?,
     private val buildCheck: BuildCheck?,
-    private val cookieManager: CookieManager?,
+    private val cookieManager: CookieManagerType?,
     private val currentConfig: CurrentConfigType?,
     private val currentUser: CurrentUserType?,
     private val firstSessionPreference: BooleanPreferenceType?,
@@ -72,7 +71,7 @@ class Environment private constructor(
         private var apolloClient: ApolloClientType? = null,
         private var build: Build? = null,
         private var buildCheck: BuildCheck? = null,
-        private var cookieManager: CookieManager? = null,
+        private var cookieManager: CookieManagerType? = null,
         private var currentConfig: CurrentConfigType? = null,
         private var currentUser: CurrentUserType? = null,
         private var firstSessionPreference: BooleanPreferenceType? = null,
@@ -97,7 +96,7 @@ class Environment private constructor(
         fun apolloClient(apolloClient: ApolloClientType) = apply { this.apolloClient = apolloClient }
         fun build(build: Build) = apply { this.build = build }
         fun buildCheck(buildCheck: BuildCheck) = apply { this.buildCheck = buildCheck }
-        fun cookieManager(cookieManager: CookieManager) = apply { this.cookieManager = cookieManager }
+        fun cookieManager(cookieManager: CookieManagerType) = apply { this.cookieManager = cookieManager }
         fun currentConfig(currentConfig: CurrentConfigType) = apply { this.currentConfig = currentConfig }
         fun currentUser(currentUser: CurrentUserType) = apply { this.currentUser = currentUser }
         fun firstSessionPreference(firstSessionPreference: BooleanPreferenceType) = apply { this.firstSessionPreference = firstSessionPreference }
