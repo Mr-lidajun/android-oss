@@ -79,7 +79,7 @@ import com.kickstarter.ui.data.ProjectData
 import java.util.Locale
 import kotlin.collections.HashMap
 
-class AnalyticEvents(trackingClients: List<TrackingClientType?>) {
+open class AnalyticEvents(trackingClients: List<TrackingClientType?>) {
 
     private val client = ProxyClient(trackingClients)
 
@@ -710,7 +710,17 @@ class AnalyticEvents(trackingClients: List<TrackingClientType?>) {
         client.reset()
     }
 
+    fun initialize() {
+        client.initialize()
+    }
+
     private class ProxyClient(private val clients: List<TrackingClientType?>) {
+        fun initialize() {
+            clients.forEach {
+                it?.initialize()
+            }
+        }
+
         fun track(eventName: String) {
             clients.forEach { client ->
                 client?.track(eventName)

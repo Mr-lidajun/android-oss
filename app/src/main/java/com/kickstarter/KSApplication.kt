@@ -4,11 +4,11 @@ import android.text.TextUtils
 import androidx.annotation.CallSuper
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
+import com.kickstarter.libs.AnalyticEvents
 import com.kickstarter.libs.ApiEndpoint
 import com.kickstarter.libs.FirebaseHelper.Companion.identifier
 import com.kickstarter.libs.FirebaseHelper.Companion.initialize
 import com.kickstarter.libs.PushNotifications
-import com.kickstarter.libs.SegmentTrackingClient
 import com.kickstarter.libs.braze.RemotePushClientType
 import com.kickstarter.libs.utils.ApplicationLifecycleUtil
 import com.kickstarter.libs.utils.Secrets
@@ -35,7 +35,7 @@ open class KSApplication : MultiDexApplication() {
     lateinit var remotePushClientType: RemotePushClientType
 
     @Inject
-    lateinit var segmentTrackingClient: SegmentTrackingClient
+    lateinit var analytics: AnalyticEvents
 
     @CallSuper
     override fun onCreate() {
@@ -64,8 +64,8 @@ open class KSApplication : MultiDexApplication() {
         registerComponentCallbacks(appUtil)
 
         // - Initialize Segment SDK
-        if (segmentTrackingClient != null) {
-            segmentTrackingClient.initialize()
+        if (analytics != null) {
+            analytics.initialize()
         }
 
         // - Register lifecycle callback for Braze

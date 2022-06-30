@@ -9,6 +9,7 @@ import com.kickstarter.libs.KSString
 import com.kickstarter.libs.Logout
 import com.kickstarter.libs.PushNotifications
 import com.kickstarter.libs.braze.RemotePushClientType
+import com.kickstarter.libs.AnalyticEvents
 import com.kickstarter.mock.MockCurrentConfig
 import com.kickstarter.mock.services.MockBuildDI
 import com.kickstarter.mock.services.MockCookieManager
@@ -18,6 +19,7 @@ import com.kickstarter.mock.services.MockFont
 import com.kickstarter.mock.services.MockKSString
 import com.kickstarter.mock.services.MockLogOut
 import com.kickstarter.mock.services.MockPushNotifications
+import com.kickstarter.mock.services.MockAnalytics
 import com.kickstarter.mock.services.MockRemotePushClientType
 import dagger.Binds
 import dagger.Module
@@ -78,4 +80,9 @@ interface InstrumentedTestModule {
     fun provideRemotePushClientType(
         impl: MockRemotePushClientType
     ): RemotePushClientType
+
+    @Binds
+    fun provideAnalyticsEvents(
+        impl: MockAnalytics
+    ): AnalyticEvents
 }
