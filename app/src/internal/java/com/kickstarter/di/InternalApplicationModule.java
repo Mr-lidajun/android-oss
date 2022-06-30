@@ -29,7 +29,7 @@ import dagger.hilt.InstallIn;
 import dagger.hilt.components.SingletonComponent;
 
 @InstallIn(SingletonComponent.class)
-@Module(includes = ApplicationModule.class)
+@Module
 public final class InternalApplicationModule {
   @Provides
   @Singleton
