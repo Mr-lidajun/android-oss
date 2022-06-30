@@ -41,6 +41,7 @@ import com.kickstarter.libs.Logout
 import com.kickstarter.libs.LogoutImpl
 import com.kickstarter.libs.OptimizelyExperimentsClient
 import com.kickstarter.libs.PushNotifications
+import com.kickstarter.libs.PushNotificationsImpl
 import com.kickstarter.libs.SegmentTrackingClient
 import com.kickstarter.libs.braze.BrazeClient
 import com.kickstarter.libs.braze.RemotePushClientType
@@ -623,10 +624,9 @@ class ApplicationModule {
     @Singleton
     fun providePushNotifications(
         @ApplicationContext context: Context,
-        client: ApiClientType,
-        experimentsClientType: ExperimentsClientType
+        client: ApiClientType
     ): PushNotifications {
-        return PushNotifications(context, client, experimentsClientType)
+        return PushNotificationsImpl(context, client)
     }
 
     @Provides
