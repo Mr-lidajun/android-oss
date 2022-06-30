@@ -6,13 +6,13 @@ import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
 import com.kickstarter.libs.AnalyticEvents
 import com.kickstarter.libs.ApiEndpoint
+import com.kickstarter.libs.CookieManagerType
 import com.kickstarter.libs.FirebaseHelper.Companion.identifier
 import com.kickstarter.libs.FirebaseHelper.Companion.initialize
 import com.kickstarter.libs.PushNotifications
 import com.kickstarter.libs.braze.RemotePushClientType
 import com.kickstarter.libs.utils.ApplicationLifecycleUtil
 import com.kickstarter.libs.utils.Secrets
-import com.kickstarter.libs.utils.extensions.environment
 import dagger.hilt.android.HiltAndroidApp
 import org.joda.time.DateTime
 import timber.log.Timber
@@ -34,6 +34,9 @@ open class KSApplication : MultiDexApplication() {
 
     @Inject
     lateinit var analytics: AnalyticEvents
+
+    @Inject
+    lateinit var cookieManagerType: CookieManagerType
 
     @CallSuper
     override fun onCreate() {
@@ -78,7 +81,7 @@ open class KSApplication : MultiDexApplication() {
         get() = false
 
     private fun setVisitorCookie() {
-        val cookieManager = environment().cookieManager()
+        val cookieManager = cookieManagerType.manager()
         val deviceId = identifier
         val uniqueIdentifier =
             if (TextUtils.isEmpty(deviceId)) UUID.randomUUID().toString() else deviceId
@@ -87,8 +90,8 @@ open class KSApplication : MultiDexApplication() {
         cookie.secure = true
         val webUri = URI.create(Secrets.WebEndpoint.PRODUCTION)
         val apiUri = URI.create(ApiEndpoint.PRODUCTION.url())
-        cookieManager?.cookieStore()?.add(webUri, cookie)
-        cookieManager?.cookieStore()?.add(apiUri, cookie)
-        CookieHandler.setDefault(cookieManager?.manager())
+        cookieManager.cookieStore?.add(webUri, cookie)
+        cookieManager.cookieStore?.add(apiUri, cookie)
+        CookieHandler.setDefault(cookieManager)
     }
 }
