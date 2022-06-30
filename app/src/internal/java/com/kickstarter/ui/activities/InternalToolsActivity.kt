@@ -44,13 +44,13 @@ class InternalToolsActivity : BaseActivity<InternalToolsViewModel>() {
 
     @Inject
     @ApiEndpointPreference
-    var apiEndpointPreference: StringPreferenceType? = null
+    lateinit var apiEndpointPreference: StringPreferenceType
 
     @Inject
-    var build: Build? = null
+    lateinit var build: Build
 
     @Inject
-    var logout: Logout? = null
+    lateinit var logout: Logout
 
     private lateinit var binding: InternalToolsLayoutBinding
 
