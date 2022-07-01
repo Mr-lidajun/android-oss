@@ -2,6 +2,7 @@ package com.kickstarter.viewmodels
 
 import android.content.Intent
 import com.kickstarter.KSRobolectricTestCase
+import com.kickstarter.di.ApplicationModule
 import com.kickstarter.libs.Environment
 import com.kickstarter.libs.models.OptimizelyExperiment
 import com.kickstarter.libs.utils.EventName
@@ -12,9 +13,13 @@ import com.kickstarter.models.Urls
 import com.kickstarter.models.Web
 import com.kickstarter.ui.IntentKey
 import com.kickstarter.ui.data.ProjectData
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
 import org.junit.Test
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
+@UninstallModules(ApplicationModule::class)
 class CampaignDetailsViewModelTest : KSRobolectricTestCase() {
     private lateinit var vm: CampaignDetailsViewModel.ViewModel
 

@@ -3,15 +3,20 @@ package com.kickstarter.viewmodels
 import android.util.Pair
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.R
+import com.kickstarter.di.ApplicationModule
 import com.kickstarter.libs.Environment
 import com.kickstarter.libs.utils.NumberUtils
 import com.kickstarter.mock.factories.ProjectFactory.project
 import com.kickstarter.mock.factories.ProjectStatsEnvelopeFactory.ReferrerStatsFactory.referrerStats
 import com.kickstarter.models.Project
 import com.kickstarter.services.apiresponses.ProjectStatsEnvelope.ReferrerStats
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
 import org.junit.Test
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
+@UninstallModules(ApplicationModule::class)
 class CreatorDashboardReferrerStatsRowHolderViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: CreatorDashboardReferrerStatsRowHolderViewModel.ViewModel

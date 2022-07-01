@@ -11,7 +11,6 @@ import androidx.preference.PreferenceManager
 import androidx.test.core.app.ApplicationProvider
 import com.apollographql.apollo.ApolloClient
 import com.google.gson.Gson
-import com.kickstarter.di.ApplicationModule
 import com.kickstarter.libs.*
 import com.kickstarter.libs.braze.RemotePushClientType
 import com.kickstarter.libs.perimeterx.PerimeterXClientType
@@ -40,9 +39,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
-import dagger.hilt.android.testing.UninstallModules
 import dagger.hilt.components.SingletonComponent
 import junit.framework.TestCase
 import okhttp3.CookieJar
@@ -66,7 +63,6 @@ import javax.inject.Singleton
 @Config(shadows = [ShadowAndroidXMultiDex::class], sdk = [KSRobolectricGradleTestRunner.DEFAULT_SDK], application = HiltTestApplication::class)
 abstract class KSRobolectricTestCase : TestCase() {
     val application: Application = ApplicationProvider.getApplicationContext()
-
 
     lateinit var experimentsTest: TestSubscriber<String>
     lateinit var segmentTrack: TestSubscriber<String>
@@ -92,7 +88,6 @@ abstract class KSRobolectricTestCase : TestCase() {
             .build()
 
         mockCurrentConfig.config(config)
-
     }
 
     protected fun application() = this.application
@@ -107,6 +102,7 @@ abstract class KSRobolectricTestCase : TestCase() {
     protected fun context(): Context = this.application().applicationContext
 
     protected fun environment() = environmentInjected.toBuilder()
+        .currentUser(MockCurrentUser())
         .ksCurrency(KSCurrency(mockCurrentConfig))
         .apiClient(MockApiClient())
         .apolloClient(MockApolloClient())
@@ -119,14 +115,14 @@ abstract class KSRobolectricTestCase : TestCase() {
 
     protected fun ksString() = KSString(application().packageName, application().resources)
 
-     fun experimentsClient(): MockExperimentsClientType {
+    fun experimentsClient(): MockExperimentsClientType {
         experimentsTest = TestSubscriber()
         val experimentsClientType = MockExperimentsClientType()
         experimentsClientType.eventKeys.subscribe(experimentsTest)
         return experimentsClientType
     }
 
-     fun segmentTrackingClient(mockCurrentConfig: MockCurrentConfig, experimentsClientType: MockExperimentsClientType): MockTrackingClient {
+    fun segmentTrackingClient(mockCurrentConfig: MockCurrentConfig, experimentsClientType: MockExperimentsClientType): MockTrackingClient {
         segmentTrack = TestSubscriber()
         segmentIdentify = TestSubscriber()
         val segmentTrackingClient = MockTrackingClient(

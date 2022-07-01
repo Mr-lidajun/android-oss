@@ -3,6 +3,7 @@ package com.kickstarter.viewmodels
 import android.content.Intent
 import android.util.Pair
 import com.kickstarter.KSRobolectricTestCase
+import com.kickstarter.di.ApplicationModule
 import com.kickstarter.libs.MockCurrentUser
 import com.kickstarter.libs.utils.EventName
 import com.kickstarter.mock.factories.ApiExceptionFactory
@@ -19,6 +20,8 @@ import com.kickstarter.ui.IntentKey
 import com.kickstarter.ui.data.CommentCardData
 import com.kickstarter.ui.views.CommentCardStatus
 import com.kickstarter.ui.views.CommentComposerStatus
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
 import org.joda.time.DateTime
 import org.junit.Test
 import rx.Observable
@@ -28,6 +31,8 @@ import rx.subjects.BehaviorSubject
 import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
+@HiltAndroidTest
+@UninstallModules(ApplicationModule::class)
 class CommentsViewModelTest : KSRobolectricTestCase() {
     private val closeCommentPage = TestSubscriber<Void>()
     private val commentsList = TestSubscriber<List<CommentCardData>?>()

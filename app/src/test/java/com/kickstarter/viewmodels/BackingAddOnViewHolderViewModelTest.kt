@@ -3,6 +3,7 @@ package com.kickstarter.viewmodels
 import android.util.Pair
 import androidx.annotation.NonNull
 import com.kickstarter.KSRobolectricTestCase
+import com.kickstarter.di.ApplicationModule
 import com.kickstarter.libs.Environment
 import com.kickstarter.mock.factories.ProjectDataFactory
 import com.kickstarter.mock.factories.ProjectFactory
@@ -12,10 +13,14 @@ import com.kickstarter.mock.factories.ShippingRulesEnvelopeFactory
 import com.kickstarter.models.Reward
 import com.kickstarter.models.ShippingRule
 import com.kickstarter.ui.data.ProjectData
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
 import org.joda.time.DateTime
 import org.junit.Test
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
+@UninstallModules(ApplicationModule::class)
 class BackingAddOnViewHolderViewModelTest : KSRobolectricTestCase() {
     private lateinit var vm: BackingAddOnViewHolderViewModel.ViewModel
 

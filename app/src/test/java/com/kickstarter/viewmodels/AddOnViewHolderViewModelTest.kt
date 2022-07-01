@@ -4,6 +4,7 @@ import android.util.Pair
 import androidx.annotation.NonNull
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.R
+import com.kickstarter.di.ApplicationModule
 import com.kickstarter.libs.Environment
 import com.kickstarter.libs.models.OptimizelyFeature
 import com.kickstarter.mock.MockExperimentsClientType
@@ -11,9 +12,13 @@ import com.kickstarter.mock.factories.ProjectDataFactory
 import com.kickstarter.mock.factories.ProjectFactory
 import com.kickstarter.mock.factories.RewardFactory
 import com.kickstarter.models.RewardsItem
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
 import org.junit.Test
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
+@UninstallModules(ApplicationModule::class)
 class AddOnViewHolderViewModelTest : KSRobolectricTestCase() {
     private lateinit var vm: AddOnViewHolderViewModel.ViewModel
 

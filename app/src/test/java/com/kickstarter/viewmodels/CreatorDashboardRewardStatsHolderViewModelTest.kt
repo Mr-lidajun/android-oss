@@ -2,15 +2,20 @@ package com.kickstarter.viewmodels
 
 import android.util.Pair
 import com.kickstarter.KSRobolectricTestCase
+import com.kickstarter.di.ApplicationModule
 import com.kickstarter.libs.Environment
 import com.kickstarter.libs.utils.PairUtils
 import com.kickstarter.mock.factories.ProjectFactory.project
 import com.kickstarter.mock.factories.ProjectStatsEnvelopeFactory.RewardStatsFactory.rewardStats
 import com.kickstarter.models.Project
 import com.kickstarter.services.apiresponses.ProjectStatsEnvelope.RewardStats
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
 import org.junit.Test
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
+@UninstallModules(ApplicationModule::class)
 class CreatorDashboardRewardStatsHolderViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: CreatorDashboardRewardStatsHolderViewModel.ViewModel

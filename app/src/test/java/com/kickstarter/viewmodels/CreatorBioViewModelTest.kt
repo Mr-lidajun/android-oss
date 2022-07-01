@@ -2,15 +2,20 @@ package com.kickstarter.viewmodels
 
 import android.content.Intent
 import com.kickstarter.KSRobolectricTestCase
+import com.kickstarter.di.ApplicationModule
 import com.kickstarter.libs.Environment
 import com.kickstarter.libs.MockCurrentUser
 import com.kickstarter.mock.factories.ProjectFactory
 import com.kickstarter.mock.factories.UserFactory
 import com.kickstarter.models.Project
 import com.kickstarter.ui.IntentKey
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
 import org.junit.Test
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
+@UninstallModules(ApplicationModule::class)
 class CreatorBioViewModelTest : KSRobolectricTestCase() {
     private lateinit var vm: CreatorBioViewModel.ViewModel
 

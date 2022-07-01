@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Pair
 import androidx.annotation.NonNull
 import com.kickstarter.KSRobolectricTestCase
+import com.kickstarter.di.ApplicationModule
 import com.kickstarter.libs.Environment
 import com.kickstarter.libs.utils.EventName
 import com.kickstarter.mock.MockCurrentConfig
@@ -26,11 +27,15 @@ import com.kickstarter.ui.data.PledgeData
 import com.kickstarter.ui.data.PledgeFlowContext
 import com.kickstarter.ui.data.PledgeReason
 import com.kickstarter.ui.data.ProjectData
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
 import junit.framework.TestCase
 import org.junit.Test
 import rx.Observable
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
+@UninstallModules(ApplicationModule::class)
 class BackingAddOnsFragmentViewModelTest : KSRobolectricTestCase() {
     private lateinit var vm: BackingAddOnsFragmentViewModel.ViewModel
     private val shippingSelectorIsGone = TestSubscriber.create<Boolean>()

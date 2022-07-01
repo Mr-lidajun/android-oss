@@ -3,6 +3,7 @@ package com.kickstarter.viewmodels;
 import android.util.Pair;
 
 import com.kickstarter.KSRobolectricTestCase;
+import com.kickstarter.di.ApplicationModule;
 import com.kickstarter.libs.CurrentUserType;
 import com.kickstarter.libs.Environment;
 import com.kickstarter.libs.MockCurrentUser;
@@ -41,11 +42,15 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import dagger.hilt.android.testing.HiltAndroidTest;
+import dagger.hilt.android.testing.UninstallModules;
 import rx.Observable;
 import rx.observers.TestSubscriber;
 import rx.schedulers.TestScheduler;
 import rx.subjects.BehaviorSubject;
 
+@HiltAndroidTest
+@UninstallModules(ApplicationModule.class)
 public class DiscoveryFragmentViewModelTest extends KSRobolectricTestCase {
   private DiscoveryFragmentViewModel.ViewModel vm;
   final TestScheduler testScheduler = new TestScheduler();

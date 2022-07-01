@@ -2,6 +2,7 @@ package com.kickstarter.viewmodels
 
 import android.content.Intent
 import com.kickstarter.KSRobolectricTestCase
+import com.kickstarter.di.ApplicationModule
 import com.kickstarter.libs.Environment
 import com.kickstarter.libs.MockCurrentUser
 import com.kickstarter.mock.factories.BackingFactory.backing
@@ -10,10 +11,14 @@ import com.kickstarter.mock.factories.UserFactory.user
 import com.kickstarter.mock.services.MockApolloClient
 import com.kickstarter.models.Backing
 import com.kickstarter.ui.IntentKey
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
 import org.junit.Test
 import rx.Observable
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
+@UninstallModules(ApplicationModule::class)
 class BackingViewModelTest : KSRobolectricTestCase() {
     private var vm: BackingViewModel.ViewModel? = null
     private val isRefreshing = TestSubscriber.create<Boolean>()
