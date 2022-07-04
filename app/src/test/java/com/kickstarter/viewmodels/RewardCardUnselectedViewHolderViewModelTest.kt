@@ -11,11 +11,13 @@ import com.kickstarter.mock.factories.StoredCardFactory
 import com.kickstarter.models.Backing
 import com.kickstarter.models.StoredCard
 import com.stripe.android.model.CardBrand
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.observers.TestSubscriber
 import java.util.Date
 import java.util.GregorianCalendar
 
+@HiltAndroidTest
 class RewardCardUnselectedViewHolderViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: RewardCardUnselectedViewHolderViewModel.ViewModel

@@ -5,9 +5,11 @@ import com.kickstarter.R
 import com.kickstarter.libs.Environment
 import com.kickstarter.mock.factories.UserFactory
 import com.kickstarter.models.User
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
 class LoggedInViewHolderViewModelTest : KSRobolectricTestCase() {
     private lateinit var vm: LoggedInViewHolderViewModel.ViewModel
     private val activityCount = TestSubscriber<Int>()

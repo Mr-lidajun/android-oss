@@ -5,11 +5,13 @@ import com.kickstarter.R
 import com.kickstarter.libs.Environment
 import com.kickstarter.mock.factories.StoredCardFactory
 import com.stripe.android.model.CardBrand
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.observers.TestSubscriber
 import java.util.Date
 import java.util.GregorianCalendar
 
+@HiltAndroidTest
 class PaymentMethodsViewHolderViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: PaymentMethodsViewHolderViewModel.ViewModel

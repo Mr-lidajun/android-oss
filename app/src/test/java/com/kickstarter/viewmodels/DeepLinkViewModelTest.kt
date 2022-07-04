@@ -3,7 +3,6 @@ package com.kickstarter.viewmodels
 import android.content.Intent
 import android.net.Uri
 import com.kickstarter.KSRobolectricTestCase
-import com.kickstarter.di.ApplicationModule
 import com.kickstarter.libs.Environment
 import com.kickstarter.libs.MockCurrentUser
 import com.kickstarter.mock.factories.ProjectFactory
@@ -13,14 +12,12 @@ import com.kickstarter.mock.services.MockApolloClient
 import com.kickstarter.models.Backing
 import com.kickstarter.models.Project
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
 import org.joda.time.DateTime
 import org.junit.Test
 import rx.Observable
 import rx.observers.TestSubscriber
 
 @HiltAndroidTest
-@UninstallModules(ApplicationModule::class)
 class DeepLinkViewModelTest : KSRobolectricTestCase() {
     lateinit var vm: DeepLinkViewModel.ViewModel
     private val startBrowser = TestSubscriber<String>()

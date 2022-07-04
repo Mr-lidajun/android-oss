@@ -10,10 +10,12 @@ import com.kickstarter.models.Category
 import com.kickstarter.services.DiscoveryParams
 import com.kickstarter.ui.IntentKey
 import com.kickstarter.ui.data.Editorial
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.Observable
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
 class EditorialViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: EditorialViewModel.ViewModel

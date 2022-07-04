@@ -3,10 +3,12 @@ package com.kickstarter.viewmodels
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.libs.Environment
 import com.kickstarter.mock.factories.ErroredBackingFactory
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.joda.time.DateTime
 import org.junit.Test
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
 class ErroredBackingViewHolderViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: ErroredBackingViewHolderViewModel.ViewModel

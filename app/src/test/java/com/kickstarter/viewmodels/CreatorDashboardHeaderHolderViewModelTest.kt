@@ -3,7 +3,6 @@ package com.kickstarter.viewmodels
 import android.util.Pair
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.R
-import com.kickstarter.di.ApplicationModule
 import com.kickstarter.libs.CurrentUserType
 import com.kickstarter.libs.Environment
 import com.kickstarter.libs.MockCurrentUser
@@ -21,14 +20,12 @@ import com.kickstarter.mock.factories.UserFactory.creator
 import com.kickstarter.models.Project
 import com.kickstarter.ui.adapters.data.ProjectDashboardData
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
 import org.joda.time.DateTime
 import org.joda.time.DateTimeUtils
 import org.junit.Test
 import rx.observers.TestSubscriber
 
 @HiltAndroidTest
-@UninstallModules(ApplicationModule::class)
 class CreatorDashboardHeaderHolderViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: CreatorDashboardHeaderHolderViewModel.ViewModel

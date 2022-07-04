@@ -7,9 +7,11 @@ import com.kickstarter.libs.htmlparser.ViewElement
 import com.kickstarter.mock.factories.ProjectDataFactory
 import com.kickstarter.mock.factories.ProjectFactory
 import com.kickstarter.viewmodels.projectpage.ProjectCampaignViewModel
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
 class ProjectCampaignViewModelTests : KSRobolectricTestCase() {
 
     private lateinit var vm: ProjectCampaignViewModel.ViewModel

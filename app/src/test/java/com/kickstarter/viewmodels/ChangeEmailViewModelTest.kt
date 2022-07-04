@@ -5,17 +5,14 @@ import UpdateUserEmailMutation
 import UserPrivacyQuery
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.R
-import com.kickstarter.di.ApplicationModule
 import com.kickstarter.libs.Environment
 import com.kickstarter.mock.services.MockApolloClient
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
 import org.junit.Test
 import rx.Observable
 import rx.observers.TestSubscriber
 
 @HiltAndroidTest
-@UninstallModules(ApplicationModule::class)
 class ChangeEmailViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: ChangeEmailViewModel.ViewModel

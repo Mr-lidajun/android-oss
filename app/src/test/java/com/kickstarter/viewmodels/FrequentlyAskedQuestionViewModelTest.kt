@@ -9,9 +9,11 @@ import com.kickstarter.mock.factories.UserFactory
 import com.kickstarter.models.Project
 import com.kickstarter.models.ProjectFaq
 import com.kickstarter.viewmodels.projectpage.FrequentlyAskedQuestionViewModel
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
 class FrequentlyAskedQuestionViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: FrequentlyAskedQuestionViewModel.ViewModel

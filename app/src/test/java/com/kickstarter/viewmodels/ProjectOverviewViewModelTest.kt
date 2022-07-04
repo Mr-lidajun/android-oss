@@ -26,6 +26,7 @@ import com.kickstarter.models.Project
 import com.kickstarter.models.User
 import com.kickstarter.ui.data.ProjectData
 import com.kickstarter.viewmodels.projectpage.ProjectOverviewViewModel
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.joda.time.DateTime
 import org.joda.time.DateTimeUtils
 import org.junit.Test
@@ -33,6 +34,7 @@ import rx.Observable
 import rx.observers.TestSubscriber
 import java.util.Arrays
 
+@HiltAndroidTest
 class ProjectOverviewViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: ProjectOverviewViewModel.ViewModel

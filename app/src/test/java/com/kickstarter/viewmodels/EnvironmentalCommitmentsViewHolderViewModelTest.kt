@@ -4,9 +4,11 @@ import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.libs.Environment
 import com.kickstarter.libs.EnvironmentalCommitmentCategories
 import com.kickstarter.mock.factories.ProjectEnvironmentalCommitmentFactory
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
 class EnvironmentalCommitmentsViewHolderViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: EnvironmentalCommitmentsViewHolderViewModel.ViewModel

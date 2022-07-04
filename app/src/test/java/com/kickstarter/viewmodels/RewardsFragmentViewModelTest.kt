@@ -15,10 +15,12 @@ import com.kickstarter.ui.data.PledgeData
 import com.kickstarter.ui.data.PledgeFlowContext
 import com.kickstarter.ui.data.PledgeReason
 import com.kickstarter.ui.data.ProjectData
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.joda.time.DateTime
 import org.junit.Test
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
 class RewardsFragmentViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: RewardsFragmentViewModel.ViewModel

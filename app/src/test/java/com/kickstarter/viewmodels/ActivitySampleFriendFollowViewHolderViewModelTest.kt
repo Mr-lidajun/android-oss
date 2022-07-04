@@ -2,19 +2,16 @@ package com.kickstarter.viewmodels
 
 import androidx.annotation.NonNull
 import com.kickstarter.KSRobolectricTestCase
-import com.kickstarter.di.ApplicationModule
 import com.kickstarter.libs.Environment
 import com.kickstarter.mock.factories.ProjectFactory
 import com.kickstarter.mock.factories.UserFactory
 import com.kickstarter.models.Activity
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
 import org.joda.time.DateTime
 import org.junit.Test
 import rx.observers.TestSubscriber
 
 @HiltAndroidTest
-@UninstallModules(ApplicationModule::class)
 class ActivitySampleFriendFollowViewHolderViewModelTest : KSRobolectricTestCase() {
     private lateinit var vm: ActivitySampleFriendFollowViewHolderViewModel.ViewModel
 

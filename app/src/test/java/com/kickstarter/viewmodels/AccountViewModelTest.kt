@@ -3,21 +3,15 @@ package com.kickstarter.viewmodels
 import UpdateUserCurrencyMutation
 import UserPrivacyQuery
 import com.kickstarter.KSRobolectricTestCase
-import com.kickstarter.di.ApplicationModule
-import com.kickstarter.libs.*
-import com.kickstarter.libs.preferences.*
-import com.kickstarter.libs.qualifiers.*
+import com.kickstarter.libs.Environment
 import com.kickstarter.mock.services.MockApolloClient
-import com.kickstarter.services.*
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
 import org.junit.Test
 import rx.Observable
 import rx.observers.TestSubscriber
 import type.CurrencyCode
 
 @HiltAndroidTest
-@UninstallModules(ApplicationModule::class)
 class AccountViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: AccountViewModel.ViewModel

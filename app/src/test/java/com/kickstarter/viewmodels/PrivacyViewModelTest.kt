@@ -6,10 +6,12 @@ import com.kickstarter.libs.MockCurrentUser
 import com.kickstarter.mock.factories.UserFactory
 import com.kickstarter.mock.services.MockApiClient
 import com.kickstarter.models.User
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.Observable
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
 class PrivacyViewModelTest : KSRobolectricTestCase() {
     private lateinit var vm: PrivacyViewModel.ViewModel
 

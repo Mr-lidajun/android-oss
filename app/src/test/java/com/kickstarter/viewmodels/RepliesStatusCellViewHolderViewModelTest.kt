@@ -2,9 +2,11 @@ package com.kickstarter.viewmodels
 
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.ui.viewholders.RepliesStatusCellType
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
 class RepliesStatusCellViewHolderViewModelTest : KSRobolectricTestCase() {
     private lateinit var vm: RepliesStatusCellViewHolderViewModel.ViewModel
 

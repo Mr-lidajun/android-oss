@@ -5,11 +5,13 @@ import com.kickstarter.libs.Environment
 import com.kickstarter.mock.factories.ProjectNotificationFactory
 import com.kickstarter.mock.services.MockApiClient
 import com.kickstarter.models.ProjectNotification
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.Observable
 import rx.observers.TestSubscriber
 import java.util.Collections
 
+@HiltAndroidTest
 class ProjectNotificationSettingsViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: ProjectNotificationSettingsViewModel.ViewModel

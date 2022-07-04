@@ -2,7 +2,6 @@ package com.kickstarter.viewmodels
 
 import android.content.Intent
 import com.kickstarter.KSRobolectricTestCase
-import com.kickstarter.di.ApplicationModule
 import com.kickstarter.libs.Environment
 import com.kickstarter.libs.utils.ListUtils
 import com.kickstarter.libs.utils.ObjectUtils
@@ -16,7 +15,6 @@ import com.kickstarter.services.apiresponses.ProjectsEnvelope
 import com.kickstarter.ui.IntentKey
 import com.kickstarter.ui.adapters.data.ProjectDashboardData
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
 import org.joda.time.DateTime
 import org.joda.time.DateTimeUtils
 import org.junit.Test
@@ -24,7 +22,6 @@ import rx.Observable
 import rx.observers.TestSubscriber
 
 @HiltAndroidTest
-@UninstallModules(ApplicationModule::class)
 class CreatorDashboardViewModelTest : KSRobolectricTestCase() {
     private lateinit var vm: CreatorDashboardViewModel.ViewModel
 

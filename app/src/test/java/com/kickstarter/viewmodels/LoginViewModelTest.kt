@@ -11,10 +11,12 @@ import com.kickstarter.mock.services.MockApiClient
 import com.kickstarter.services.apiresponses.AccessTokenEnvelope
 import com.kickstarter.ui.IntentKey
 import com.kickstarter.ui.data.LoginReason
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.Observable
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
 class LoginViewModelTest : KSRobolectricTestCase() {
     private lateinit var vm: LoginViewModel.ViewModel
     private val genericLoginError = TestSubscriber<String>()

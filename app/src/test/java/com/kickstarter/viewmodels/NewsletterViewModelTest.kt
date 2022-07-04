@@ -5,9 +5,11 @@ import com.kickstarter.libs.MockCurrentUser
 import com.kickstarter.mock.factories.UserFactory
 import com.kickstarter.models.User
 import com.kickstarter.ui.data.Newsletter
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
 class NewsletterViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: NewsletterViewModel.ViewModel

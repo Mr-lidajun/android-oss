@@ -13,10 +13,12 @@ import com.kickstarter.models.Project
 import com.kickstarter.models.User
 import com.kickstarter.services.DiscoveryParams
 import com.kickstarter.services.apiresponses.DiscoverEnvelope
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.Observable
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
 class ProfileViewModelTest : KSRobolectricTestCase() {
     private lateinit var vm: ProfileViewModel.ViewModel
     private val avatarImageViewUrl = TestSubscriber<String>()

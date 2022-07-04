@@ -6,9 +6,11 @@ import com.kickstarter.mock.MockExperimentsClientType
 import com.kickstarter.mock.factories.ConfigFactory
 import com.kickstarter.model.FeatureFlagsModel
 import com.kickstarter.models.User
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
 class FeatureFlagsViewModelTest : KSRobolectricTestCase() {
     private lateinit var vm: FeatureFlagsViewModel.ViewModel
 

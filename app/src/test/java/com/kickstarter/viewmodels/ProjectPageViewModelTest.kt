@@ -35,6 +35,7 @@ import com.kickstarter.ui.data.PledgeFlowContext
 import com.kickstarter.ui.data.PledgeReason
 import com.kickstarter.ui.data.ProjectData
 import com.kickstarter.viewmodels.projectpage.ProjectPageViewModel
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.Observable
 import rx.observers.TestSubscriber
@@ -42,6 +43,7 @@ import rx.schedulers.TestScheduler
 import java.math.RoundingMode
 import java.util.concurrent.TimeUnit
 
+@HiltAndroidTest
 class ProjectPageViewModelTest : KSRobolectricTestCase() {
     private lateinit var vm: ProjectPageViewModel.ViewModel
     private val backingDetailsIsVisible = TestSubscriber<Boolean>()

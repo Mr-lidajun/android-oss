@@ -7,10 +7,12 @@ import com.kickstarter.mock.factories.ProjectFactory
 import com.kickstarter.mock.factories.UpdateFactory
 import com.kickstarter.mock.factories.UserFactory
 import com.kickstarter.models.Update
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.joda.time.DateTime
 import org.junit.Test
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
 class UpdateCardViewHolderViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: UpdateCardViewHolderViewModel.ViewModel

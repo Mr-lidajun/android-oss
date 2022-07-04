@@ -14,11 +14,13 @@ import com.kickstarter.models.StoredCard
 import com.kickstarter.services.mutations.SavePaymentMethodData
 import com.kickstarter.ui.ArgumentsKey
 import com.stripe.android.model.CardParams
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.Observable
 import rx.observers.TestSubscriber
 import java.util.Calendar
 
+@HiltAndroidTest
 class NewCardFragmentViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: NewCardFragmentViewModel.ViewModel

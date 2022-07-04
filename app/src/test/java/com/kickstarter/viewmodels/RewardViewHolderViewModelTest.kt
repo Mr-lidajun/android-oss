@@ -18,11 +18,13 @@ import com.kickstarter.mock.factories.UserFactory
 import com.kickstarter.models.Project
 import com.kickstarter.models.Reward
 import com.kickstarter.models.RewardsItem
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.joda.time.DateTime
 import org.junit.Test
 import rx.observers.TestSubscriber
 import java.math.RoundingMode
 
+@HiltAndroidTest
 class RewardViewHolderViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: RewardViewHolderViewModel.ViewModel

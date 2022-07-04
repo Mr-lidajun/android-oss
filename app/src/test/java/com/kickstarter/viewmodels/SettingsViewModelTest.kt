@@ -10,9 +10,11 @@ import com.kickstarter.mock.MockCurrentConfig
 import com.kickstarter.mock.MockExperimentsClientType
 import com.kickstarter.mock.factories.UserFactory
 import com.kickstarter.models.User
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
 class SettingsViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: SettingsViewModel.ViewModel

@@ -7,9 +7,11 @@ import com.kickstarter.mock.factories.ProjectEnvironmentalCommitmentFactory
 import com.kickstarter.mock.factories.ProjectFactory
 import com.kickstarter.models.EnvironmentalCommitment
 import com.kickstarter.viewmodels.projectpage.ProjectEnvironmentalCommitmentsViewModel
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
 class ProjectEnvironmentalCommitmentsViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: ProjectEnvironmentalCommitmentsViewModel.ViewModel

@@ -2,18 +2,15 @@ package com.kickstarter.viewmodels
 
 import androidx.annotation.NonNull
 import com.kickstarter.KSRobolectricTestCase
-import com.kickstarter.di.ApplicationModule
 import com.kickstarter.libs.Environment
 import com.kickstarter.libs.htmlparser.AudioViewElement
 import com.kickstarter.viewmodels.projectpage.AudioViewElementViewHolderViewModel
 import com.trello.rxlifecycle.FragmentEvent
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
 import org.junit.Test
 import rx.observers.TestSubscriber
 
 @HiltAndroidTest
-@UninstallModules(ApplicationModule::class)
 class AudioViewElementViewHolderViewModelTest : KSRobolectricTestCase() {
     private lateinit var vm: AudioViewElementViewHolderViewModel.ViewModel
 

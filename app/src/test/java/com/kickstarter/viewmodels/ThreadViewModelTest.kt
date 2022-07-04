@@ -19,6 +19,7 @@ import com.kickstarter.ui.IntentKey
 import com.kickstarter.ui.data.CommentCardData
 import com.kickstarter.ui.views.CommentCardStatus
 import com.kickstarter.ui.views.CommentComposerStatus
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.joda.time.DateTime
 import org.junit.Test
 import rx.Observable
@@ -28,6 +29,7 @@ import rx.subjects.BehaviorSubject
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
+@HiltAndroidTest
 class ThreadViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: ThreadViewModel.ViewModel

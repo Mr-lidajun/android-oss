@@ -8,10 +8,12 @@ import com.kickstarter.mock.factories.UserFactory
 import com.kickstarter.ui.data.CommentCardData
 import com.kickstarter.ui.views.CommentCardBadge
 import com.kickstarter.ui.views.CommentCardStatus
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.observers.TestSubscriber
 import type.CommentBadge
 
+@HiltAndroidTest
 class RootCommentViewHolderViewModelTest : KSRobolectricTestCase() {
     private lateinit var vm: RootCommentViewHolderViewModel.ViewModel
 

@@ -5,9 +5,11 @@ import com.kickstarter.libs.Environment
 import com.kickstarter.mock.factories.ProjectDataFactory
 import com.kickstarter.mock.factories.ProjectFactory
 import com.kickstarter.viewmodels.projectpage.ProjectRiskViewModel
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
 class ProjectRiskViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: ProjectRiskViewModel.ViewModel

@@ -4,9 +4,11 @@ import android.util.Pair
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.libs.Environment
 import com.kickstarter.model.FeatureFlagsModel
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
 class FeatureFlagViewHolderViewModelTest : KSRobolectricTestCase() {
     private lateinit var vm: FeatureFlagViewHolderViewModel.ViewModel
 

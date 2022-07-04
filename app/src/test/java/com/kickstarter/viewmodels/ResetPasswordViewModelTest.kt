@@ -6,10 +6,12 @@ import com.kickstarter.mock.factories.ApiExceptionFactory
 import com.kickstarter.mock.services.MockApiClient
 import com.kickstarter.models.User
 import com.kickstarter.ui.IntentKey
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.Observable
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
 class ResetPasswordViewModelTest : KSRobolectricTestCase() {
 
     @Test

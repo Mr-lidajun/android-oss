@@ -4,7 +4,6 @@ import android.util.Pair
 import androidx.annotation.NonNull
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.R
-import com.kickstarter.di.ApplicationModule
 import com.kickstarter.libs.Either
 import com.kickstarter.libs.Environment
 import com.kickstarter.libs.MockCurrentUser
@@ -25,7 +24,6 @@ import com.kickstarter.ui.data.PledgeStatusData
 import com.kickstarter.ui.data.ProjectData
 import com.stripe.android.model.CardBrand
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
 import junit.framework.TestCase
 import org.joda.time.DateTime
 import org.junit.Test
@@ -34,7 +32,6 @@ import rx.observers.TestSubscriber
 import java.math.RoundingMode
 
 @HiltAndroidTest
-@UninstallModules(ApplicationModule::class)
 class BackingFragmentViewModelTest : KSRobolectricTestCase() {
     private lateinit var vm: BackingFragmentViewModel.ViewModel
 

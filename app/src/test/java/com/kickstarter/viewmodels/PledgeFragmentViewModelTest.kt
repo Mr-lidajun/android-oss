@@ -49,6 +49,7 @@ import com.kickstarter.ui.data.PledgeFlowContext
 import com.kickstarter.ui.data.PledgeReason
 import com.kickstarter.ui.data.ProjectData
 import com.stripe.android.StripeIntentResult
+import dagger.hilt.android.testing.HiltAndroidTest
 import junit.framework.TestCase
 import org.joda.time.DateTime
 import org.junit.Test
@@ -58,6 +59,7 @@ import java.math.RoundingMode
 import java.net.CookieManager
 import java.util.Collections
 
+@HiltAndroidTest
 class PledgeFragmentViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: PledgeFragmentViewModel.ViewModel

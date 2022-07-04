@@ -1,7 +1,6 @@
 package com.kickstarter.viewmodels
 
 import com.kickstarter.KSRobolectricTestCase
-import com.kickstarter.di.ApplicationModule
 import com.kickstarter.libs.CurrentUserType
 import com.kickstarter.libs.Environment
 import com.kickstarter.libs.MockCurrentUser
@@ -23,14 +22,12 @@ import com.kickstarter.models.SurveyResponse
 import com.kickstarter.models.User
 import com.kickstarter.services.ApiClientType
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
 import org.junit.Test
 import rx.Observable
 import rx.observers.TestSubscriber
 import java.util.Arrays
 
 @HiltAndroidTest
-@UninstallModules(ApplicationModule::class)
 class ActivityFeedViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: ActivityFeedViewModel.ViewModel

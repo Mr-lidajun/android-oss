@@ -6,9 +6,11 @@ import com.kickstarter.mock.MockCurrentConfig
 import com.kickstarter.mock.factories.ConfigFactory
 import com.kickstarter.mock.factories.ProjectFactory
 import com.kickstarter.mock.factories.ShippingRuleFactory
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
 class ShippingRuleViewHolderViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: ShippingRuleViewHolderViewModel.ViewModel

@@ -6,11 +6,13 @@ import com.kickstarter.libs.Environment
 import com.kickstarter.mock.factories.StoredCardFactory
 import com.kickstarter.mock.services.MockApolloClient
 import com.kickstarter.models.StoredCard
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.Observable
 import rx.observers.TestSubscriber
 import java.util.Collections
 
+@HiltAndroidTest
 class PaymentMethodsViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: PaymentMethodsViewModel.ViewModel

@@ -2,7 +2,6 @@ package com.kickstarter.viewmodels
 
 import android.os.Bundle
 import com.kickstarter.KSRobolectricTestCase
-import com.kickstarter.di.ApplicationModule
 import com.kickstarter.libs.Environment
 import com.kickstarter.mock.factories.BackingFactory
 import com.kickstarter.mock.factories.ProjectFactory
@@ -11,14 +10,12 @@ import com.kickstarter.models.Backing
 import com.kickstarter.models.Project
 import com.kickstarter.ui.ArgumentsKey
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
 import org.junit.Test
 import rx.Observable
 import rx.observers.TestSubscriber
 import java.math.RoundingMode
 
 @HiltAndroidTest
-@UninstallModules(ApplicationModule::class)
 class CancelPledgeViewModelTest : KSRobolectricTestCase() {
 
     private lateinit var vm: CancelPledgeViewModel.ViewModel
