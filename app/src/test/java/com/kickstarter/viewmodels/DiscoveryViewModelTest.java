@@ -39,9 +39,12 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nullable;
+
+import dagger.hilt.android.testing.HiltAndroidTest;
 import rx.Observable;
 import rx.observers.TestSubscriber;
 
+@HiltAndroidTest
 public class DiscoveryViewModelTest extends KSRobolectricTestCase {
   private DiscoveryViewModel.ViewModel vm;
   private final TestSubscriber<List<Integer>> clearPages = new TestSubscriber<>();

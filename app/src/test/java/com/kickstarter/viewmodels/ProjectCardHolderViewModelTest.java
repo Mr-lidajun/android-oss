@@ -24,9 +24,11 @@ import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+
+import dagger.hilt.android.testing.HiltAndroidTest;
 import rx.observers.TestSubscriber;
 
-
+@HiltAndroidTest
 public class ProjectCardHolderViewModelTest extends KSRobolectricTestCase {
   private ProjectCardHolderViewModel.ViewModel vm;
   private final TestSubscriber<String> backersCountTextViewText = new TestSubscriber<>();

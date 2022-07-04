@@ -11,8 +11,10 @@ import com.kickstarter.ui.IntentKey;
 
 import org.junit.Test;
 
+import dagger.hilt.android.testing.HiltAndroidTest;
 import rx.observers.TestSubscriber;
 
+@HiltAndroidTest
 public class VideoViewModelTest extends KSRobolectricTestCase {
 
   @Test

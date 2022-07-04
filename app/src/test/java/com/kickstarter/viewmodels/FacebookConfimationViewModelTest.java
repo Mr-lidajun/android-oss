@@ -19,9 +19,12 @@ import org.junit.Test;
 import java.util.Collections;
 
 import androidx.annotation.NonNull;
+
+import dagger.hilt.android.testing.HiltAndroidTest;
 import rx.Observable;
 import rx.observers.TestSubscriber;
 
+@HiltAndroidTest
 public class FacebookConfimationViewModelTest extends KSRobolectricTestCase {
   private FacebookConfirmationViewModel.ViewModel vm;
   private final TestSubscriber<String> prefillEmail = new TestSubscriber<>();

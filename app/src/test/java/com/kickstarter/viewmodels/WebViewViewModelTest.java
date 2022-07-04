@@ -9,8 +9,11 @@ import com.kickstarter.ui.IntentKey;
 import org.junit.Test;
 
 import androidx.annotation.NonNull;
+
+import dagger.hilt.android.testing.HiltAndroidTest;
 import rx.observers.TestSubscriber;
 
+@HiltAndroidTest
 public final class WebViewViewModelTest extends KSRobolectricTestCase {
   private WebViewViewModel.ViewModel vm;
   private final TestSubscriber<String> toolbarTitle = new TestSubscriber<>();

@@ -4,6 +4,9 @@ import com.kickstarter.KSRobolectricTestCase;
 
 import org.junit.Test;
 
+import dagger.hilt.android.testing.HiltAndroidTest;
+
+@HiltAndroidTest
 public class SignupDataTest extends KSRobolectricTestCase {
   @Test
   public void testSignupData_isValid() {

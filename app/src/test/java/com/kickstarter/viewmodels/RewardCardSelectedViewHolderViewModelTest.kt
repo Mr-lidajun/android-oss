@@ -1,5 +1,7 @@
 package com.kickstarter.viewmodels
 
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.Pair
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.R
@@ -7,12 +9,14 @@ import com.kickstarter.libs.Environment
 import com.kickstarter.mock.factories.ProjectFactory
 import com.kickstarter.mock.factories.StoredCardFactory
 import com.stripe.android.model.CardBrand
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.observers.TestSubscriber
 import java.util.Date
 import java.util.GregorianCalendar
 
-class RewardCardSelectedViewHolderViewModelTest : KSRobolectricTestCase() {
+@HiltAndroidTest
+class RewardCardSelectedViewHolderViewModelTest() : KSRobolectricTestCase(), Parcelable {
 
     private lateinit var vm: RewardCardSelectedViewHolderViewModel.ViewModel
 
@@ -21,6 +25,10 @@ class RewardCardSelectedViewHolderViewModelTest : KSRobolectricTestCase() {
     private val issuer = TestSubscriber.create<String>()
     private val issuerImage = TestSubscriber.create<Int>()
     private val lastFour = TestSubscriber.create<String>()
+
+    constructor(parcel: Parcel) : this() {
+
+    }
 
     private fun setUpEnvironment(environment: Environment) {
         this.vm = RewardCardSelectedViewHolderViewModel.ViewModel(environment)
@@ -75,5 +83,23 @@ class RewardCardSelectedViewHolderViewModelTest : KSRobolectricTestCase() {
         this.vm.inputs.configureWith(Pair(creditCard, ProjectFactory.project()))
 
         this.lastFour.assertValue("1234")
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<RewardCardSelectedViewHolderViewModelTest> {
+        override fun createFromParcel(parcel: Parcel): RewardCardSelectedViewHolderViewModelTest {
+            return RewardCardSelectedViewHolderViewModelTest(parcel)
+        }
+
+        override fun newArray(size: Int): Array<RewardCardSelectedViewHolderViewModelTest?> {
+            return arrayOfNulls(size)
+        }
     }
 }

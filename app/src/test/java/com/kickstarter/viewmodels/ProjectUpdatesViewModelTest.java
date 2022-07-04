@@ -23,9 +23,12 @@ import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+
+import dagger.hilt.android.testing.HiltAndroidTest;
 import rx.Observable;
 import rx.observers.TestSubscriber;
 
+@HiltAndroidTest
 public class ProjectUpdatesViewModelTest extends KSRobolectricTestCase {
   private ProjectUpdatesViewModel.ViewModel vm;
   private final TestSubscriber<Boolean> horizontalProgressBarIsGone = new TestSubscriber<>();

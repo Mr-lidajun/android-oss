@@ -11,9 +11,12 @@ import com.kickstarter.services.ApiClientType;
 import org.junit.Test;
 
 import androidx.annotation.NonNull;
+
+import dagger.hilt.android.testing.HiltAndroidTest;
 import rx.Observable;
 import rx.observers.TestSubscriber;
 
+@HiltAndroidTest
 public final class ProjectNotificationsViewModelTest extends KSRobolectricTestCase {
   private ProjectNotificationViewModel.ViewModel vm;
   private final TestSubscriber<Boolean> enabledSwitchTest = new TestSubscriber<>();

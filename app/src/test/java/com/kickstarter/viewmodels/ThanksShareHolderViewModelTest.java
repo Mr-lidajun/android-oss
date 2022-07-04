@@ -14,8 +14,11 @@ import com.kickstarter.models.Web;
 import org.junit.Test;
 
 import androidx.annotation.NonNull;
+
+import dagger.hilt.android.testing.HiltAndroidTest;
 import rx.observers.TestSubscriber;
 
+@HiltAndroidTest
 public final class ThanksShareHolderViewModelTest extends KSRobolectricTestCase {
   private ThanksShareHolderViewModel.ViewModel vm;
   private final TestSubscriber<String> projectName = new TestSubscriber<>();

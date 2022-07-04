@@ -10,8 +10,11 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 
 import androidx.annotation.NonNull;
+
+import dagger.hilt.android.testing.HiltAndroidTest;
 import rx.observers.TestSubscriber;
 
+@HiltAndroidTest
 public final class MessageThreadHolderViewModelTest extends KSRobolectricTestCase {
   private MessageThreadHolderViewModel.ViewModel vm;
   private final TestSubscriber<Boolean> cardViewIsElevated = new TestSubscriber<>();

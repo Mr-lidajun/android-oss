@@ -30,9 +30,12 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import dagger.hilt.android.testing.HiltAndroidTest;
 import rx.Observable;
 import rx.observers.TestSubscriber;
 
+@HiltAndroidTest
 public class MessageThreadsViewModelTest extends KSRobolectricTestCase {
   private MessageThreadsViewModel.ViewModel vm;
   private final TestSubscriber<Boolean> hasNoMessages = new TestSubscriber<>();

@@ -9,8 +9,11 @@ import com.kickstarter.ui.viewholders.ThanksCategoryHolderViewModel;
 import org.junit.Test;
 
 import androidx.annotation.NonNull;
+
+import dagger.hilt.android.testing.HiltAndroidTest;
 import rx.observers.TestSubscriber;
 
+@HiltAndroidTest
 public final class ThanksCategoryHolderViewModelTest extends KSRobolectricTestCase {
   private ThanksCategoryHolderViewModel.ViewModel vm;
   private final TestSubscriber<String> categoryName = new TestSubscriber<>();

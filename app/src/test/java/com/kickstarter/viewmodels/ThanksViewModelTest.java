@@ -38,8 +38,10 @@ import java.util.Collections;
 
 import androidx.annotation.NonNull;
 
+import dagger.hilt.android.testing.HiltAndroidTest;
 import rx.observers.TestSubscriber;
 
+@HiltAndroidTest
 public final class ThanksViewModelTest extends KSRobolectricTestCase {
   private ThanksViewModel.ViewModel vm;
   private final TestSubscriber<ThanksData> adapterData = new TestSubscriber<>();

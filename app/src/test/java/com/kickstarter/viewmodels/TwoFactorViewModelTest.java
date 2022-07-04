@@ -15,9 +15,12 @@ import com.kickstarter.ui.IntentKey;
 import org.junit.Test;
 
 import androidx.annotation.NonNull;
+
+import dagger.hilt.android.testing.HiltAndroidTest;
 import rx.Observable;
 import rx.observers.TestSubscriber;
 
+@HiltAndroidTest
 public class TwoFactorViewModelTest extends KSRobolectricTestCase {
   private TwoFactorViewModel.ViewModel vm;
   private final TestSubscriber<Boolean> formIsValid = new TestSubscriber<>();

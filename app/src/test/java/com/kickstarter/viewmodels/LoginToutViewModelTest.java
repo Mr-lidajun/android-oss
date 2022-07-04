@@ -19,9 +19,12 @@ import org.junit.Test;
 import java.util.Arrays;
 
 import androidx.annotation.NonNull;
+
+import dagger.hilt.android.testing.HiltAndroidTest;
 import rx.Observable;
 import rx.observers.TestSubscriber;
 
+@HiltAndroidTest
 public class LoginToutViewModelTest extends KSRobolectricTestCase {
   private LoginToutViewModel.ViewModel vm;
   private final TestSubscriber<Void> finishWithSuccessfulResult = new TestSubscriber<>();

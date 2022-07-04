@@ -11,8 +11,11 @@ import com.kickstarter.models.User;
 import org.junit.Test;
 
 import androidx.annotation.NonNull;
+
+import dagger.hilt.android.testing.HiltAndroidTest;
 import rx.observers.TestSubscriber;
 
+@HiltAndroidTest
 public final class MessageHolderViewModelTest extends KSRobolectricTestCase {
   private MessageHolderViewModel.ViewModel vm;
   private final TestSubscriber<Boolean> messageBodyRecipientCardViewIsGone = new TestSubscriber<>();

@@ -23,10 +23,12 @@ import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 
+import dagger.hilt.android.testing.HiltAndroidTest;
 import rx.Observable;
 import rx.observers.TestSubscriber;
 import rx.schedulers.TestScheduler;
 
+@HiltAndroidTest
 public class SearchViewModelTest extends KSRobolectricTestCase {
   private SearchViewModel.ViewModel vm;
   private final TestSubscriber<Project> goToProject = new TestSubscriber<>();

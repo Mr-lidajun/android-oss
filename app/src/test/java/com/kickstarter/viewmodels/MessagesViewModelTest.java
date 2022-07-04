@@ -32,9 +32,12 @@ import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+
+import dagger.hilt.android.testing.HiltAndroidTest;
 import rx.Observable;
 import rx.observers.TestSubscriber;
 
+@HiltAndroidTest
 public final class MessagesViewModelTest extends KSRobolectricTestCase {
   private MessagesViewModel.ViewModel vm;
   private final TestSubscriber<Boolean> backButtonIsGone = new TestSubscriber<>();

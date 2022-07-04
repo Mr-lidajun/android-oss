@@ -13,9 +13,12 @@ import com.kickstarter.services.apiresponses.ErrorEnvelope;
 import org.junit.Test;
 
 import androidx.annotation.NonNull;
+
+import dagger.hilt.android.testing.HiltAndroidTest;
 import rx.Observable;
 import rx.observers.TestSubscriber;
 
+@HiltAndroidTest
 public class SignupViewModelTest extends KSRobolectricTestCase {
 
   @Test

@@ -13,8 +13,11 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 
 import androidx.annotation.NonNull;
+
+import dagger.hilt.android.testing.HiltAndroidTest;
 import rx.observers.TestSubscriber;
 
+@HiltAndroidTest
 public final class ProjectSearchResultHolderViewModelTest extends KSRobolectricTestCase {
   private ProjectSearchResultHolderViewModel.ViewModel vm;
   private final TestSubscriber<Project> notifyDelegateOfResultClick = new TestSubscriber<>();

@@ -28,11 +28,13 @@ import androidx.annotation.NonNull;
 
 import java.util.concurrent.TimeUnit;
 
+import dagger.hilt.android.testing.HiltAndroidTest;
 import okhttp3.Request;
 import rx.Observable;
 import rx.observers.TestSubscriber;
 import rx.schedulers.TestScheduler;
 
+@HiltAndroidTest
 public final class UpdateViewModelTest extends KSRobolectricTestCase {
   private final Intent defaultIntent = new Intent()
     .putExtra(IntentKey.PROJECT, ProjectFactory.project())

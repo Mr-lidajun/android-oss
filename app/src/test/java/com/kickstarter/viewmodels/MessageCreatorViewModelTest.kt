@@ -13,10 +13,12 @@ import com.kickstarter.models.Project
 import com.kickstarter.models.User
 import com.kickstarter.services.apiresponses.MessageThreadEnvelope
 import com.kickstarter.ui.IntentKey
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import rx.Observable
 import rx.observers.TestSubscriber
 
+@HiltAndroidTest
 class MessageCreatorViewModelTest : KSRobolectricTestCase() {
     private lateinit var vm: MessageCreatorViewModel.ViewModel
 

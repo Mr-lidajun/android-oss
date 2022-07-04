@@ -11,9 +11,12 @@ import com.kickstarter.ui.IntentKey;
 import org.junit.Test;
 
 import androidx.annotation.NonNull;
+
+import dagger.hilt.android.testing.HiltAndroidTest;
 import okhttp3.Request;
 import rx.observers.TestSubscriber;
 
+@HiltAndroidTest
 public class SurveyResponseViewModelTest extends KSRobolectricTestCase {
   private SurveyResponseViewModel.ViewModel vm;
   private final TestSubscriber<Void> goBack = new TestSubscriber<>();

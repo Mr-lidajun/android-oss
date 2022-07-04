@@ -9,8 +9,11 @@ import com.kickstarter.models.SurveyResponse;
 import org.junit.Test;
 
 import androidx.annotation.NonNull;
+
+import dagger.hilt.android.testing.HiltAndroidTest;
 import rx.observers.TestSubscriber;
 
+@HiltAndroidTest
 public class SurveyHolderViewModelTest extends KSRobolectricTestCase {
   private SurveyHolderViewModel.ViewModel vm;
   private final TestSubscriber<String> creatorAvatarImageUrl = new TestSubscriber<>();
