@@ -27,7 +27,6 @@ class RewardCardSelectedViewHolderViewModelTest() : KSRobolectricTestCase(), Par
     private val lastFour = TestSubscriber.create<String>()
 
     constructor(parcel: Parcel) : this() {
-
     }
 
     private fun setUpEnvironment(environment: Environment) {
@@ -86,7 +85,6 @@ class RewardCardSelectedViewHolderViewModelTest() : KSRobolectricTestCase(), Par
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-
     }
 
     override fun describeContents(): Int {

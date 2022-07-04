@@ -5,7 +5,6 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.test.platform.app.InstrumentationRegistry
 import com.karumi.shot.ScreenshotTest
-import com.kickstarter.ApplicationComponent
 import com.kickstarter.R
 import com.kickstarter.libs.htmlparser.HTMLParser
 import com.kickstarter.libs.htmlparser.TextViewElement
@@ -15,19 +14,12 @@ import org.junit.Before
 import org.junit.Test
 
 class TextViewElementShotTest : ScreenshotTest {
-
-    lateinit var component: ApplicationComponent
     lateinit var app: InstrumentedApp
     private var headerSize: Int = 0
     private var body: Int = 0
 
     @Before
     fun setup() {
-        // - Test Application
-        app = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as InstrumentedApp
-        // - Test Dagger component for injecting on environment Mock Objects
-        component = app.component()
-
         headerSize = app.resources.getDimensionPixelSize(R.dimen.title_3)
         body = app.resources.getDimensionPixelSize(R.dimen.callout)
     }

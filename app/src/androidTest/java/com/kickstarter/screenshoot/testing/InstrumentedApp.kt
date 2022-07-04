@@ -1,9 +1,5 @@
 package com.kickstarter.screenshoot.testing
-
-import com.kickstarter.ApplicationComponent
-import com.kickstarter.DaggerApplicationComponent
 import com.kickstarter.KSApplication
-import com.kickstarter.screenshoot.testing.di.AndroidTestApplicationModule
 
 class InstrumentedApp : KSApplication() {
 
@@ -11,13 +7,6 @@ class InstrumentedApp : KSApplication() {
         super.onCreate()
     }
 
-    override fun getComponent(): ApplicationComponent {
-        return DaggerApplicationComponent.builder()
-            .applicationModule(AndroidTestApplicationModule(this))
-            .build()
-    }
-
-    override fun isInUnitTests(): Boolean {
-        return true
-    }
+    override val isInUnitTests: Boolean
+        get() = true
 }

@@ -4,11 +4,10 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import com.karumi.shot.ScreenshotTest
-import com.kickstarter.ApplicationComponent
 import com.kickstarter.R
+import com.kickstarter.libs.KSString
 import com.kickstarter.libs.utils.DateTimeUtils
 import com.kickstarter.mock.factories.UserFactory
-import com.kickstarter.screenshoot.testing.InstrumentedApp
 import com.kickstarter.ui.views.CommentCard
 import com.kickstarter.ui.views.CommentCardStatus
 import org.joda.time.DateTime
@@ -18,14 +17,11 @@ import org.junit.Test
 class CommentCardShotTest : ScreenshotTest {
 
     lateinit var commentCard: CommentCard
-    lateinit var component: ApplicationComponent
 
     @Before
     fun setup() {
         // - Test Application
-        val app = getInstrumentation().targetContext.applicationContext as InstrumentedApp
-        // - Test Dagger component for injecting on environment Mock Objects
-        component = app.component()
+        val app = getInstrumentation().targetContext.applicationContext
 
         commentCard = (LayoutInflater.from(getInstrumentation().targetContext).inflate(R.layout.item_comment_card, null) as ConstraintLayout)
             .findViewById(R.id.comments_card_view)
@@ -36,7 +32,7 @@ class CommentCardShotTest : ScreenshotTest {
         commentCard.setCommentBody("Message here for the Screenshot test lets see how it behaves ...")
 
         val relativeTime = DateTime.now().minusMinutes(5)
-        val commentPostedRelativeTime = DateTimeUtils.relative(getInstrumentation().targetContext, requireNotNull(component.environment().ksString()), relativeTime)
+        val commentPostedRelativeTime = DateTimeUtils.relative(getInstrumentation().targetContext, KSString(app.packageName, app.resources), relativeTime)
         commentCard.setCommentPostTime(commentPostedRelativeTime)
     }
 

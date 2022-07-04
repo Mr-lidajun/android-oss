@@ -1,4 +1,4 @@
-package com.kickstarter
+package com.kickstarter.di
 
 import android.app.Application
 import android.content.Context
@@ -10,7 +10,6 @@ import android.content.res.Resources
 import androidx.preference.PreferenceManager
 import com.apollographql.apollo.ApolloClient
 import com.google.gson.Gson
-import com.kickstarter.di.ApplicationModule
 import com.kickstarter.libs.AnalyticEvents
 import com.kickstarter.libs.ApiEndpoint
 import com.kickstarter.libs.Build
@@ -19,7 +18,6 @@ import com.kickstarter.libs.CurrentConfigType
 import com.kickstarter.libs.CurrentUserType
 import com.kickstarter.libs.DeviceRegistrarType
 import com.kickstarter.libs.Environment
-import com.kickstarter.libs.Environment.Companion.builder
 import com.kickstarter.libs.ExperimentsClientType
 import com.kickstarter.libs.Font
 import com.kickstarter.libs.InternalToolsType

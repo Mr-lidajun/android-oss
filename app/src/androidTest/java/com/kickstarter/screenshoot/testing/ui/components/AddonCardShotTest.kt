@@ -5,29 +5,37 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.test.platform.app.InstrumentationRegistry
 import com.karumi.shot.ScreenshotTest
-import com.kickstarter.ApplicationComponent
 import com.kickstarter.R
+import com.kickstarter.libs.Environment
 import com.kickstarter.mock.factories.RewardsItemFactory
-import com.kickstarter.screenshoot.testing.InstrumentedApp
 import com.kickstarter.ui.adapters.RewardItemsAdapter
 import com.kickstarter.ui.views.AddOnCard
 import com.kickstarter.ui.views.Stepper
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import javax.inject.Inject
 
+@HiltAndroidTest
 class AddonCardShotTest : ScreenshotTest {
 
     private lateinit var addonCard: AddOnCard
     private lateinit var stepper: Stepper
-    lateinit var component: ApplicationComponent
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
+
     var itemsAdapter: RewardItemsAdapter = RewardItemsAdapter()
+
+    @Inject
+    lateinit var environment: Environment
 
     @Before
     fun setup() {
-        // - Test Application
-        val app = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as InstrumentedApp
-        // - Test Dagger component for injecting on environment Mock Objects
-        component = app.component()
+        hiltRule.inject()
+        environment.currentConfig()
     }
 
     @Test
