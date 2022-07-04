@@ -1,5 +1,6 @@
 package com.kickstarter.screenshoot.testing.ui.components
 
+import android.content.Context
 import android.view.LayoutInflater
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -9,17 +10,18 @@ import com.kickstarter.R
 import com.kickstarter.libs.htmlparser.HTMLParser
 import com.kickstarter.libs.htmlparser.TextViewElement
 import com.kickstarter.libs.htmlparser.getStyledComponents
-import com.kickstarter.screenshoot.testing.InstrumentedApp
 import org.junit.Before
 import org.junit.Test
 
 class TextViewElementShotTest : ScreenshotTest {
-    lateinit var app: InstrumentedApp
+    lateinit var app: Context
     private var headerSize: Int = 0
     private var body: Int = 0
 
     @Before
     fun setup() {
+        // - Test Application
+        app = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext
         headerSize = app.resources.getDimensionPixelSize(R.dimen.title_3)
         body = app.resources.getDimensionPixelSize(R.dimen.callout)
     }

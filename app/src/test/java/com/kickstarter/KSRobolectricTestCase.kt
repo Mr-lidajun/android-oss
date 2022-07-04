@@ -42,7 +42,7 @@ abstract class KSRobolectricTestCase : TestCase() {
 
     val mockCurrentConfig = MockCurrentConfig()
     val experimentsClientType = experimentsClient()
-    val segmentTestClient = segmentTrackingClient(mockCurrentConfig, experimentsClientType)
+    private val segmentTestClient = segmentTrackingClient(mockCurrentConfig, experimentsClientType)
 
     @get:Rule
     var hiltAndroidRule = HiltAndroidRule(this)

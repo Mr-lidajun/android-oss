@@ -6,19 +6,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.test.platform.app.InstrumentationRegistry
 import com.karumi.shot.ScreenshotTest
 import com.kickstarter.R
-import com.kickstarter.libs.Environment
+import com.kickstarter.di.ApplicationModule
 import com.kickstarter.mock.factories.RewardsItemFactory
 import com.kickstarter.ui.adapters.RewardItemsAdapter
 import com.kickstarter.ui.views.AddOnCard
 import com.kickstarter.ui.views.Stepper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import javax.inject.Inject
 
 @HiltAndroidTest
+@UninstallModules(ApplicationModule::class)
 class AddonCardShotTest : ScreenshotTest {
 
     private lateinit var addonCard: AddOnCard
@@ -29,13 +30,9 @@ class AddonCardShotTest : ScreenshotTest {
 
     var itemsAdapter: RewardItemsAdapter = RewardItemsAdapter()
 
-    @Inject
-    lateinit var environment: Environment
-
     @Before
     fun setup() {
         hiltRule.inject()
-        environment.currentConfig()
     }
 
     @Test

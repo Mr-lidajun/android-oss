@@ -1,4 +1,4 @@
-package com.kickstarter.di
+package com.kickstarter.screenshoot.testing.di
 
 import android.app.Application
 import android.content.Context
@@ -59,9 +59,9 @@ import com.kickstarter.services.interceptors.WebRequestInterceptor
 import com.stripe.android.Stripe
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dagger.hilt.testing.TestInstallIn
 import okhttp3.CookieJar
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -72,10 +72,7 @@ import java.net.CookieManager
 import javax.inject.Singleton
 
 @Module
-@TestInstallIn(
-    components = [SingletonComponent::class],
-    replaces = [ApplicationModule::class]
-)
+@InstallIn(SingletonComponent::class)
 object AndroidTestApplicationModule {
 
     @Provides
@@ -300,7 +297,20 @@ object AndroidTestApplicationModule {
     @Singleton
     @AccessTokenPreference
     fun provideAccessTokenPreference(sharedPreferences: SharedPreferences): StringPreferenceType {
-        return Mockito.mock(StringPreferenceType::class.java)
+        return object : StringPreferenceType {
+            override fun get(): String? {
+                return ""
+            }
+
+            override val isSet: Boolean
+                get() = true
+
+            override fun set(value: String?) {
+            }
+
+            override fun delete() {
+            }
+        }
     }
 
     @Provides
@@ -313,27 +323,79 @@ object AndroidTestApplicationModule {
     @Singleton
     @ConfigPreference
     fun providesConfigPreference(sharedPreferences: SharedPreferences): StringPreferenceType {
-        return Mockito.mock(StringPreferenceType::class.java)
+        return object : StringPreferenceType {
+            override fun get(): String? {
+                return ""
+            }
+
+            override val isSet: Boolean
+                get() = true
+
+            override fun set(value: String?) {
+            }
+
+            override fun delete() {
+            }
+        }
     }
 
     @Provides
     @Singleton
     fun providesFeaturesFlagsPreference(sharedPreferences: SharedPreferences): StringPreferenceType {
-        return Mockito.mock(StringPreferenceType::class.java)
+        return object : StringPreferenceType {
+            override fun get(): String? {
+                return ""
+            }
+
+            override val isSet: Boolean
+                get() = true
+
+            override fun set(value: String?) {
+            }
+
+            override fun delete() {
+            }
+        }
     }
 
     @Provides
     @Singleton
     @ActivitySamplePreference
     fun provideActivitySamplePreference(sharedPreferences: SharedPreferences): IntPreferenceType {
-        return Mockito.mock(IntPreferenceType::class.java)
+        return return object : IntPreferenceType {
+            override fun get(): Int {
+                return 0
+            }
+
+            override val isSet: Boolean
+                get() = true
+
+            override fun set(value: Int) {
+            }
+
+            override fun delete() {
+            }
+        }
     }
 
     @Provides
     @Singleton
     @AppRatingPreference
     fun provideAppRatingPreference(sharedPreferences: SharedPreferences): BooleanPreferenceType {
-        return Mockito.mock(BooleanPreferenceType::class.java)
+        return object : BooleanPreferenceType {
+            override fun get(): Boolean {
+                return true
+            }
+
+            override val isSet: Boolean
+                get() = true
+
+            override fun set(value: Boolean) {
+            }
+
+            override fun delete() {
+            }
+        }
     }
 
     @Provides
@@ -437,7 +499,7 @@ object AndroidTestApplicationModule {
     @Provides
     @Singleton
     fun provideGson(): Gson {
-        return Mockito.mock(Gson::class.java)
+        return Gson()
     }
 
     @Provides
