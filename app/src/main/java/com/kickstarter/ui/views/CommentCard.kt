@@ -73,7 +73,7 @@ class CommentCard @JvmOverloads constructor(
         textView.parseHtmlTag()
         textView.makeLinks(
             Pair(
-                context.resources.getString(R.string.FPO_kickstarters_community_guidelines).parseHtmlTag(),
+                context.resources.getString(R.string.Kickstarters_community_guidelines).parseHtmlTag(),
                 OnClickListener {
                     onCommentCardClickedListener?.onCommentGuideLinesClicked(it)
                 },
